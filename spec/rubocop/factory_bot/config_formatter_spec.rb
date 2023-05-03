@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-require 'rubocop/rspec/config_formatter'
+require 'rubocop/factory_bot/config_formatter'
 
-RSpec.describe RuboCop::RSpec::ConfigFormatter do
+RSpec.describe RuboCop::FactoryBot::ConfigFormatter do
   let(:config) do
     {
       'AllCops' => {
         'Setting' => 'forty two'
       },
-      'RSpec/Foo' => {
+      'FactoryBot/Foo' => {
         'Config' => 2,
         'Enabled' => true
       },
-      'RSpec/Bar' => {
+      'FactoryBot/Bar' => {
         'Enabled' => true,
         'Nullable' => nil
       },
-      'RSpec/Baz' => {
+      'FactoryBot/Baz' => {
         'Enabled' => true,
         'StyleGuide' => '#buzz'
       }
@@ -25,13 +25,13 @@ RSpec.describe RuboCop::RSpec::ConfigFormatter do
 
   let(:descriptions) do
     {
-      'RSpec/Foo' => {
+      'FactoryBot/Foo' => {
         'Description' => 'Blah'
       },
-      'RSpec/Bar' => {
+      'FactoryBot/Bar' => {
         'Description' => 'Wow'
       },
-      'RSpec/Baz' => {
+      'FactoryBot/Baz' => {
         'Description' => 'Woof'
       }
     }
@@ -45,23 +45,23 @@ RSpec.describe RuboCop::RSpec::ConfigFormatter do
       |AllCops:
       |  Setting: forty two
       |
-      |RSpec/Foo:
+      |FactoryBot/Foo:
       |  Config: 2
       |  Enabled: true
       |  Description: Blah
-      |  Reference: https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/Foo
+      |  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/Foo
       |
-      |RSpec/Bar:
+      |FactoryBot/Bar:
       |  Enabled: true
       |  Nullable: ~
       |  Description: Wow
-      |  Reference: https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/Bar
+      |  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/Bar
       |
-      |RSpec/Baz:
+      |FactoryBot/Baz:
       |  Enabled: true
       |  StyleGuide: "#buzz"
       |  Description: Woof
-      |  Reference: https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/Baz
+      |  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/Baz
     YAML
   end
 end

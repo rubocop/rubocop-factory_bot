@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe RuboCop::Cop::RSpec::FactoryBot::SyntaxMethods, :config do
+RSpec.describe RuboCop::Cop::FactoryBot::SyntaxMethods, :config do
   described_class::RESTRICT_ON_SEND.each do |method|
     it 'does not register an offense when used outside an example group' do
       expect_no_offenses(<<~RUBY)

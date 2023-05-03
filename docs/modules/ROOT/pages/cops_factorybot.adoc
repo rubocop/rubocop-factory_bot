@@ -1,6 +1,6 @@
-= RSpec/FactoryBot
+= FactoryBot
 
-== RSpec/FactoryBot/AttributeDefinedStatically
+== FactoryBot/AttributeDefinedStatically
 
 |===
 | Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
@@ -49,9 +49,9 @@ count { 1 }
 
 === References
 
-* https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/FactoryBot/AttributeDefinedStatically
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AttributeDefinedStatically
 
-== RSpec/FactoryBot/ConsistentParenthesesStyle
+== FactoryBot/ConsistentParenthesesStyle
 
 |===
 | Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
@@ -120,9 +120,9 @@ build(
 
 === References
 
-* https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/FactoryBot/ConsistentParenthesesStyle
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ConsistentParenthesesStyle
 
-== RSpec/FactoryBot/CreateList
+== FactoryBot/CreateList
 
 |===
 | Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
@@ -187,9 +187,9 @@ create_list :user, 3
 
 === References
 
-* https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/FactoryBot/CreateList
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
-== RSpec/FactoryBot/FactoryClassName
+== FactoryBot/FactoryClassName
 
 |===
 | Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
@@ -233,9 +233,9 @@ end
 
 === References
 
-* https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/FactoryBot/FactoryClassName
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryClassName
 
-== RSpec/FactoryBot/FactoryNameStyle
+== FactoryBot/FactoryNameStyle
 
 |===
 | Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
@@ -289,9 +289,9 @@ build "user", username: "NAME"
 
 === References
 
-* https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/FactoryBot/FactoryNameStyle
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
-== RSpec/FactoryBot/SyntaxMethods
+== FactoryBot/SyntaxMethods
 
 |===
 | Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
@@ -352,4 +352,4 @@ attributes_for(:bar)
 
 === References
 
-* https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/FactoryBot/SyntaxMethods
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/SyntaxMethods

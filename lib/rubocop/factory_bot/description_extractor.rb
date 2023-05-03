@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module RuboCop
-  module RSpec
+  module FactoryBot
     # Extracts cop descriptions from YARD docstrings
     class DescriptionExtractor
       def initialize(yardocs)
@@ -10,7 +10,7 @@ module RuboCop
 
       def to_h
         code_objects
-          .select(&:rspec_cop?)
+          .select(&:cop?)
           .map(&:configuration)
           .reduce(:merge)
       end
@@ -19,21 +19,19 @@ module RuboCop
 
       attr_reader :code_objects
 
-      # Decorator of a YARD code object for working with documented rspec cops
+      # Decorator of a YARD code object for working with documented cops
       class CodeObject
-        RSPEC_COP_CLASS_NAME = 'RuboCop::Cop::RSpec::Base'
         RUBOCOP_COP_CLASS_NAME = 'RuboCop::Cop::Base'
-        RSPEC_NAMESPACE = 'RuboCop::Cop::RSpec'
 
         def initialize(yardoc)
           @yardoc = yardoc
         end
 
-        # Test if the YARD code object documents a concrete rspec cop class
+        # Test if the YARD code object documents a concrete cop class
         #
         # @return [Boolean]
-        def rspec_cop?
-          cop_subclass? && !abstract? && rspec_cop_namespace?
+        def cop?
+          cop_subclass? && !abstract?
         end
 
         # Configuration for the documented cop that would live in default.yml
@@ -53,17 +51,12 @@ module RuboCop
           yardoc.docstring.split("\n\n").first.to_s
         end
 
-        def rspec_cop_namespace?
-          documented_constant.start_with?(RSPEC_NAMESPACE)
-        end
-
         def documented_constant
           yardoc.to_s
         end
 
         def cop_subclass?
-          yardoc.superclass.path == RSPEC_COP_CLASS_NAME ||
-            yardoc.superclass.path == RUBOCOP_COP_CLASS_NAME
+          yardoc.superclass.path == RUBOCOP_COP_CLASS_NAME
         end
 
         def abstract?

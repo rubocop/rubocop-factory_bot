@@ -29,23 +29,18 @@ desc 'Build config/default.yml'
 task :build_config do
   require 'yard'
 
-  require 'rubocop-rspec'
-  require 'rubocop/rspec/config_formatter'
-  require 'rubocop/rspec/description_extractor'
+  require 'rubocop-factory_bot'
+  require 'rubocop/factory_bot/config_formatter'
+  require 'rubocop/factory_bot/description_extractor'
 
-  glob = File.join('lib', 'rubocop', 'cop', 'rspec',
-                   '{,capybara,factory_bot,rails}', '*.rb')
-  # Due to YARD's sensitivity to file require order (as of 0.9.25),
-  # we have to prepend the list with our base cop, RuboCop::Cop::RSpec::Base.
-  # Otherwise, cop's parent class for cops loaded before our base cop class
-  # are detected as RuboCop::Cop::Base, and that complicates the detection
-  # of their relation with RuboCop RSpec.
-  rspec_cop_path = File.join('lib', 'rubocop', 'cop', 'rspec', 'base.rb')
+  glob = File.join('lib', 'rubocop', 'cop', 'factory_bot', '*.rb')
   YARD::Tags::Library.define_tag('Cop Safety Information', :safety)
-  YARD.parse(Dir[glob].prepend(rspec_cop_path), [])
+  YARD.parse(Dir[glob], [])
 
   descriptions =
-    RuboCop::RSpec::DescriptionExtractor.new(YARD::Registry.all(:class)).to_h
+    RuboCop::FactoryBot::DescriptionExtractor.new(
+      YARD::Registry.all(:class)
+    ).to_h
   current_config = if Psych::VERSION >= '4.0.0' # RUBY_VERSION >= '3.1.0'
                      YAML.unsafe_load_file('config/default.yml')
                    else
@@ -54,7 +49,7 @@ task :build_config do
 
   File.write(
     'config/default.yml',
-    RuboCop::RSpec::ConfigFormatter.new(current_config, descriptions).dump
+    RuboCop::FactoryBot::ConfigFormatter.new(current_config, descriptions).dump
   )
 end
 
@@ -100,7 +95,9 @@ task :new_cop, [:cop] do |_task, args|
   generator = RuboCop::Cop::Generator.new(cop_name)
   generator.write_source
   generator.write_spec
-  generator.inject_require(root_file_path: 'lib/rubocop/cop/rspec_cops.rb')
+  generator.inject_require(
+    root_file_path: 'lib/rubocop/cop/factory_bot_cops.rb'
+  )
   generator.inject_config
 
   puts generator.todo

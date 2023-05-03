@@ -1,5 +1,5 @@
-name: rubocop-rspec
-title: RuboCop RSpec
+name: rubocop-factory_bot
+title: RuboCop FactoryBot
 version: ~
 nav:
   - modules/ROOT/nav.adoc

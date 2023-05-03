@@ -8,7 +8,7 @@ require:
 
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.7
   NewCops: disable
   Exclude:
     - 'vendor/**/*'
@@ -55,7 +55,7 @@ Metrics/BlockLength:
 
 Naming/FileName:
   Exclude:
-    - lib/rubocop-rspec.rb
+    - lib/rubocop-factory_bot.rb
 
 Naming/InclusiveLanguage:
   Enabled: true
@@ -123,7 +123,7 @@ Style/RedundantHeredocDelimiterQuotes:
 Style/RedundantStringEscape:
   Enabled: true
 
-# Enable our own pending cops.
+# Enable pending rubocop-rspec cops.
 
 RSpec/BeEmpty:
   Enabled: true
@@ -135,17 +135,25 @@ RSpec/ChangeByZero:
   Enabled: true
 RSpec/ClassCheck:
   Enabled: true
+RSpec/ContainExactly:
+  Enabled: true
 RSpec/DuplicatedMetadata:
   Enabled: true
 RSpec/ExcessiveDocstringSpacing:
   Enabled: true
 RSpec/IdenticalEqualityAssertion:
   Enabled: true
+RSpec/IndexedLet:
+  Enabled: true
+RSpec/MatchArray:
+  Enabled: true
 RSpec/NoExpectationExample:
   Enabled: true
 RSpec/PendingWithoutReason:
   Enabled: true
 RSpec/RedundantAround:
+  Enabled: true
+RSpec/SkipBlockInsideExample:
   Enabled: true
 RSpec/SortMetadata:
   Enabled: true
