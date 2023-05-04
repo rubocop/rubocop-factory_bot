@@ -2,11 +2,11 @@
 
 ## Master (Unreleased)
 
-## 2.21.0 (2023-XX-XX)
+## 2.22.0 (2023-05-04)
 
 - Extracted from `rubocop-rspec` into a separate repository for easier use with Minitest/Cucumber. ([@ydah])
 
-## Previously (see [rubocop-rspec's changelist](https://github.com/rubocop/rubocop-rspec/blob/9558719/CHANGELOG.md) for details)
+## Previously (see [rubocop-rspec's changelist](https://github.com/rubocop/rubocop-rspec/blob/70a97b1895ce4b9bcd6ff336d5d343ddc6175fe6/CHANGELOG.md) for details)
 
 - Fix a false positive for `RSpec/FactoryBot/ConsistentParenthesesStyle` inside `&&`, `||` and `:?` when `omit_parentheses` is on ([@dmitrytsepelev])
 - Add new `RSpec/FactoryBot/FactoryNameStyle` cop. ([@ydah])
