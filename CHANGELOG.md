@@ -2,7 +2,7 @@
 
 ## Master (Unreleased)
 
-- Add `ExplicitOnly` configuration option to `FactoryBot/ConsistentParenthesesStyle`. ([@ydah])
+- Add `ExplicitOnly` configuration option to `FactoryBot/ConsistentParenthesesStyle` and `FactoryBot/CreateList`. ([@ydah])
 
 ## 2.22.0 (2023-05-04)
 
