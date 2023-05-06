@@ -1,5 +1,5 @@
 name: rubocop-factory_bot
 title: RuboCop FactoryBot
-version: '2.22'
+version: ~
 nav:
   - modules/ROOT/nav.adoc
