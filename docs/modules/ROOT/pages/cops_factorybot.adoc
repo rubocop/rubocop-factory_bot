@@ -67,23 +67,16 @@ Use a consistent style for parentheses in factory bot calls.
 
 === Examples
 
-[source,ruby]
-----
-# bad
-create :user
-build(:user)
-create(:login)
-create :login
-----
-
 ==== `EnforcedStyle: require_parentheses` (default)
 
 [source,ruby]
 ----
+# bad
+create :user
+build :login
+
 # good
 create(:user)
-create(:user)
-create(:login)
 build(:login)
 ----
 
@@ -91,11 +84,13 @@ build(:login)
 
 [source,ruby]
 ----
+# bad
+create(:user)
+build(:login)
+
 # good
 create :user
-build :user
-create :login
-create :login
+build :login
 
 # also good
 # when method name and first argument are not on same line

@@ -5,29 +5,25 @@ module RuboCop
     module FactoryBot
       # Use a consistent style for parentheses in factory bot calls.
       #
-      # @example
+      # @example `EnforcedStyle: require_parentheses` (default)
       #
       #   # bad
       #   create :user
-      #   build(:user)
-      #   create(:login)
-      #   create :login
-      #
-      # @example `EnforcedStyle: require_parentheses` (default)
+      #   build :login
       #
       #   # good
       #   create(:user)
-      #   create(:user)
-      #   create(:login)
       #   build(:login)
       #
       # @example `EnforcedStyle: omit_parentheses`
       #
+      #   # bad
+      #   create(:user)
+      #   build(:login)
+      #
       #   # good
       #   create :user
-      #   build :user
-      #   create :login
-      #   create :login
+      #   build :login
       #
       #   # also good
       #   # when method name and first argument are not on same line
