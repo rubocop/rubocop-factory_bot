@@ -97,12 +97,12 @@ module RuboCop
 
         # @!method arguments_include_method_call?(node)
         def_node_matcher :arguments_include_method_call?, <<~PATTERN
-          (send #factory_call? :create (sym $_) `$(send ...))
+          (send #factory_call? :create sym `$(send ...))
         PATTERN
 
         # @!method factory_call(node)
         def_node_matcher :factory_call, <<~PATTERN
-          (send #factory_call? :create (sym $_) $...)
+          (send #factory_call? :create sym ...)
         PATTERN
 
         # @!method factory_list_call(node)
