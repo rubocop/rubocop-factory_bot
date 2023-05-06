@@ -64,11 +64,13 @@ FactoryBot/FactoryClassName:
 FactoryBot/FactoryNameStyle:
   Description: Checks for name style for argument of FactoryBot::Syntax::Methods.
   Enabled: pending
-  VersionAdded: '2.16'
   EnforcedStyle: symbol
   SupportedStyles:
     - symbol
     - string
+  ExplicitOnly: false
+  VersionAdded: '2.16'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
 FactoryBot/RedundantFactoryOption:

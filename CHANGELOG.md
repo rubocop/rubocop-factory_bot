@@ -7,6 +7,7 @@
 - Add `FactoryBot/RedundantFactoryOption` cop. ([@r7kamura])
 - Add `ExplicitOnly` configuration option to `FactoryBot/ConsistentParenthesesStyle`. ([@ydah])
 - Add `ExplicitOnly` configuration option to `FactoryBot/ConsistentParenthesesStyle` and `FactoryBot/CreateList`. ([@ydah])
+- Add `ExplicitOnly` configuration option to `FactoryBot/ConsistentParenthesesStyle`, `FactoryBot/CreateList` and `FactoryBot/FactoryNameStyle`. ([@ydah])
 
 ## 2.22.0 (2023-05-04)
 
