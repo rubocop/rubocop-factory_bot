@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Mark `FactoryBot/CreateList` as `SafeAutoCorrect: false`. ([@r7kamura])
+- Add `FactoryBot/RedundantFactoryOption` cop. ([@r7kamura])
 
 ## 2.22.0 (2023-05-04)
 

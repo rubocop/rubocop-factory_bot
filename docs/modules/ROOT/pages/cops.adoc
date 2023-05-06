@@ -7,6 +7,7 @@
 * xref:cops_factorybot.adoc#factorybotcreatelist[FactoryBot/CreateList]
 * xref:cops_factorybot.adoc#factorybotfactoryclassname[FactoryBot/FactoryClassName]
 * xref:cops_factorybot.adoc#factorybotfactorynamestyle[FactoryBot/FactoryNameStyle]
+* xref:cops_factorybot.adoc#factorybotredundantfactoryoption[FactoryBot/RedundantFactoryOption]
 * xref:cops_factorybot.adoc#factorybotsyntaxmethods[FactoryBot/SyntaxMethods]
 
 // END_COP_LIST
