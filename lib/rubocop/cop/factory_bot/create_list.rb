@@ -87,7 +87,7 @@ module RuboCop
 
         # @!method factory_call(node)
         def_node_matcher :factory_call, <<-PATTERN
-          (send #factory_call? :create (sym _) ...)
+          (send #factory_call? :create sym ...)
         PATTERN
 
         # @!method factory_list_call(node)
