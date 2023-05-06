@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module RuboCop
-  # RuboCop FactoryBot project namespace
+  # RuboCop factory_bot project namespace
   module FactoryBot
     ATTRIBUTE_DEFINING_METHODS = %i[
       factory

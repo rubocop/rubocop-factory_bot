@@ -20,7 +20,7 @@ FactoryBot/AttributeDefinedStatically:
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AttributeDefinedStatically
 
 FactoryBot/ConsistentParenthesesStyle:
-  Description: Use a consistent style for parentheses in factory bot calls.
+  Description: Use a consistent style for parentheses in factory_bot calls.
   Enabled: pending
   EnforcedStyle: require_parentheses
   SupportedStyles:

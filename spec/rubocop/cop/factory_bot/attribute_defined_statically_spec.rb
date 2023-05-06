@@ -174,7 +174,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
     RUBY
   end
 
-  it 'does not add offense if out of factory bot block' do
+  it 'does not add offense if out of factory_bot block' do
     expect_no_offenses(<<-RUBY)
       status [:draft, :published].sample
       published_at 1.day.from_now

@@ -142,7 +142,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
       RUBY
     end
 
-    it 'ignores FactoryBot DSL methods without a first positional argument' do
+    it 'ignores factory_bot DSL methods without a first positional argument' do
       expect_no_offenses(<<~RUBY)
         create
         create foo: :bar
@@ -386,7 +386,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
       RUBY
     end
 
-    it 'ignores FactoryBot DSL methods without a first positional argument' do
+    it 'ignores factory_bot DSL methods without a first positional argument' do
       expect_no_offenses(<<~RUBY)
         create()
         create(foo: :bar)

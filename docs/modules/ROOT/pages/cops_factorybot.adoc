@@ -63,7 +63,7 @@ count { 1 }
 | -
 |===
 
-Use a consistent style for parentheses in factory bot calls.
+Use a consistent style for parentheses in factory_bot calls.
 
 === Examples
 

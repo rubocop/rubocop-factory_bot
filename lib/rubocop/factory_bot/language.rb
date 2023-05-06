@@ -2,7 +2,7 @@
 
 module RuboCop
   module FactoryBot
-    # Contains node matchers for common FactoryBot DSL.
+    # Contains node matchers for common factory_bot DSL.
     module Language
       extend RuboCop::NodePattern::Macros
 
