@@ -26,7 +26,9 @@ FactoryBot/ConsistentParenthesesStyle:
   SupportedStyles:
     - require_parentheses
     - omit_parentheses
+  ExplicitOnly: false
   VersionAdded: '2.14'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ConsistentParenthesesStyle
 
 FactoryBot/CreateList:

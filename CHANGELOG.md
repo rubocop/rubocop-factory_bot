@@ -6,6 +6,8 @@
 - Change `FactoryBot/CreateList` so that it considers `times.map`. ([@r7kamura])
 - Add `FactoryBot/RedundantFactoryOption` cop. ([@r7kamura])
 
+- Add `ExplicitOnly` configuration option to `FactoryBot/ConsistentParenthesesStyle`. ([@ydah])
+
 ## 2.22.0 (2023-05-04)
 
 - Extracted from `rubocop-rspec` into a separate repository for easier use with Minitest/Cucumber. ([@ydah])
