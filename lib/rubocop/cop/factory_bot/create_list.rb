@@ -62,22 +62,22 @@ module RuboCop
 
         # @!method array_new_or_n_times_block?(node)
         def_node_matcher :array_new_or_n_times_block?, <<-PATTERN
-            (block
-              {
-                (send (const {nil? | cbase} :Array) :new (int _)) |
-                (send (int _) :times)
-              }
-              ...
-            )
+          (block
+            {
+              (send (const {nil? | cbase} :Array) :new (int _)) |
+              (send (int _) :times)
+            }
+            ...
+          )
         PATTERN
 
         # @!method block_with_arg_and_used?(node)
         def_node_matcher :block_with_arg_and_used?, <<-PATTERN
-            (block
-              _
-              (args (arg _value))
-              `_value
-            )
+          (block
+            _
+            (args (arg _value))
+            `_value
+          )
         PATTERN
 
         # @!method arguments_include_method_call?(node)

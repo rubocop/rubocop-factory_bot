@@ -31,7 +31,7 @@ module RuboCop
 
         # @!method value_matcher(node)
         def_node_matcher :value_matcher, <<-PATTERN
-            (send _ !#reserved_method? $...)
+          (send _ !#reserved_method? $...)
         PATTERN
 
         # @!method factory_attributes(node)
