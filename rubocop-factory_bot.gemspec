@@ -5,9 +5,9 @@ require 'rubocop/factory_bot/version'
 
 Gem::Specification.new do |spec|
   spec.name = 'rubocop-factory_bot'
-  spec.summary = 'Code style checking for FactoryBot files'
+  spec.summary = 'Code style checking for factory_bot files'
   spec.description = <<-DESCRIPTION
-    Code style checking for FactoryBot files.
+    Code style checking for factory_bot files.
     A plugin for the RuboCop code style enforcing & linting tool.
   DESCRIPTION
   spec.homepage = 'https://github.com/rubocop/rubocop-factory_bot'
