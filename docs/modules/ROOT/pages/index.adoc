@@ -1,6 +1,6 @@
 = RuboCop factory_bot
 
-Factory Bot-specific analysis for your projects, as an extension to
+factory_bot-specific analysis for your projects, as an extension to
 https://github.com/rubocop/rubocop[RuboCop].
 
 RuboCop factory_bot follows the https://docs.rubocop.org/rubocop/versioning.html[RuboCop versioning guide].
@@ -11,4 +11,4 @@ On a major version release, all `pending` cops are enabled.
 
 == Project Goals
 
-* Simplify the process of adopting new Factory Bot functionality
+* Simplify the process of adopting new factory_bot functionality

@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/rubocop-factory_bot.svg)](https://rubygems.org/gems/rubocop-factory_bot)
 ![CI](https://github.com/rubocop/rubocop-factory_bot/workflows/CI/badge.svg)
 
-[Factory Bot](https://www.rubydoc.info/gems/factory_bot)-specific analysis for your projects, as an extension to
+[factory_bot](https://www.rubydoc.info/gems/factory_bot)-specific analysis for your projects, as an extension to
 [RuboCop](https://github.com/rubocop/rubocop).
 
 ## Installation
@@ -23,7 +23,7 @@ gem 'rubocop-factory_bot', require: false
 
 ## Usage
 
-You need to tell RuboCop to load the Factory Bot extension. There are three
+You need to tell RuboCop to load the factory_bot extension. There are three
 ways to do this:
 
 ### RuboCop configuration file
@@ -69,7 +69,7 @@ All cops are located under
 [`lib/rubocop/cop/factory_bot`](lib/rubocop/cop/factory_bot), and contain
 examples/documentation.
 
-In your `.rubocop.yml`, you may treat the Factory Bot cops just like any other
+In your `.rubocop.yml`, you may treat the factory_bot cops just like any other
 cop. For example:
 
 ```yaml

@@ -1,6 +1,6 @@
 = Usage
 
-You need to tell RuboCop to load the Factory Bot extension.
+You need to tell RuboCop to load the factory_bot extension.
 There are three ways to do this:
 
 == RuboCop configuration file
