@@ -44,6 +44,7 @@ FactoryBot/CreateList:
   SupportedStyles:
     - create_list
     - n_times
+  ExplicitOnly: false
   SafeAutoCorrect: false
   VersionAdded: '1.25'
   VersionChanged: "<<next>>"
