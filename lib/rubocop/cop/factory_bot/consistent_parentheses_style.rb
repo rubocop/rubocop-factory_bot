@@ -3,7 +3,7 @@
 module RuboCop
   module Cop
     module FactoryBot
-      # Use a consistent style for parentheses in factory bot calls.
+      # Use a consistent style for parentheses in factory_bot calls.
       #
       # @example `EnforcedStyle: require_parentheses` (default)
       #
