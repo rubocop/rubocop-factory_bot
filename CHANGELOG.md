@@ -2,6 +2,7 @@
 
 ## Master (Unreleased)
 
+- Add `FactoryBot/FactoryAssociationWithStrategy` cop. ([@morissetcl])
 - Mark `FactoryBot/CreateList` as `SafeAutoCorrect: false`. ([@r7kamura])
 - Add `FactoryBot/RedundantFactoryOption` cop. ([@r7kamura])
 
@@ -60,6 +61,7 @@
 [@jonatas]: https://github.com/jonatas
 [@leoarnold]: https://github.com/leoarnold
 [@liberatys]: https://github.com/Liberatys
+[@morissetcl]: https://github.com/morissetcl
 [@ngouy]: https://github.com/ngouy
 [@pirj]: https://github.com/pirj
 [@r7kamura]: https://github.com/r7kamura

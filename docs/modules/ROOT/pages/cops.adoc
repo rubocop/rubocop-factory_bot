@@ -5,6 +5,7 @@
 * xref:cops_factorybot.adoc#factorybotattributedefinedstatically[FactoryBot/AttributeDefinedStatically]
 * xref:cops_factorybot.adoc#factorybotconsistentparenthesesstyle[FactoryBot/ConsistentParenthesesStyle]
 * xref:cops_factorybot.adoc#factorybotcreatelist[FactoryBot/CreateList]
+* xref:cops_factorybot.adoc#factorybotfactoryassociationwithstrategy[FactoryBot/FactoryAssociationWithStrategy]
 * xref:cops_factorybot.adoc#factorybotfactoryclassname[FactoryBot/FactoryClassName]
 * xref:cops_factorybot.adoc#factorybotfactorynamestyle[FactoryBot/FactoryNameStyle]
 * xref:cops_factorybot.adoc#factorybotredundantfactoryoption[FactoryBot/RedundantFactoryOption]
