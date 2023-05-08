@@ -202,6 +202,62 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       RUBY
     end
 
+    context 'with empty array' do
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
+          []
+        RUBY
+      end
+    end
+
+    context 'with different `create` nodes in array' do
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
+          [create(:user), create(:user, age: 18)]
+        RUBY
+      end
+    end
+
+    context 'with one `create` node in array' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          [create(:user)]
+          ^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, 1)
+        RUBY
+      end
+    end
+
+    context 'with same `create` nodes in array' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          [create(:user), create(:user)]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, 2)
+        RUBY
+      end
+    end
+
+    context 'with same `create` nodes in array with method calls' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          [create(:user, point: rand), create(:user, point: rand)]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer 2.times.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          2.times { create(:user, point: rand) }
+        RUBY
+      end
+    end
+  end
+
     context 'when ExplicitOnly is false' do
       let(:explicit_only) { false }
 
@@ -373,6 +429,32 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       it 'ignores n.times with numblock' do
         expect_no_offenses(<<~RUBY)
           3.times { create :user, position: _1 }
+        RUBY
+      end
+    end
+
+    context 'with same `create` nodes in array' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          [create(:user), create(:user)]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer 2.times.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          2.times { create(:user) }
+        RUBY
+      end
+    end
+
+    context 'with same `create` nodes in array with method calls' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          [create(:user, point: rand), create(:user, point: rand)]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer 2.times.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          2.times { create(:user, point: rand) }
         RUBY
       end
     end
