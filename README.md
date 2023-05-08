@@ -17,7 +17,7 @@ gem install rubocop-factory_bot
 
 or if you use bundler put this in your `Gemfile`
 
-```
+```ruby
 gem 'rubocop-factory_bot', require: false
 ```
 
