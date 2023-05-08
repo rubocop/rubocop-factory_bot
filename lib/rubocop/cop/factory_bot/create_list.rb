@@ -40,38 +40,38 @@ module RuboCop
         RESTRICT_ON_SEND = %i[create_list].freeze
 
         # @!method array_new_or_n_times_block?(node)
-        def_node_matcher :array_new_or_n_times_block?, <<-PATTERN
-            (block
-              {
-                (send (const {nil? | cbase} :Array) :new (int _)) |
-                (send (int _) :times)
-              }
-              ...
-            )
+        def_node_matcher :array_new_or_n_times_block?, <<~PATTERN
+          (block
+            {
+              (send (const {nil? | cbase} :Array) :new (int _)) |
+              (send (int _) :times)
+            }
+            ...
+          )
         PATTERN
 
         # @!method block_with_arg_and_used?(node)
-        def_node_matcher :block_with_arg_and_used?, <<-PATTERN
-            (block
-              _
-              (args (arg _value))
-              `_value
-            )
+        def_node_matcher :block_with_arg_and_used?, <<~PATTERN
+          (block
+            _
+            (args (arg _value))
+            `_value
+          )
         PATTERN
 
         # @!method arguments_include_method_call?(node)
-        def_node_matcher :arguments_include_method_call?, <<-PATTERN
-            (send ${nil? #factory_bot?} :create (sym $_) `$(send ...))
+        def_node_matcher :arguments_include_method_call?, <<~PATTERN
+          (send ${nil? #factory_bot?} :create (sym $_) `$(send ...))
         PATTERN
 
         # @!method factory_call(node)
-        def_node_matcher :factory_call, <<-PATTERN
-            (send ${nil? #factory_bot?} :create (sym $_) $...)
+        def_node_matcher :factory_call, <<~PATTERN
+          (send ${nil? #factory_bot?} :create (sym $_) $...)
         PATTERN
 
         # @!method factory_list_call(node)
-        def_node_matcher :factory_list_call, <<-PATTERN
-            (send {nil? #factory_bot?} :create_list (sym _) (int $_) ...)
+        def_node_matcher :factory_list_call, <<~PATTERN
+          (send {nil? #factory_bot?} :create_list (sym _) (int $_) ...)
         PATTERN
 
         def on_block(node) # rubocop:todo InternalAffairs/NumblockHandler

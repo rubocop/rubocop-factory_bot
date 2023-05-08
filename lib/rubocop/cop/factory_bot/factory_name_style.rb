@@ -33,7 +33,7 @@ module RuboCop
         RESTRICT_ON_SEND = FACTORY_CALLS
 
         # @!method factory_call(node)
-        def_node_matcher :factory_call, <<-PATTERN
+        def_node_matcher :factory_call, <<~PATTERN
           (send
             {#factory_bot? nil?} %FACTORY_CALLS
             ${str sym} ...
