@@ -124,14 +124,19 @@ build(
 
 | Enabled
 | Yes
-| Yes
+| Yes (Unsafe)
 | 1.25
-| 2.0
+| <<next>>
 |===
 
 Checks for create_list usage.
 
 This cop can be configured using the `EnforcedStyle` option
+
+=== Safety
+
+This cop's autocorrection is unsafe because replacing `n.times` to
+`create_list` changes its returned value.
 
 === Examples
 

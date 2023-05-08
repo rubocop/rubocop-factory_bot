@@ -42,8 +42,9 @@ FactoryBot/CreateList:
   SupportedStyles:
     - create_list
     - n_times
+  SafeAutoCorrect: false
   VersionAdded: '1.25'
-  VersionChanged: '2.0'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
 FactoryBot/FactoryClassName:
