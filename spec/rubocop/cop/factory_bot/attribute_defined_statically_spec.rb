@@ -2,7 +2,7 @@
 
 RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   it 'registers an offense for offending code' do
-    expect_offense(<<-RUBY)
+    expect_offense(<<~RUBY)
       FactoryBot.define do
         factory :post do
           title "Something"
@@ -33,7 +33,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
       end
     RUBY
 
-    expect_correction(<<-RUBY)
+    expect_correction(<<~RUBY)
       FactoryBot.define do
         factory :post do
           title { "Something" }
@@ -54,7 +54,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'registers an offense in a trait' do
-    expect_offense(<<-RUBY)
+    expect_offense(<<~RUBY)
       FactoryBot.define do
         factory :post do
           trait :published do
@@ -67,7 +67,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
       end
     RUBY
 
-    expect_correction(<<-RUBY)
+    expect_correction(<<~RUBY)
       FactoryBot.define do
         factory :post do
           trait :published do
@@ -80,7 +80,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'registers an offense in a transient block' do
-    expect_offense(<<-RUBY)
+    expect_offense(<<~RUBY)
       FactoryBot.define do
         factory :post do
           transient do
@@ -93,7 +93,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
       end
     RUBY
 
-    expect_correction(<<-RUBY)
+    expect_correction(<<~RUBY)
       FactoryBot.define do
         factory :post do
           transient do
@@ -106,7 +106,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'registers an offense for an attribute defined on `self`' do
-    expect_offense(<<-RUBY)
+    expect_offense(<<~RUBY)
       FactoryBot.define do
         factory :post do
           self.start { Date.today }
@@ -116,7 +116,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
       end
     RUBY
 
-    expect_correction(<<-RUBY)
+    expect_correction(<<~RUBY)
       FactoryBot.define do
         factory :post do
           self.start { Date.today }
@@ -127,7 +127,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'registers an offense for attributes defined on explicit receiver' do
-    expect_offense(<<-RUBY)
+    expect_offense(<<~RUBY)
       FactoryBot.define do
         factory :post do |post_definition|
           post_definition.end Date.tomorrow
@@ -140,7 +140,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
       end
     RUBY
 
-    expect_correction(<<-RUBY)
+    expect_correction(<<~RUBY)
       FactoryBot.define do
         factory :post do |post_definition|
           post_definition.end { Date.tomorrow }
@@ -153,7 +153,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'accepts valid factory definitions' do
-    expect_no_offenses(<<-RUBY)
+    expect_no_offenses(<<~RUBY)
       FactoryBot.define do
         factory :post do
           trait :published do
@@ -175,7 +175,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'does not add offense if out of factory_bot block' do
-    expect_no_offenses(<<-RUBY)
+    expect_no_offenses(<<~RUBY)
       status [:draft, :published].sample
       published_at 1.day.from_now
       created_at 1.day.ago
@@ -185,7 +185,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'does not add offense if method called on another object' do
-    expect_no_offenses(<<-RUBY)
+    expect_no_offenses(<<~RUBY)
       FactoryBot.define do
         factory :post do |post_definition|
           Registrar.register :post_factory
@@ -195,7 +195,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'does not add offense if method called on a local variable' do
-    expect_no_offenses(<<-RUBY)
+    expect_no_offenses(<<~RUBY)
       FactoryBot.define do
         factory :post do |post_definition|
           local = Registrar
@@ -206,7 +206,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'accepts valid association definitions' do
-    expect_no_offenses(<<-RUBY)
+    expect_no_offenses(<<~RUBY)
       FactoryBot.define do
         factory :post do
           author age: 42, factory: :user
@@ -216,7 +216,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'accepts valid sequence definition' do
-    expect_no_offenses(<<-RUBY)
+    expect_no_offenses(<<~RUBY)
       FactoryBot.define do
         factory :post do
           sequence :negative_numbers, &:-@
@@ -226,7 +226,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
   end
 
   it 'accepts valid traits_for_enum definition' do
-    expect_no_offenses(<<-RUBY)
+    expect_no_offenses(<<~RUBY)
       FactoryBot.define do
         factory :post do
           traits_for_enum :status, [:draft, :published]

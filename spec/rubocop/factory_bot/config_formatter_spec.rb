@@ -40,28 +40,28 @@ RSpec.describe RuboCop::FactoryBot::ConfigFormatter do
   it 'builds a YAML dump with spacing between cops' do
     formatter = described_class.new(config, descriptions)
 
-    expect(formatter.dump).to eql(<<-YAML.gsub(/^\s+\|/, ''))
-      |---
-      |AllCops:
-      |  Setting: forty two
-      |
-      |FactoryBot/Foo:
-      |  Config: 2
-      |  Enabled: true
-      |  Description: Blah
-      |  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/Foo
-      |
-      |FactoryBot/Bar:
-      |  Enabled: true
-      |  Nullable: ~
-      |  Description: Wow
-      |  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/Bar
-      |
-      |FactoryBot/Baz:
-      |  Enabled: true
-      |  StyleGuide: "#buzz"
-      |  Description: Woof
-      |  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/Baz
+    expect(formatter.dump).to eql(<<~YAML)
+      ---
+      AllCops:
+        Setting: forty two
+
+      FactoryBot/Foo:
+        Config: 2
+        Enabled: true
+        Description: Blah
+        Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/Foo
+
+      FactoryBot/Bar:
+        Enabled: true
+        Nullable: ~
+        Description: Wow
+        Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/Bar
+
+      FactoryBot/Baz:
+        Enabled: true
+        StyleGuide: "#buzz"
+        Description: Woof
+        Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/Baz
     YAML
   end
 end
