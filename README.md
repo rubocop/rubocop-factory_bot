@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/rubocop-factory_bot.svg)](https://rubygems.org/gems/rubocop-factory_bot)
 ![CI](https://github.com/rubocop/rubocop-factory_bot/workflows/CI/badge.svg)
 
-[factory_bot](https://www.rubydoc.info/gems/factory_bot)-specific analysis for your projects, as an extension to
+[factory_bot](https://github.com/thoughtbot/factory_bot/blob/main/GETTING_STARTED.md)-specific analysis for your projects, as an extension to
 [RuboCop](https://github.com/rubocop/rubocop).
 
 ## Installation
