@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+- Mark `FactoryBot/CreateList` as `SafeAutoCorrect: false`. ([@r7kamura])
+
 ## 2.22.0 (2023-05-04)
 
 - Extracted from `rubocop-rspec` into a separate repository for easier use with Minitest/Cucumber. ([@ydah])

@@ -7,6 +7,10 @@ module RuboCop
       #
       # This cop can be configured using the `EnforcedStyle` option
       #
+      # @safety
+      #   This cop's autocorrection is unsafe because replacing `n.times` to
+      #   `create_list` changes its returned value.
+      #
       # @example `EnforcedStyle: create_list` (default)
       #   # bad
       #   3.times { create :user }
