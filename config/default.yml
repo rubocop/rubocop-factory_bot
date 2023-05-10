@@ -68,6 +68,12 @@ FactoryBot/FactoryNameStyle:
     - string
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
+FactoryBot/RedundantFactoryOption:
+  Description: Checks for redundant `factory` option.
+  Enabled: pending
+  VersionAdded: "<<next>>"
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/RedundantFactoryOption
+
 FactoryBot/SyntaxMethods:
   Description: Use shorthands from `FactoryBot::Syntax::Methods` in your specs.
   Enabled: pending
