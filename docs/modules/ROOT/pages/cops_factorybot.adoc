@@ -293,6 +293,35 @@ build "user", username: "NAME"
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
+== FactoryBot/RedundantFactoryOption
+
+|===
+| Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
+
+| Pending
+| Yes
+| Yes
+| <<next>>
+| -
+|===
+
+Checks for redundant `factory` option.
+
+=== Examples
+
+[source,ruby]
+----
+# bad
+association :user, factory: :user
+
+# good
+association :user
+----
+
+=== References
+
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/RedundantFactoryOption
+
 == FactoryBot/SyntaxMethods
 
 |===

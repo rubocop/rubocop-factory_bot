@@ -1,6 +1,6 @@
 = RuboCop factory_bot
 
-factory_bot-specific analysis for your projects, as an extension to
+https://github.com/thoughtbot/factory_bot/blob/main/GETTING_STARTED.md[factory_bot]-specific analysis for your projects, as an extension to
 https://github.com/rubocop/rubocop[RuboCop].
 
 RuboCop factory_bot follows the https://docs.rubocop.org/rubocop/versioning.html[RuboCop versioning guide].

@@ -4,6 +4,7 @@
 
 - Mark `FactoryBot/CreateList` as `SafeAutoCorrect: false`. ([@r7kamura])
 - Change `FactoryBot/CreateList` so that it considers `times.map`. ([@r7kamura])
+- Add `FactoryBot/RedundantFactoryOption` cop. ([@r7kamura])
 
 ## 2.22.0 (2023-05-04)
 
