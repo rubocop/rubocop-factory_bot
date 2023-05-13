@@ -89,24 +89,6 @@ module RuboCop
           (send nil? :association _ (sym $_)* ...)
         PATTERN
 
-        # @!method trait_option_matcher(node)
-        def_node_matcher :trait_option_matcher, <<~PATTERN
-          (send
-            nil?
-            :association
-            ...
-            (hash
-              <
-                (pair
-                  (sym :traits)
-                  (array (sym $_)*)
-                )
-                ...
-              >
-            )
-          )
-        PATTERN
-
         def autocorrect(corrector, node)
           if style == :explicit
             autocorrect_to_explicit_style(corrector, node)
@@ -197,8 +179,7 @@ module RuboCop
         end
 
         def trait_names_from_explicit(node)
-          (trait_arguments_matcher(node) || []) +
-            (trait_option_matcher(node) || [])
+          trait_arguments_matcher(node) || []
         end
       end
     end

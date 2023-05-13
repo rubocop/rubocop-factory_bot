@@ -157,58 +157,6 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
         RUBY
       end
     end
-
-    context 'when `association` is called with traits option' do
-      it 'registers and corrects an offense' do
-        expect_offense(<<~RUBY)
-          factory :article do
-            association :author, traits: %i[admin]
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
-          end
-        RUBY
-
-        expect_correction(<<~RUBY)
-          factory :article do
-            author factory: %i[author admin]
-          end
-        RUBY
-      end
-    end
-
-    context 'when `association` is called with factory and traits options' do
-      it 'registers and corrects an offense' do
-        expect_offense(<<~RUBY)
-          factory :article do
-            association :author, factory: :user, traits: [:admin]
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
-          end
-        RUBY
-
-        expect_correction(<<~RUBY)
-          factory :article do
-            author factory: %i[user admin]
-          end
-        RUBY
-      end
-    end
-
-    context 'when `association` is called with trait arguments and factory' \
-            'and traits options' do
-      it 'registers and corrects an offense' do
-        expect_offense(<<~RUBY)
-          factory :article do
-            association :author, :active, factory: :user, traits: [:admin]
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
-          end
-        RUBY
-
-        expect_correction(<<~RUBY)
-          factory :article do
-            author factory: %i[user active admin]
-          end
-        RUBY
-      end
-    end
   end
 
   context 'when EnforcedStyle is :explicit' do
