@@ -26,7 +26,9 @@ FactoryBot/ConsistentParenthesesStyle:
   SupportedStyles:
     - require_parentheses
     - omit_parentheses
+  ExplicitOnly: false
   VersionAdded: '2.14'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ConsistentParenthesesStyle
 
 FactoryBot/CreateList:
@@ -42,6 +44,7 @@ FactoryBot/CreateList:
   SupportedStyles:
     - create_list
     - n_times
+  ExplicitOnly: false
   SafeAutoCorrect: false
   VersionAdded: '1.25'
   VersionChanged: "<<next>>"
@@ -61,11 +64,13 @@ FactoryBot/FactoryClassName:
 FactoryBot/FactoryNameStyle:
   Description: Checks for name style for argument of FactoryBot::Syntax::Methods.
   Enabled: pending
-  VersionAdded: '2.16'
   EnforcedStyle: symbol
   SupportedStyles:
     - symbol
     - string
+  ExplicitOnly: false
+  VersionAdded: '2.16'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
 FactoryBot/RedundantFactoryOption:

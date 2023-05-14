@@ -5,6 +5,9 @@
 - Mark `FactoryBot/CreateList` as `SafeAutoCorrect: false`. ([@r7kamura])
 - Change `FactoryBot/CreateList` so that it considers `times.map`. ([@r7kamura])
 - Add `FactoryBot/RedundantFactoryOption` cop. ([@r7kamura])
+- Add `ExplicitOnly` configuration option to `FactoryBot/ConsistentParenthesesStyle`. ([@ydah])
+- Add `ExplicitOnly` configuration option to `FactoryBot/ConsistentParenthesesStyle` and `FactoryBot/CreateList`. ([@ydah])
+- Add `ExplicitOnly` configuration option to `FactoryBot/ConsistentParenthesesStyle`, `FactoryBot/CreateList` and `FactoryBot/FactoryNameStyle`. ([@ydah])
 
 ## 2.22.0 (2023-05-04)
 

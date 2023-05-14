@@ -60,7 +60,7 @@ count { 1 }
 | Yes
 | Yes
 | 2.14
-| -
+| <<next>>
 |===
 
 Use a consistent style for parentheses in factory_bot calls.
@@ -103,6 +103,34 @@ build(
 )
 ----
 
+==== `ExplicitOnly: false` (default)
+
+[source,ruby]
+----
+# bad - with `EnforcedStyle: require_parentheses`
+FactoryBot.create :user
+build :user
+
+# good - with `EnforcedStyle: require_parentheses`
+FactoryBot.create(:user)
+build(:user)
+----
+
+==== `ExplicitOnly: true`
+
+[source,ruby]
+----
+# bad - with `EnforcedStyle: require_parentheses`
+FactoryBot.create :user
+FactoryBot.build :user
+
+# good - with `EnforcedStyle: require_parentheses`
+FactoryBot.create(:user)
+FactoryBot.build(:user)
+create :user
+build :user
+----
+
 === Configurable attributes
 
 |===
@@ -111,6 +139,10 @@ build(
 | EnforcedStyle
 | `require_parentheses`
 | `require_parentheses`, `omit_parentheses`
+
+| ExplicitOnly
+| `false`
+| Boolean
 |===
 
 === References
@@ -173,6 +205,32 @@ create_list :user, 3
 3.times.map { create :user }
 ----
 
+==== `ExplicitOnly: false` (default)
+
+[source,ruby]
+----
+# bad - with `EnforcedStyle: create_list`
+3.times { FactoryBot.create :user }
+3.times { create :user }
+
+# good - with `EnforcedStyle: create_list`
+FactoryBot.create_list :user, 3
+create_list :user, 3
+----
+
+==== `ExplicitOnly: true`
+
+[source,ruby]
+----
+# bad - with `EnforcedStyle: create_list`
+3.times { FactoryBot.create :user }
+
+# good - with `EnforcedStyle: create_list`
+FactoryBot.create_list :user, 3
+create_list :user, 3
+3.times { create :user }
+----
+
 === Configurable attributes
 
 |===
@@ -185,6 +243,10 @@ create_list :user, 3
 | EnforcedStyle
 | `create_list`
 | `create_list`, `n_times`
+
+| ExplicitOnly
+| `false`
+| Boolean
 |===
 
 === References
@@ -246,7 +308,7 @@ end
 | Yes
 | Yes
 | 2.16
-| -
+| <<next>>
 |===
 
 Checks for name style for argument of FactoryBot::Syntax::Methods.
@@ -279,6 +341,34 @@ create('user')
 build "user", username: "NAME"
 ----
 
+==== `ExplicitOnly: false` (default)
+
+[source,ruby]
+----
+# bad - with `EnforcedStyle: symbol`
+FactoryBot.create('user')
+create('user')
+
+# good - with `EnforcedStyle: symbol`
+FactoryBot.create(:user)
+create(:user)
+----
+
+==== `ExplicitOnly: true`
+
+[source,ruby]
+----
+# bad - with `EnforcedStyle: symbol`
+FactoryBot.create(:user)
+FactoryBot.build "user", username: "NAME"
+
+# good - with `EnforcedStyle: symbol`
+FactoryBot.create('user')
+FactoryBot.build "user", username: "NAME"
+FactoryBot.create(:user)
+create(:user)
+----
+
 === Configurable attributes
 
 |===
@@ -287,6 +377,10 @@ build "user", username: "NAME"
 | EnforcedStyle
 | `symbol`
 | `symbol`, `string`
+
+| ExplicitOnly
+| `false`
+| Boolean
 |===
 
 === References
