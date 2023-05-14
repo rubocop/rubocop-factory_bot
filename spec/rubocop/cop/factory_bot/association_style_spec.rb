@@ -206,6 +206,23 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
       end
     end
 
+    context 'when implicit association has factory and traits' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            author factory: %i[user admin]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use explicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            association :author, factory: %i[user admin]
+          end
+        RUBY
+      end
+    end
+
     context 'when default non implicit association method name is used' do
       it 'does not register an offense' do
         expect_no_offenses(<<~RUBY)
