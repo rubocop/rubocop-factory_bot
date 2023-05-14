@@ -98,8 +98,8 @@ module RuboCop
           )
         PATTERN
 
-        # @!method trait_arguments_matcher(node)
-        def_node_matcher :trait_arguments_matcher, <<~PATTERN
+        # @!method trait_names_from_explicit(node)
+        def_node_matcher :trait_names_from_explicit, <<~PATTERN
           (send nil? :association _ (sym $_)* ...)
         PATTERN
 
@@ -190,10 +190,6 @@ module RuboCop
             options[:factory] = "%i[#{factory_names.join(' ')}]"
           end
           options
-        end
-
-        def trait_names_from_explicit(node)
-          trait_arguments_matcher(node) || []
         end
       end
     end
