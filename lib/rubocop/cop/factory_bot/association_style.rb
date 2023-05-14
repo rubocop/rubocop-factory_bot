@@ -184,7 +184,6 @@ module RuboCop
 
         def options_for_autocorrect_to_implicit_style(node)
           options = options_from_explicit(node)
-          options.delete(:traits)
           factory_names = factory_names_from_explicit(node)
           unless factory_names.empty?
             options[:factory] = "%i[#{factory_names.join(' ')}]"
