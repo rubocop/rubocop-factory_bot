@@ -12,20 +12,34 @@ module RuboCop
       #
       # @example EnforcedStyle: implicit (default)
       #   # bad
-      #   association :user
+      #   factory :post do
+      #     association :user
+      #   end
       #
       #   # good
-      #   user
+      #   factory :post do
+      #     user
+      #   end
       #
       # @example EnforcedStyle: explicit
       #   # bad
-      #   user
+      #   factory :post do
+      #     user
+      #   end
       #
       #   # good
-      #   association :user
+      #   factory :post do
+      #     association :user
+      #   end
       #
       #   # good (NonImplicitAssociationMethodNames: ['email'])
-      #   email
+      #   sequence :email do |n|
+      #     "person#{n}@example.com"
+      #   end
+      #
+      #   factory :user do
+      #     email
+      #   end
       class AssociationStyle < ::RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
         extend AutoCorrector
 

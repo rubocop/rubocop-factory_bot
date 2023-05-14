@@ -27,10 +27,14 @@ implicit association but it might be a user-defined trait call.
 [source,ruby]
 ----
 # bad
-association :user
+factory :post do
+  association :user
+end
 
 # good
-user
+factory :post do
+  user
+end
 ----
 
 ==== EnforcedStyle: explicit
@@ -38,13 +42,23 @@ user
 [source,ruby]
 ----
 # bad
-user
+factory :post do
+  user
+end
 
 # good
-association :user
+factory :post do
+  association :user
+end
 
 # good (NonImplicitAssociationMethodNames: ['email'])
-email
+sequence :email do |n|
+  "person#{n}@example.com"
+end
+
+factory :user do
+  email
+end
 ----
 
 === Configurable attributes
