@@ -179,6 +179,7 @@ This cop's autocorrection is unsafe because replacing `n.times` to
 # bad
 3.times { create :user }
 3.times.map { create :user }
+[create(:user), create(:user), create(:user)]
 Array.new(3) { create :user }
 
 # good
@@ -200,6 +201,7 @@ create_list :user, 3
 ----
 # bad
 create_list :user, 3
+[create(:user), create(:user), create(:user)]
 
 # good
 3.times.map { create :user }
