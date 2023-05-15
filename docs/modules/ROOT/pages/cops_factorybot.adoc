@@ -8,7 +8,7 @@
 | Pending
 | No
 | Yes (Unsafe)
-| <<next>>
+| 2.23
 | -
 |===
 
@@ -143,7 +143,7 @@ count { 1 }
 | Yes
 | Yes
 | 2.14
-| <<next>>
+| 2.23
 |===
 
 Use a consistent style for parentheses in factory_bot calls.
@@ -241,7 +241,7 @@ build :user
 | Yes
 | Yes (Unsafe)
 | 1.25
-| <<next>>
+| 2.23
 |===
 
 Checks for create_list usage.
@@ -346,7 +346,7 @@ create_list :user, 3
 | Pending
 | Yes
 | No
-| <<next>>
+| 2.23
 | 2.23
 |===
 
@@ -436,7 +436,7 @@ end
 | Yes
 | Yes
 | 2.16
-| <<next>>
+| 2.23
 |===
 
 Checks for name style for argument of FactoryBot::Syntax::Methods.
@@ -523,7 +523,7 @@ create(:user)
 | Pending
 | Yes
 | Yes
-| <<next>>
+| 2.23
 | -
 |===
 

@@ -16,7 +16,7 @@ FactoryBot/AssociationStyle:
     - spec/factories.rb
     - spec/factories/**/*.rb
     - features/support/factories/**/*.rb
-  VersionAdded: "<<next>>"
+  VersionAdded: '2.23'
   EnforcedStyle: implicit
   SupportedStyles:
     - explicit
@@ -44,7 +44,7 @@ FactoryBot/ConsistentParenthesesStyle:
     - omit_parentheses
   ExplicitOnly: false
   VersionAdded: '2.14'
-  VersionChanged: "<<next>>"
+  VersionChanged: '2.23'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ConsistentParenthesesStyle
 
 FactoryBot/CreateList:
@@ -63,13 +63,13 @@ FactoryBot/CreateList:
   ExplicitOnly: false
   SafeAutoCorrect: false
   VersionAdded: '1.25'
-  VersionChanged: "<<next>>"
+  VersionChanged: '2.23'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
 FactoryBot/FactoryAssociationWithStrategy:
   Description: Use definition in factory association instead of hard coding a strategy.
   Enabled: pending
-  VersionAdded: "<<next>>"
+  VersionAdded: '2.23'
   VersionChanged: '2.23'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryAssociationWithStrategy
 
@@ -93,13 +93,13 @@ FactoryBot/FactoryNameStyle:
     - string
   ExplicitOnly: false
   VersionAdded: '2.16'
-  VersionChanged: "<<next>>"
+  VersionChanged: '2.23'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
 FactoryBot/RedundantFactoryOption:
   Description: Checks for redundant `factory` option.
   Enabled: pending
-  VersionAdded: "<<next>>"
+  VersionAdded: '2.23'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/RedundantFactoryOption
 
 FactoryBot/SyntaxMethods:
