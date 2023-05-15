@@ -162,7 +162,7 @@ module RuboCop
           corrector.replace(
             node,
             format(
-              '%<count>s.times { %<factory_call>s }',
+              '%<count>s.times.map { %<factory_call>s }',
               count: node.children.count,
               factory_call: node.children.first.source
             )

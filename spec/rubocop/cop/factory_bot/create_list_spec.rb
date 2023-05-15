@@ -248,15 +248,14 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       it 'registers and corrects an offense' do
         expect_offense(<<~RUBY)
           [create(:user, point: rand), create(:user, point: rand)]
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer 2.times.
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer 2.times.map.
         RUBY
 
         expect_correction(<<~RUBY)
-          2.times { create(:user, point: rand) }
+          2.times.map { create(:user, point: rand) }
         RUBY
       end
     end
-  end
 
     context 'when ExplicitOnly is false' do
       let(:explicit_only) { false }
@@ -437,11 +436,11 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       it 'registers and corrects an offense' do
         expect_offense(<<~RUBY)
           [create(:user), create(:user)]
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer 2.times.
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer 2.times.map.
         RUBY
 
         expect_correction(<<~RUBY)
-          2.times { create(:user) }
+          2.times.map { create(:user) }
         RUBY
       end
     end
@@ -450,11 +449,11 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       it 'registers and corrects an offense' do
         expect_offense(<<~RUBY)
           [create(:user, point: rand), create(:user, point: rand)]
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer 2.times.
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer 2.times.map.
         RUBY
 
         expect_correction(<<~RUBY)
-          2.times { create(:user, point: rand) }
+          2.times.map { create(:user, point: rand) }
         RUBY
       end
     end
