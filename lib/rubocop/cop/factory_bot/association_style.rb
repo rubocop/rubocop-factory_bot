@@ -144,7 +144,7 @@ module RuboCop
         end
 
         def children_of_factory_block(node)
-          block = node.parent
+          block = node.block_node
           return [] unless block
           return [] unless block.body
 

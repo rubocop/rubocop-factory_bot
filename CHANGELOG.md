@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+- Fix `FactoryBot/AssociationStyle` cop for a blockless `factory`. ([@pirj])
+
 ## 2.23.0 (2023-05-15)
 
 - Add `FactoryBot/FactoryAssociationWithStrategy` cop. ([@morissetcl])

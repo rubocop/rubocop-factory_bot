@@ -15,7 +15,9 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
     context 'when factory block is empty' do
       it 'does not register an offense' do
         expect_no_offenses(<<~RUBY)
-          factory :user do
+          FactoryBot.define do
+            factory :user do
+            end
           end
         RUBY
       end
@@ -24,7 +26,10 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
     context 'with when factory has no block' do
       it 'does not register an offense' do
         expect_no_offenses(<<~RUBY)
-          factory :user
+          FactoryBot.define do
+            factory :user
+            factory :admin_user, parent: :user
+          end
         RUBY
       end
     end
@@ -32,8 +37,10 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
     context 'when implicit style is used' do
       it 'does not register an offense' do
         expect_no_offenses(<<~RUBY)
-          factory :article do
-            user
+          FactoryBot.define do
+            factory :article do
+              user
+            end
           end
         RUBY
       end
