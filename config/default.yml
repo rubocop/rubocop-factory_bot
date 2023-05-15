@@ -50,6 +50,13 @@ FactoryBot/CreateList:
   VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
+FactoryBot/FactoryAssociationWithStrategy:
+  Description: Use definition in factory association instead of hard coding a strategy.
+  Enabled: pending
+  VersionAdded: "<<next>>"
+  VersionChanged: '2.23'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryAssociationWithStrategy
+
 FactoryBot/FactoryClassName:
   Description: Use string value when setting the class attribute explicitly.
   Enabled: true
