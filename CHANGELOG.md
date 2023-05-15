@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+## 2.23.1 (2023-05-15)
+
 - Fix `FactoryBot/AssociationStyle` cop for a blockless `factory`. ([@pirj])
 
 ## 2.23.0 (2023-05-15)
