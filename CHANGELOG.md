@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+## 2.23.0 (2023-05-15)
+
 - Add `FactoryBot/FactoryAssociationWithStrategy` cop. ([@morissetcl])
 - Mark `FactoryBot/CreateList` as `SafeAutoCorrect: false`. ([@r7kamura])
 - Change `FactoryBot/CreateList` so that it considers `times.map`. ([@r7kamura])
