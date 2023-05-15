@@ -8,6 +8,22 @@ FactoryBot:
     - "**/features/support/factories/**/*.rb"
   DocumentationBaseURL: https://docs.rubocop.org/rubocop-factory_bot
 
+FactoryBot/AssociationStyle:
+  Description: Use a consistent style to define associations.
+  Enabled: pending
+  Safe: false
+  Include:
+    - spec/factories.rb
+    - spec/factories/**/*.rb
+    - features/support/factories/**/*.rb
+  VersionAdded: "<<next>>"
+  EnforcedStyle: implicit
+  SupportedStyles:
+    - explicit
+    - implicit
+  NonImplicitAssociationMethodNames: ~
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AssociationStyle
+
 FactoryBot/AttributeDefinedStatically:
   Description: Always declare attribute values as blocks.
   Enabled: true
