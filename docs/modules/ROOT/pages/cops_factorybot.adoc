@@ -35,6 +35,16 @@ end
 factory :post do
   user
 end
+
+# bad
+factory :post do
+  association :user, :author
+end
+
+# good
+factory :post do
+  user factory: %i[user author]
+end
 ----
 
 ==== EnforcedStyle: explicit
@@ -49,6 +59,16 @@ end
 # good
 factory :post do
   association :user
+end
+
+# bad
+factory :post do
+  user factory: %i[user author]
+end
+
+# good
+factory :post do
+  association :user, :author
 end
 
 # good (NonImplicitAssociationMethodNames: ['email'])

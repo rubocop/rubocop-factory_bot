@@ -21,6 +21,16 @@ module RuboCop
       #     user
       #   end
       #
+      #   # bad
+      #   factory :post do
+      #     association :user, :author
+      #   end
+      #
+      #   # good
+      #   factory :post do
+      #     user factory: %i[user author]
+      #   end
+      #
       # @example EnforcedStyle: explicit
       #   # bad
       #   factory :post do
@@ -30,6 +40,16 @@ module RuboCop
       #   # good
       #   factory :post do
       #     association :user
+      #   end
+      #
+      #   # bad
+      #   factory :post do
+      #     user factory: %i[user author]
+      #   end
+      #
+      #   # good
+      #   factory :post do
+      #     association :user, :author
       #   end
       #
       #   # good (NonImplicitAssociationMethodNames: ['email'])
