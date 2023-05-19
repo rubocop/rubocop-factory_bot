@@ -164,6 +164,19 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
         RUBY
       end
     end
+
+    context 'with `strategy: :build` option' do
+      # the `strategy: :build` option cannot be used with implicit association
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
+          factory :article do
+            association :user, strategy: :build
+            association :reviewer, factory: :user, strategy: :build
+            association :tag, :pop, strategy: :build
+          end
+        RUBY
+      end
+    end
   end
 
   context 'when EnforcedStyle is :explicit' do

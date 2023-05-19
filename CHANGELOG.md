@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+- Fix `FactoryBot/AssociationStyle` cop to ignore explicit associations with `strategy: :build`. ([@pirj])
+
 ## 2.23.1 (2023-05-15)
 
 - Fix `FactoryBot/AssociationStyle` cop for a blockless `factory`. ([@pirj])
