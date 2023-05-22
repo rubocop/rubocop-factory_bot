@@ -20,6 +20,12 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       RUBY
     end
 
+    it 'ignores usage of 1.times' do
+      expect_no_offenses(<<~RUBY)
+        1.times { create :user }
+      RUBY
+    end
+
     it 'flags usage of n.times when FactoryGirl.create is used' do
       expect_offense(<<~RUBY)
         3.times { FactoryGirl.create :user }
@@ -71,9 +77,17 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       RUBY
     end
 
-    it 'ignores n.times when create call does have method calls' do
+    it 'ignores n.times when create call does have method calls ' \
+       'and repeat multiple times' do
       expect_no_offenses(<<~RUBY)
         3.times { |n| create :user, repositories_count: rand }
+      RUBY
+    end
+
+    it 'ignores n.times when create call does have method calls ' \
+       'and not repeat' do
+      expect_no_offenses(<<~RUBY)
+        1.times { |n| create :user, repositories_count: rand }
       RUBY
     end
 
@@ -178,6 +192,12 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       RUBY
     end
 
+    it 'ignores n.times.map when create call does have method calls' do
+      expect_no_offenses(<<~RUBY)
+        3.times.map { create :user, repositories_count: rand }
+      RUBY
+    end
+
     it 'flags usage of Array.new(n) with no arguments' do
       expect_offense(<<~RUBY)
         Array.new(3) { create(:user) }
@@ -219,14 +239,9 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
     end
 
     context 'with one `create` node in array' do
-      it 'registers and corrects an offense' do
-        expect_offense(<<~RUBY)
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
           [create(:user)]
-          ^^^^^^^^^^^^^^^ Prefer create_list.
-        RUBY
-
-        expect_correction(<<~RUBY)
-          create_list(:user, 1)
         RUBY
       end
     end
@@ -320,6 +335,12 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
 
       expect_correction(<<~RUBY)
         3.times.map { create :user }
+      RUBY
+    end
+
+    it 'ignores create_list :user, 1' do
+      expect_no_offenses(<<~RUBY)
+        create_list :user, 1
       RUBY
     end
 

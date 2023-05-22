@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Fix `FactoryBot/AssociationStyle` cop to ignore explicit associations with `strategy: :build`. ([@pirj])
+- Change `FactoryBot/CreateList` so that it is not an offense if not repeated multiple times. ([@ydah])
 
 ## 2.23.1 (2023-05-15)
 
