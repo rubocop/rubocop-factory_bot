@@ -58,7 +58,7 @@ module RuboCop
       #   create_list :user, 3
       #   3.times { create :user }
       #
-      class CreateList < ::RuboCop::Cop::Base
+      class CreateList < ::RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
         extend AutoCorrector
         include ConfigurableEnforcedStyle
         include RuboCop::FactoryBot::Language
@@ -68,24 +68,15 @@ module RuboCop
         MSG_N_TIMES = 'Prefer %<number>s.times.map.'
         RESTRICT_ON_SEND = %i[create_list].freeze
 
-        # @!method repetition_block?(node)
-        def_node_matcher :repetition_block?, <<-PATTERN
-          (block {#array_new? #n_times? #n_times_map?} ...)
-        PATTERN
-
-        # @!method array_new?(node)
-        def_node_matcher :array_new?, <<-PATTERN
-          (send (const {nil? cbase} :Array) :new (int _))
-        PATTERN
-
-        # @!method n_times?(node)
-        def_node_matcher :n_times?, <<-PATTERN
-          (send (int _) :times)
-        PATTERN
-
-        # @!method n_times_map?(node)
-        def_node_matcher :n_times_map?, <<-PATTERN
-          (send #n_times? :map)
+        # @!method repeat_count(node)
+        def_node_matcher :repeat_count, <<-PATTERN
+          (block
+            {
+              (send (const {nil? cbase} :Array) :new (int $_))  # Array.new(3) { create(:user) }
+              (send (int $_) :times)                            # 3.times { create(:user) }
+              (send (send (int $_) :times) :map)                # 3.times.map { create(:user) }
+            }
+          ...)
         PATTERN
 
         # @!method block_with_arg_and_used?(node)
@@ -119,6 +110,7 @@ module RuboCop
 
         def on_array(node)
           return unless same_factory_calls_in_array?(node)
+          return if node.values.size < 2
 
           add_offense(
             node,
@@ -128,10 +120,9 @@ module RuboCop
           end
         end
 
-        def on_block(node) # rubocop:todo InternalAffairs/NumblockHandler
+        def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler, Metrics/CyclomaticComplexity
           return unless style == :create_list
-
-          return unless repetition_block?(node)
+          return unless repeat_multiple_time?(node)
           return if block_with_arg_and_used?(node)
           return unless node.body
           return if arguments_include_method_call?(node.body)
@@ -146,6 +137,8 @@ module RuboCop
           return unless style == :n_times
 
           factory_list_call(node) do |count|
+            next if count < 2
+
             message = format(MSG_N_TIMES, number: count)
             add_offense(node.loc.selector, message: message) do |corrector|
               TimesCorrector.new(node).call(corrector)
@@ -154,6 +147,12 @@ module RuboCop
         end
 
         private
+
+        def repeat_multiple_time?(node)
+          return false unless (count = repeat_count(node))
+
+          count > 1
+        end
 
         # For ease of modification, it is replaced with the `n_times` style,
         # but if it is not appropriate for the configured style,
