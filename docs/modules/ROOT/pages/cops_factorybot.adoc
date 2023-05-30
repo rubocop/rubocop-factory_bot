@@ -529,6 +529,39 @@ create(:user)
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
+== FactoryBot/IdSequence
+
+|===
+| Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
+
+| Pending
+| Yes
+| Yes
+| <<next>>
+| -
+|===
+
+Do not create a FactoryBot sequence for an id column.
+
+=== Examples
+
+[source,ruby]
+----
+# bad - can lead to conflicts between FactoryBot and DB sequences
+factory :foo do
+  sequence :id
+end
+
+# good - a non-id column
+factory :foo do
+  sequence :some_non_id_column
+end
+----
+
+=== References
+
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/IdSequence
+
 == FactoryBot/RedundantFactoryOption
 
 |===

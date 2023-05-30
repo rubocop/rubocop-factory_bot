@@ -9,6 +9,7 @@
 * xref:cops_factorybot.adoc#factorybotfactoryassociationwithstrategy[FactoryBot/FactoryAssociationWithStrategy]
 * xref:cops_factorybot.adoc#factorybotfactoryclassname[FactoryBot/FactoryClassName]
 * xref:cops_factorybot.adoc#factorybotfactorynamestyle[FactoryBot/FactoryNameStyle]
+* xref:cops_factorybot.adoc#factorybotidsequence[FactoryBot/IdSequence]
 * xref:cops_factorybot.adoc#factorybotredundantfactoryoption[FactoryBot/RedundantFactoryOption]
 * xref:cops_factorybot.adoc#factorybotsyntaxmethods[FactoryBot/SyntaxMethods]
 

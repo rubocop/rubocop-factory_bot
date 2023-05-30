@@ -100,6 +100,12 @@ FactoryBot/FactoryNameStyle:
   VersionChanged: '2.23'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
+FactoryBot/IdSequence:
+  Description: Do not create a FactoryBot sequence for an id column.
+  Enabled: pending
+  VersionAdded: "<<next>>"
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/IdSequence
+
 FactoryBot/RedundantFactoryOption:
   Description: Checks for redundant `factory` option.
   Enabled: pending
