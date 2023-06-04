@@ -4,6 +4,7 @@
 
 - Fix `FactoryBot/AssociationStyle` cop to ignore explicit associations with `strategy: :build`. ([@pirj])
 - Change `FactoryBot/CreateList` so that it is not an offense if not repeated multiple times. ([@ydah])
+- Add `FactoryBot/IdSequence` cop. ([@owst])
 
 ## 2.23.1 (2023-05-15)
 
@@ -76,6 +77,7 @@
 [@liberatys]: https://github.com/Liberatys
 [@morissetcl]: https://github.com/morissetcl
 [@ngouy]: https://github.com/ngouy
+[@owst]: https://github.com/owst
 [@pirj]: https://github.com/pirj
 [@r7kamura]: https://github.com/r7kamura
 [@seanpdoyle]: https://github.com/seanpdoyle
