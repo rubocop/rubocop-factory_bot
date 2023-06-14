@@ -4,6 +4,7 @@
 
 - Fix `FactoryBot/AssociationStyle` cop to ignore explicit associations with `strategy: :build`. ([@pirj])
 - Change `FactoryBot/CreateList` so that it is not an offense if not repeated multiple times. ([@ydah])
+- Change `FactoryBot/AssociationStyle`, `FactoryBot/AttributeDefinedStatically`, `FactoryBot/CreateList` and `FactoryBot/FactoryClassName` to work with minitest style directory. ([@ydah])
 
 ## 2.23.1 (2023-05-15)
 
