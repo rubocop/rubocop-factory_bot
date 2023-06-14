@@ -13,10 +13,13 @@ FactoryBot/AssociationStyle:
   Enabled: pending
   Safe: false
   Include:
-    - spec/factories.rb
-    - spec/factories/**/*.rb
-    - features/support/factories/**/*.rb
+    - "**/spec/factories.rb"
+    - "**/spec/factories/**/*.rb"
+    - "**/test/factories.rb"
+    - "**/test/factories/**/*.rb"
+    - "**/features/support/factories/**/*.rb"
   VersionAdded: '2.23'
+  VersionChanged: "<<next>>"
   EnforcedStyle: implicit
   SupportedStyles:
     - explicit
@@ -28,11 +31,13 @@ FactoryBot/AttributeDefinedStatically:
   Description: Always declare attribute values as blocks.
   Enabled: true
   Include:
-    - spec/factories.rb
-    - spec/factories/**/*.rb
-    - features/support/factories/**/*.rb
+    - "**/spec/factories.rb"
+    - "**/spec/factories/**/*.rb"
+    - "**/test/factories.rb"
+    - "**/test/factories/**/*.rb"
+    - "**/features/support/factories/**/*.rb"
   VersionAdded: '1.28'
-  VersionChanged: '2.0'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AttributeDefinedStatically
 
 FactoryBot/ConsistentParenthesesStyle:
@@ -51,11 +56,11 @@ FactoryBot/CreateList:
   Description: Checks for create_list usage.
   Enabled: true
   Include:
-    - "**/*_spec.rb"
-    - "**/spec/**/*"
-    - spec/factories.rb
-    - spec/factories/**/*.rb
-    - features/support/factories/**/*.rb
+    - "**/spec/factories.rb"
+    - "**/spec/factories/**/*.rb"
+    - "**/test/factories.rb"
+    - "**/test/factories/**/*.rb"
+    - "**/features/support/factories/**/*.rb"
   EnforcedStyle: create_list
   SupportedStyles:
     - create_list
@@ -63,7 +68,7 @@ FactoryBot/CreateList:
   ExplicitOnly: false
   SafeAutoCorrect: false
   VersionAdded: '1.25'
-  VersionChanged: '2.23'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
 FactoryBot/FactoryAssociationWithStrategy:
@@ -77,11 +82,13 @@ FactoryBot/FactoryClassName:
   Description: Use string value when setting the class attribute explicitly.
   Enabled: true
   Include:
-    - spec/factories.rb
-    - spec/factories/**/*.rb
-    - features/support/factories/**/*.rb
+    - "**/spec/factories.rb"
+    - "**/spec/factories/**/*.rb"
+    - "**/test/factories.rb"
+    - "**/test/factories/**/*.rb"
+    - "**/features/support/factories/**/*.rb"
   VersionAdded: '1.37'
-  VersionChanged: '2.0'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryClassName
 
 FactoryBot/FactoryNameStyle:
