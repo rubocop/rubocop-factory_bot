@@ -291,5 +291,22 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
         RUBY
       end
     end
+
+    context 'when using trait within trait' do
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
+          factory :order do
+            trait :completed do
+              completed_at { 3.days.ago }
+            end
+
+            trait :refunded do
+              completed
+              refunded_at { 1.day.ago }
+            end
+          end
+        RUBY
+      end
+    end
   end
 end
