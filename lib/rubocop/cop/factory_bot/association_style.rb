@@ -73,6 +73,11 @@ module RuboCop
         ].freeze
 
         RESTRICT_ON_SEND = %i[factory trait].freeze
+        KEYWORDS = %i[alias and begin break case class def defined? do
+                      else elsif end ensure false for if in module
+                      next nil not or redo rescue retry return self
+                      super then true undef unless until when while
+                      yield __FILE__ __LINE__ __ENCODING__].freeze
 
         def on_send(node)
           bad_associations_in(node).each do |association|
@@ -130,6 +135,11 @@ module RuboCop
           (send nil? :association _ (sym $_)* ...)
         PATTERN
 
+        # @!method association_names(node)
+        def_node_search :association_names, <<~PATTERN
+          (send nil? :association $...)
+        PATTERN
+
         def autocorrect(corrector, node)
           if style == :explicit
             autocorrect_to_explicit_style(corrector, node)
@@ -161,7 +171,18 @@ module RuboCop
             implicit_association?(node)
           else
             explicit_association?(node) &&
-              !with_strategy_build_option?(node)
+              !with_strategy_build_option?(node) &&
+              !keyword?(node)
+          end
+        end
+
+        def keyword?(node)
+          association_names(node).any? do |associations|
+            associations.any? do |association|
+              next unless association.sym_type?
+
+              KEYWORDS.include?(association.value)
+            end
           end
         end
 
