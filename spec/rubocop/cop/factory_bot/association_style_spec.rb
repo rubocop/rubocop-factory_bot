@@ -177,6 +177,49 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
         RUBY
       end
     end
+
+    context 'when `association` is called in trait block ' \
+            'and column name is keyword' do
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
+          factory :article do
+            trait :with_class do
+              association :alias
+              association :and, factory: :user
+              association :foo, :__FILE__
+            end
+          end
+        RUBY
+      end
+    end
+
+    context 'when `association` is called in trait block ' \
+            'and factory option is keyword' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            trait :with_class do
+              association :foo, factory: :alias
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+              association :bar, factory: :and
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+              association :baz, factory: :__FILE__
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+            end
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            trait :with_class do
+              foo factory: %i[alias]
+              bar factory: %i[and]
+              baz factory: %i[__FILE__]
+            end
+          end
+        RUBY
+      end
+    end
   end
 
   context 'when EnforcedStyle is :explicit' do
