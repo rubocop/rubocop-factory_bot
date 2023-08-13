@@ -140,6 +140,11 @@ module RuboCop
           (send nil? :association $...)
         PATTERN
 
+        # @!method trait_name(node)
+        def_node_search :trait_name, <<~PATTERN
+          (send nil? :trait (sym $_) )
+        PATTERN
+
         def autocorrect(corrector, node)
           if style == :explicit
             autocorrect_to_explicit_style(corrector, node)
@@ -168,7 +173,8 @@ module RuboCop
 
         def bad?(node)
           if style == :explicit
-            implicit_association?(node)
+            implicit_association?(node) &&
+              !trait_within_trait?(node)
           else
             explicit_association?(node) &&
               !with_strategy_build_option?(node) &&
@@ -238,6 +244,14 @@ module RuboCop
             options[:factory] = "%i[#{factory_names.join(' ')}]"
           end
           options
+        end
+
+        def trait_within_trait?(node)
+          factory_node = node.ancestors.reverse.find do |ancestor|
+            ancestor.send_node.method?(:factory) if ancestor.block_type?
+          end
+
+          trait_name(factory_node).include?(node.method_name)
         end
       end
     end

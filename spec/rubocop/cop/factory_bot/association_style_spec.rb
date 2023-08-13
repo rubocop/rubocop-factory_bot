@@ -334,5 +334,76 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
         RUBY
       end
     end
+
+    context 'when using trait within trait' do
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
+          factory :order do
+            trait :completed do
+              completed_at { 3.days.ago }
+            end
+
+            trait :refunded do
+              completed
+              refunded_at { 1.day.ago }
+            end
+          end
+        RUBY
+      end
+    end
+
+    context 'when factory inside a factory' do
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
+          factory :order do
+            trait :completed do
+              completed_at { 3.days.ago }
+            end
+
+            factory :order_with_refund do
+              trait :refunded do
+                completed
+                refunded_at { 1.day.ago }
+              end
+            end
+          end
+        RUBY
+      end
+    end
+
+    context 'when use an association with the same name as trait' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :order do
+            trait :completed do
+              completed_at { 3.days.ago }
+            end
+          end
+
+          factory :order_with_refund do
+            trait :refunded do
+              completed
+              ^^^^^^^^^ Use explicit style to define associations.
+              refunded_at { 1.day.ago }
+            end
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :order do
+            trait :completed do
+              completed_at { 3.days.ago }
+            end
+          end
+
+          factory :order_with_refund do
+            trait :refunded do
+              association :completed
+              refunded_at { 1.day.ago }
+            end
+          end
+        RUBY
+      end
+    end
   end
 end
