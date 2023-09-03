@@ -248,7 +248,7 @@ module RuboCop
 
         def trait_within_trait?(node)
           factory_node = node.ancestors.reverse.find do |ancestor|
-            ancestor.send_node.method?(:factory) if ancestor.block_type?
+            ancestor.method?(:factory) if ancestor.block_type?
           end
 
           trait_name(factory_node).include?(node.method_name)
