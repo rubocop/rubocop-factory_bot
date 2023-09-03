@@ -5,6 +5,7 @@
 - Fix `FactoryBot/AssociationStyle` cop to ignore explicit associations with `strategy: :build`. ([@pirj])
 - Change `FactoryBot/CreateList` so that it is not an offense if not repeated multiple times. ([@ydah])
 - Fix a false positive for `FactoryBot/AssociationStyle` when `association` is called in trait block and column name is keyword. ([@ydah])
+- Fix a false positive for `FactoryBot/AssociationStyle` when `EnforcedStyle: Explicit` and using trait within trait. ([@ydah])
 
 ## 2.23.1 (2023-05-15)
 
