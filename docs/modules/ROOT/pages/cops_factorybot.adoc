@@ -9,7 +9,7 @@
 | No
 | Yes (Unsafe)
 | 2.23
-| -
+| <<next>>
 |===
 
 Use a consistent style to define associations.
@@ -86,10 +86,6 @@ end
 |===
 | Name | Default value | Configurable values
 
-| Include
-| `spec/factories.rb`, `+spec/factories/**/*.rb+`, `+features/support/factories/**/*.rb+`
-| Array
-
 | EnforcedStyle
 | `implicit`
 | `explicit`, `implicit`
@@ -112,7 +108,7 @@ end
 | Yes
 | Yes
 | 1.28
-| 2.0
+| <<next>>
 |===
 
 Always declare attribute values as blocks.
@@ -139,16 +135,6 @@ count 1
 # good
 count { 1 }
 ----
-
-=== Configurable attributes
-
-|===
-| Name | Default value | Configurable values
-
-| Include
-| `spec/factories.rb`, `+spec/factories/**/*.rb+`, `+features/support/factories/**/*.rb+`
-| Array
-|===
 
 === References
 
@@ -239,6 +225,10 @@ build :user
 |===
 | Name | Default value | Configurable values
 
+| Include
+| `+**/*_spec.rb+`, `+**/spec/**/*+`, `+**/test/**/*+`, `+**/features/support/factories/**/*.rb+`
+| Array
+
 | EnforcedStyle
 | `require_parentheses`
 | `require_parentheses`, `omit_parentheses`
@@ -261,7 +251,7 @@ build :user
 | Yes
 | Yes (Unsafe)
 | 1.25
-| 2.23
+| <<next>>
 |===
 
 Checks for create_list usage.
@@ -342,7 +332,7 @@ create_list :user, 3
 | Name | Default value | Configurable values
 
 | Include
-| `+**/*_spec.rb+`, `+**/spec/**/*+`, `spec/factories.rb`, `+spec/factories/**/*.rb+`, `+features/support/factories/**/*.rb+`
+| `+**/*_spec.rb+`, `+**/spec/**/*+`, `+**/test/**/*+`, `+**/features/support/factories/**/*.rb+`
 | Array
 
 | EnforcedStyle
@@ -397,6 +387,16 @@ factory :foo do
 end
 ----
 
+=== Configurable attributes
+
+|===
+| Name | Default value | Configurable values
+
+| Include
+| `+**/*_spec.rb+`, `+**/spec/**/*+`, `+**/test/**/*+`, `+**/features/support/factories/**/*.rb+`
+| Array
+|===
+
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryAssociationWithStrategy
@@ -410,7 +410,7 @@ end
 | Yes
 | Yes
 | 1.37
-| 2.0
+| <<next>>
 |===
 
 Use string value when setting the class attribute explicitly.
@@ -432,16 +432,6 @@ end
 factory :foo, class: 'Foo' do
 end
 ----
-
-=== Configurable attributes
-
-|===
-| Name | Default value | Configurable values
-
-| Include
-| `spec/factories.rb`, `+spec/factories/**/*.rb+`, `+features/support/factories/**/*.rb+`
-| Array
-|===
 
 === References
 
@@ -522,6 +512,10 @@ create(:user)
 |===
 | Name | Default value | Configurable values
 
+| Include
+| `+**/*_spec.rb+`, `+**/spec/**/*+`, `+**/test/**/*+`, `+**/features/support/factories/**/*.rb+`
+| Array
+
 | EnforcedStyle
 | `symbol`
 | `symbol`, `string`
@@ -559,6 +553,16 @@ association :user, factory: :user
 # good
 association :user
 ----
+
+=== Configurable attributes
+
+|===
+| Name | Default value | Configurable values
+
+| Include
+| `+**/*_spec.rb+`, `+**/spec/**/*+`, `+**/test/**/*+`, `+**/features/support/factories/**/*.rb+`
+| Array
+|===
 
 === References
 
@@ -622,6 +626,16 @@ create(:bar)
 build(:bar)
 attributes_for(:bar)
 ----
+
+=== Configurable attributes
+
+|===
+| Name | Default value | Configurable values
+
+| Include
+| `+**/*_spec.rb+`, `+**/spec/**/*+`, `+**/test/**/*+`, `+**/features/support/factories/**/*.rb+`
+| Array
+|===
 
 === References
 

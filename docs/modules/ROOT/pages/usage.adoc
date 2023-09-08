@@ -38,7 +38,7 @@ RuboCop::RakeTask.new do |task|
 end
 ----
 
-== Inspecting files that don't end with `_spec.rb`
+== Inspecting non-default file paths
 
 By default, `rubocop-factory_bot` only inspects code within below:
 
@@ -46,11 +46,10 @@ By default, `rubocop-factory_bot` only inspects code within below:
 ----
 FactoryBot:
   Include:
-    - "**/*_spec.rb"
-    - "**/spec/**/*"
-    - "**/test/**/*"
     - "**/spec/factories.rb"
     - "**/spec/factories/**/*.rb"
+    - "**/test/factories.rb"
+    - "**/test/factories/**/*.rb"
     - "**/features/support/factories/**/*.rb"
 ----
 
