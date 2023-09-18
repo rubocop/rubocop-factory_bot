@@ -7,6 +7,7 @@
 - Fix a false positive for `FactoryBot/AssociationStyle` when `association` is called in trait block and column name is keyword. ([@ydah])
 - Fix a false positive for `FactoryBot/AssociationStyle` when `EnforcedStyle: Explicit` and using trait within trait. ([@ydah])
 - Change `FactoryBot/AssociationStyle`, `FactoryBot/AttributeDefinedStatically`, `FactoryBot/CreateList` and `FactoryBot/FactoryClassName` to work with minitest style directory. ([@ydah])
+- Add `FactoryBot/IdSequence` cop. ([@owst])
 
 ## 2.23.1 (2023-05-15)
 
@@ -79,6 +80,7 @@
 [@liberatys]: https://github.com/Liberatys
 [@morissetcl]: https://github.com/morissetcl
 [@ngouy]: https://github.com/ngouy
+[@owst]: https://github.com/owst
 [@pirj]: https://github.com/pirj
 [@r7kamura]: https://github.com/r7kamura
 [@seanpdoyle]: https://github.com/seanpdoyle
