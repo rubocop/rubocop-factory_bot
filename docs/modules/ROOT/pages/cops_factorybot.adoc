@@ -9,7 +9,7 @@
 | No
 | Yes (Unsafe)
 | 2.23
-| <<next>>
+| 2.24
 |===
 
 Use a consistent style to define associations.
@@ -108,7 +108,7 @@ end
 | Yes
 | Yes
 | 1.28
-| <<next>>
+| 2.24
 |===
 
 Always declare attribute values as blocks.
@@ -251,7 +251,7 @@ build :user
 | Yes
 | Yes (Unsafe)
 | 1.25
-| <<next>>
+| 2.24
 |===
 
 Checks for create_list usage.
@@ -410,7 +410,7 @@ end
 | Yes
 | Yes
 | 1.37
-| <<next>>
+| 2.24
 |===
 
 Use string value when setting the class attribute explicitly.
@@ -537,7 +537,7 @@ create(:user)
 | Pending
 | Yes
 | Yes
-| <<next>>
+| 2.24
 | -
 |===
 

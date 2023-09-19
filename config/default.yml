@@ -14,7 +14,7 @@ FactoryBot/AssociationStyle:
   Enabled: pending
   Safe: false
   VersionAdded: '2.23'
-  VersionChanged: "<<next>>"
+  VersionChanged: '2.24'
   EnforcedStyle: implicit
   SupportedStyles:
     - explicit
@@ -26,7 +26,7 @@ FactoryBot/AttributeDefinedStatically:
   Description: Always declare attribute values as blocks.
   Enabled: true
   VersionAdded: '1.28'
-  VersionChanged: "<<next>>"
+  VersionChanged: '2.24'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AttributeDefinedStatically
 
 FactoryBot/ConsistentParenthesesStyle:
@@ -61,7 +61,7 @@ FactoryBot/CreateList:
   ExplicitOnly: false
   SafeAutoCorrect: false
   VersionAdded: '1.25'
-  VersionChanged: "<<next>>"
+  VersionChanged: '2.24'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
 FactoryBot/FactoryAssociationWithStrategy:
@@ -80,7 +80,7 @@ FactoryBot/FactoryClassName:
   Description: Use string value when setting the class attribute explicitly.
   Enabled: true
   VersionAdded: '1.37'
-  VersionChanged: "<<next>>"
+  VersionChanged: '2.24'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryClassName
 
 FactoryBot/FactoryNameStyle:
@@ -103,7 +103,7 @@ FactoryBot/FactoryNameStyle:
 FactoryBot/IdSequence:
   Description: Do not create a FactoryBot sequence for an id column.
   Enabled: pending
-  VersionAdded: "<<next>>"
+  VersionAdded: '2.24'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/IdSequence
 
 FactoryBot/RedundantFactoryOption:
