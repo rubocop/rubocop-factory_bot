@@ -31,7 +31,7 @@
 
 ## Previously (see [rubocop-rspec's changelist](https://github.com/rubocop/rubocop-rspec/blob/70a97b1895ce4b9bcd6ff336d5d343ddc6175fe6/CHANGELOG.md) for details)
 
-- Fix a false positive for `RSpec/FactoryBot/ConsistentParenthesesStyle` inside `&&`, `||` and `:?` when `omit_parentheses` is on ([@dmitrytsepelev])
+- Fix a false positive for `RSpec/FactoryBot/ConsistentParenthesesStyle` inside `&&`, `||` and `:?` when `omit_parentheses` is on. ([@dmitrytsepelev])
 - Add new `RSpec/FactoryBot/FactoryNameStyle` cop. ([@ydah])
 - Fix wrong autocorrection in `n_times` style on `RSpec/FactoryBot/CreateList`. ([@r7kamura])
 - Fix a false positive for `RSpec/FactoryBot/ConsistentParenthesesStyle` when using `generate` with multiple arguments. ([@ydah])
