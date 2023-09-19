@@ -464,6 +464,9 @@ build "user", username: "NAME"
 # good
 create(:user)
 build :user, username: "NAME"
+
+# good - namespaced models
+create('users/internal')
 ----
 
 ==== EnforcedStyle: string

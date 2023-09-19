@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+- Fix a false positive for `FactoryBot/FactoryNameStyle` when namespaced models. ([@ydah])
+
 ## 2.24.0 (2023-09-18)
 
 - Fix `FactoryBot/AssociationStyle` cop to ignore explicit associations with `strategy: :build`. ([@pirj])
