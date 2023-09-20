@@ -97,6 +97,13 @@ RSpec.describe RuboCop::Cop::FactoryBot::FactoryNameStyle do
         build user: :foo
       RUBY
     end
+
+    it 'does not register an offense when using `create` ' \
+       'with a method call when string include /' do
+      expect_no_offenses(<<~RUBY)
+        create("users/internal")
+      RUBY
+    end
   end
 
   context 'when EnforcedStyle is :string' do

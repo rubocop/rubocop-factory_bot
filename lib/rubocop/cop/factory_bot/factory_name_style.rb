@@ -14,6 +14,9 @@ module RuboCop
       #   create(:user)
       #   build :user, username: "NAME"
       #
+      #   # good - namespaced models
+      #   create('users/internal')
+      #
       # @example EnforcedStyle: string
       #   # bad
       #   create(:user)
@@ -76,11 +79,15 @@ module RuboCop
         private
 
         def offense_for_symbol_style?(name)
-          name.str_type? && style == :symbol
+          name.str_type? && style == :symbol && !namespaced?(name)
         end
 
         def offense_for_string_style?(name)
           name.sym_type? && style == :string
+        end
+
+        def namespaced?(name)
+          name.value.include?('/')
         end
 
         def register_offense(name, prefer)
