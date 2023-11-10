@@ -64,6 +64,18 @@ FactoryBot/CreateList:
   VersionChanged: '2.24'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
+FactoryBot/ExcessiveCreateList:
+  Description: Check for excessive model creation in a list.
+  Enabled: pending
+  Include:
+    - "**/*_spec.rb"
+    - "**/spec/**/*"
+    - "**/test/**/*"
+    - "**/features/support/factories/**/*.rb"
+  MaxAmount: 10
+  VersionAdded: "<<next>>"
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ExcessiveCreateList
+
 FactoryBot/FactoryAssociationWithStrategy:
   Description: Use definition in factory association instead of hard coding a strategy.
   Enabled: pending
