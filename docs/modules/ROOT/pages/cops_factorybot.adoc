@@ -348,6 +348,66 @@ create_list :user, 3
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
+== FactoryBot/ExcessiveCreateList
+
+|===
+| Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
+
+| Pending
+| Yes
+| No
+| <<next>>
+| -
+|===
+
+Check for excessive model creation in a list.
+
+=== Examples
+
+==== MaxAmount: 10 (default)
+
+[source,ruby]
+----
+# We do not allow more than 10 items to be created
+
+# bad
+create_list(:merge_request, 1000, state: :opened)
+
+# good
+create_list(:merge_request, 10, state: :opened)
+----
+
+==== MaxAmount: 20
+
+[source,ruby]
+----
+# We do not allow more than 20 items to be created
+
+# bad
+create_list(:merge_request, 1000, state: :opened)
+
+# good
+create_list(:merge_request, 15, state: :opened)
+----
+
+=== Configurable attributes
+
+|===
+| Name | Default value | Configurable values
+
+| Include
+| `+**/*_spec.rb+`, `+**/spec/**/*+`, `+**/test/**/*+`, `+**/features/support/factories/**/*.rb+`
+| Array
+
+| MaxAmount
+| `10`
+| Integer
+|===
+
+=== References
+
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ExcessiveCreateList
+
 == FactoryBot/FactoryAssociationWithStrategy
 
 |===

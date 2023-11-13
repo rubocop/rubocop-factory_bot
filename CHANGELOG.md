@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Fix a false positive for `FactoryBot/FactoryNameStyle` when namespaced models. ([@ydah])
+- Add new `FactoryBot/ExcessiveCreateList` cop. ([@ddieulivol])
 
 ## 2.24.0 (2023-09-18)
 
@@ -76,6 +77,7 @@
 [@bquorning]: https://github.com/bquorning
 [@composerinteralia]: https://github.com/composerinteralia
 [@darhazer]: https://github.com/Darhazer
+[@ddieulivol]: https://github.com/ddieulivol
 [@dmitrytsepelev]: https://github.com/dmitrytsepelev
 [@harrylewis]: https://github.com/harrylewis
 [@jfragoulis]: https://github.com/jfragoulis
