@@ -70,7 +70,7 @@ module RuboCop
         end
 
         def receiver_matches_first_block_argument?(receiver, node)
-          first_block_argument = node.arguments.first
+          first_block_argument = node.first_argument
 
           !first_block_argument.nil? &&
             receiver.lvar_type? &&
