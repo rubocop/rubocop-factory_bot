@@ -405,6 +405,48 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
         generate(:foo, :bar)
       RUBY
     end
+
+    context 'when TargetRubyVersion >= 3.1', :ruby31 do
+      it 'does not register an offense when using `create` ' \
+         'with pinned hash argument' do
+        expect_no_offenses(<<~RUBY)
+          create(:user, name:)
+          create(:user, name:, client:)
+        RUBY
+      end
+
+      it 'does not register an offense when using `create` ' \
+         'with pinned hash argument and other unpinned args' do
+        expect_no_offenses(<<~RUBY)
+          create(:user, client:, name: 'foo')
+          create(:user, client: 'foo', name:)
+        RUBY
+      end
+
+      it 'registers an offense when using `create` ' \
+         'with unpinned hash argument' do
+        expect_offense(<<~RUBY)
+          create(:user, name: 'foo')
+          ^^^^^^ Prefer method call without parentheses
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create :user, name: 'foo'
+        RUBY
+      end
+
+      it 'registers an offense when using `create` ' \
+         'with method call has pinned hash argument' do
+        expect_offense(<<~RUBY)
+          create(:user, foo(name:))
+          ^^^^^^ Prefer method call without parentheses
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create :user, foo(name:)
+        RUBY
+      end
+    end
   end
 
   context 'when ExplicitOnly is false' do
