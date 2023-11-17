@@ -385,6 +385,10 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
         FactoryBot.create(:user)
                    ^^^^^^ Prefer method call without parentheses
       RUBY
+
+      expect_correction(<<~RUBY)
+        FactoryBot.create :user
+      RUBY
     end
 
     it 'ignores factory_bot DSL methods without a first positional argument' do
