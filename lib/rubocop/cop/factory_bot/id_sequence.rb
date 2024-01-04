@@ -19,12 +19,15 @@ module RuboCop
       class IdSequence < ::RuboCop::Cop::Base
         extend AutoCorrector
         include RangeHelp
+        include RuboCop::FactoryBot::Language
 
         MSG = 'Do not create a sequence for an id attribute'
         RESTRICT_ON_SEND = %i[sequence].freeze
 
         def on_send(node)
-          return unless node.first_argument.value == :id
+          return unless node.receiver.nil? || factory_bot?(node.receiver)
+          return unless node.first_argument&.sym_type? &&
+            node.first_argument.value == :id
 
           add_offense(node) do |corrector|
             range_to_remove = range_by_whole_lines(
