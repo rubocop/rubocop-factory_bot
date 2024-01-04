@@ -69,7 +69,7 @@ module RuboCop
         RESTRICT_ON_SEND = %i[create_list].freeze
 
         # @!method repeat_count(node)
-        def_node_matcher :repeat_count, <<-PATTERN
+        def_node_matcher :repeat_count, <<~PATTERN
           (block
             {
               (send (const {nil? cbase} :Array) :new (int $_))  # Array.new(3) { create(:user) }
@@ -104,7 +104,7 @@ module RuboCop
         PATTERN
 
         # @!method factory_calls_in_array?(node)
-        def_node_search :factory_calls_in_array?, <<-PATTERN
+        def_node_search :factory_calls_in_array?, <<~PATTERN
           (array #factory_call+)
         PATTERN
 
