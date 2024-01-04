@@ -85,6 +85,13 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
     end
 
     it 'ignores n.times when create call does have method calls ' \
+       'and repeat multiple times with other argument' do
+      expect_no_offenses(<<~RUBY)
+        3.times { |n| create :user, :admin, repositories_count: rand }
+      RUBY
+    end
+
+    it 'ignores n.times when create call does have method calls ' \
        'and not repeat' do
       expect_no_offenses(<<~RUBY)
         1.times { |n| create :user, repositories_count: rand }
@@ -135,17 +142,6 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
 
       expect_correction(<<~RUBY)
         create_list(:user, 5, :trait)
-      RUBY
-    end
-
-    it 'flags usage of n.times with keyword arguments' do
-      expect_offense(<<~RUBY)
-        5.times { create :user, :trait, key: val }
-        ^^^^^^^ Prefer create_list.
-      RUBY
-
-      expect_correction(<<~RUBY)
-        create_list :user, 5, :trait, key: val
       RUBY
     end
 
