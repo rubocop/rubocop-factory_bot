@@ -356,7 +356,7 @@ create_list :user, 3
 | Pending
 | Yes
 | No
-| <<next>>
+| 2.25
 | -
 |===
 

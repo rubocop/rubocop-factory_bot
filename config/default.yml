@@ -73,7 +73,7 @@ FactoryBot/ExcessiveCreateList:
     - "**/test/**/*"
     - "**/features/support/factories/**/*.rb"
   MaxAmount: 10
-  VersionAdded: "<<next>>"
+  VersionAdded: '2.25'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ExcessiveCreateList
 
 FactoryBot/FactoryAssociationWithStrategy:
