@@ -75,6 +75,17 @@ module RuboCop
           )
         PATTERN
 
+        # @!method omit_hash_value?(node)
+        def_node_matcher :omit_hash_value?, <<~PATTERN
+          (send
+            #factory_call? %FACTORY_CALLS
+            {sym str send lvar}
+            (hash
+              <value_omission? ...>
+            )
+          )
+        PATTERN
+
         def self.autocorrect_incompatible_with
           [Style::MethodCallWithArgsParentheses]
         end
@@ -97,6 +108,7 @@ module RuboCop
         def register_offense_with_parentheses(node)
           return if style == :require_parentheses || !node.parenthesized?
           return unless same_line?(node, node.first_argument)
+          return if omit_hash_value?(node)
 
           add_offense(node.loc.selector,
                       message: MSG_OMIT_PARENS) do |corrector|

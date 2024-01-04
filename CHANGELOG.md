@@ -4,6 +4,7 @@
 
 - Fix a false positive for `FactoryBot/FactoryNameStyle` when namespaced models. ([@ydah])
 - Add new `FactoryBot/ExcessiveCreateList` cop. ([@ddieulivol])
+- Fix a false positive for `FactoryBot/ConsistentParenthesesStyle` when hash pinning. ([@ydah])
 
 ## 2.24.0 (2023-09-18)
 
