@@ -122,11 +122,17 @@ Layout/LineContinuationSpacing:
   Enabled: true
 Layout/LineEndStringConcatenationIndentation:
   Enabled: true
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: true
+Lint/NonAtomicFileOperation:
+  Enabled: true
 Style/EmptyHeredoc:
   Enabled: true
 Style/RedundantHeredocDelimiterQuotes:
   Enabled: true
 Style/RedundantStringEscape:
+  Enabled: true
+Style/ReturnNilInPredicateMethodDefinition:
   Enabled: true
 
 # Enable pending rubocop-rspec cops.
@@ -145,6 +151,10 @@ RSpec/ContainExactly:
   Enabled: true
 RSpec/DuplicatedMetadata:
   Enabled: true
+RSpec/EmptyMetadata:
+  Enabled: true
+RSpec/Eq:
+  Enabled: true
 RSpec/ExcessiveDocstringSpacing:
   Enabled: true
 RSpec/IdenticalEqualityAssertion:
@@ -153,15 +163,25 @@ RSpec/IndexedLet:
   Enabled: true
 RSpec/MatchArray:
   Enabled: true
+RSpec/MetadataStyle:
+  Enabled: true
 RSpec/NoExpectationExample:
   Enabled: true
 RSpec/PendingWithoutReason:
   Enabled: true
+RSpec/ReceiveMessages:
+  Enabled: true
 RSpec/RedundantAround:
+  Enabled: true
+RSpec/RedundantPredicateMatcher:
+  Enabled: true
+RSpec/RemoveConst:
   Enabled: true
 RSpec/SkipBlockInsideExample:
   Enabled: true
 RSpec/SortMetadata:
+  Enabled: true
+RSpec/SpecFilePathSuffix:
   Enabled: true
 RSpec/SubjectDeclaration:
   Enabled: true
