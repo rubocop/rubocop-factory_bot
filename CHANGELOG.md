@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+- Fix a false positive for `FactoryBot/CreateList` when create call does have method calls and repeat multiple times with other argument. ([@ydah])
+
 ## 2.25.0 (2024-01-04)
 
 - Fix a false positive for `FactoryBot/FactoryNameStyle` when namespaced models. ([@ydah])
