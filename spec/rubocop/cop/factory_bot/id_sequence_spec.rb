@@ -103,4 +103,28 @@ RSpec.describe RuboCop::Cop::FactoryBot::IdSequence do
       end
     RUBY
   end
+
+  it 'does not register an offense for a `sequence` with non-symbol argment' do
+    expect_no_offenses(<<~RUBY)
+      FactoryBot.define do
+        sequence(id)
+      end
+    RUBY
+  end
+
+  it 'does not register an offense for a `sequence` without argument' do
+    expect_no_offenses(<<~RUBY)
+      FactoryBot.define do
+        sequence
+      end
+    RUBY
+  end
+
+  it 'does not register an offense for a `sequence` with receiver' do
+    expect_no_offenses(<<~RUBY)
+      FactoryBot.define do
+        foo.sequence(:id)
+      end
+    RUBY
+  end
 end
