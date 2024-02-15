@@ -14,7 +14,7 @@ spec_helper_glob =
 Dir
   .glob(File.expand_path(spec_helper_glob, __dir__))
   .sort
-  .each(&method(:require))
+  .each { |file| require file }
 
 RSpec.configure do |config|
   # Set metadata so smoke tests are run on all cop specs

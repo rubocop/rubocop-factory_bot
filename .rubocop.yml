@@ -135,6 +135,43 @@ Style/RedundantStringEscape:
 Style/ReturnNilInPredicateMethodDefinition:
   Enabled: true
 
+# Enable pending rubocop-performance cops.
+
+Performance/AncestorsInclude:
+  Enabled: true
+Performance/BlockGivenWithExplicitBlock:
+  Enabled: true
+Performance/CollectionLiteralInLoop:
+  Enabled: true
+Performance/ConstantRegexp:
+  Enabled: true
+Performance/MapCompact:
+  Enabled: true
+Performance/MapMethodChain:
+  Enabled: true
+Performance/MethodObjectAsBlock:
+  Enabled: true
+Performance/RedundantEqualityComparisonBlock:
+  Enabled: true
+Performance/RedundantSortBlock:
+  Enabled: true
+Performance/RedundantSplitRegexpArgument:
+  Enabled: true
+Performance/RedundantStringChars:
+  Enabled: true
+Performance/ReverseFirst:
+  Enabled: true
+Performance/SortReverse:
+  Enabled: true
+Performance/Squeeze:
+  Enabled: true
+Performance/StringIdentifierArgument:
+  Enabled: true
+Performance/StringInclude:
+  Enabled: true
+Performance/Sum:
+  Enabled: true
+
 # Enable pending rubocop-rspec cops.
 
 RSpec/BeEmpty:
