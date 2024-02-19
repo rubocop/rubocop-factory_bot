@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+- Include `**/factories.rb` in the inspection target. ([@r7kamura])
+
 ## 2.25.1 (2024-01-08)
 
 - Fix a false positive for `FactoryBot/CreateList` when create call does have method calls and repeat multiple times with other argument. ([@ydah])
