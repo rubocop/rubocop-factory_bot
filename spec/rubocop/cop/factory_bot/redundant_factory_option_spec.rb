@@ -47,7 +47,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::RedundantFactoryOption do
   end
 
   context 'when `association` has redundant factory option in Array' do
-    it 'registers no offense' do
+    it 'registers offense' do
       expect_offense(<<~RUBY)
         association :user, factory: %i[user]
                            ^^^^^^^^^^^^^^^^^ Remove redundant `factory` option.
