@@ -13,7 +13,7 @@
 
 | Pending
 | No
-| Yes (Unsafe)
+| Always (Unsafe)
 | 2.23
 | 2.24
 |===
@@ -112,7 +112,7 @@ end
 
 | Enabled
 | Yes
-| Yes
+| Always
 | 1.28
 | 2.24
 |===
@@ -153,7 +153,7 @@ count { 1 }
 
 | Pending
 | Yes
-| Yes
+| Always
 | 2.14
 | 2.23
 |===
@@ -255,7 +255,7 @@ build :user
 
 | Enabled
 | Yes
-| Yes (Unsafe)
+| Always (Unsafe)
 | 1.25
 | 2.24
 |===
@@ -474,7 +474,7 @@ end
 
 | Enabled
 | Yes
-| Yes
+| Always
 | 1.37
 | 2.24
 |===
@@ -510,7 +510,7 @@ end
 
 | Pending
 | Yes
-| Yes
+| Always
 | 2.16
 | 2.23
 |===
@@ -605,7 +605,7 @@ create(:user)
 
 | Pending
 | Yes
-| Yes
+| Always
 | 2.24
 | -
 |===
@@ -638,7 +638,7 @@ end
 
 | Pending
 | Yes
-| Yes
+| Always
 | 2.23
 | -
 |===
@@ -677,7 +677,7 @@ association :user
 
 | Pending
 | Yes
-| Yes (Unsafe)
+| Always (Unsafe)
 | 2.7
 | -
 |===
