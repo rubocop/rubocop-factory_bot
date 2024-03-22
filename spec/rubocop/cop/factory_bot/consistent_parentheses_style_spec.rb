@@ -201,7 +201,10 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
     end
 
     %w[&& ||].each do |operator|
-      context "with #{operator}" do
+      # FIXME: `undefined method `[]' for nil` occurs Prism 0.24.0.
+      # It has been resolved in the development line.
+      # This will be resolved in Prism > 0.24.0 and higher releases.
+      context "with #{operator}", broken_on: :prism do
         it 'does not flag the call' do
           expect_no_offenses(<<~RUBY)
             can_create_user? #{operator} create(:user)
@@ -210,7 +213,10 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
       end
     end
 
-    context 'with ternary operator' do
+    # FIXME: `undefined method `[]' for nil` occurs Prism 0.24.0.
+    # It has been resolved in the development line.
+    # This will be resolved in Prism > 0.24.0 and higher releases.
+    context 'with ternary operator', broken_on: :prism do
       it 'does not flag the call' do
         expect_no_offenses(<<~RUBY)
           can_create_user? ? create(:user) : nil
