@@ -32,6 +32,10 @@ RSpec.configure do |config|
   # Run focused tests with `fdescribe`, `fit`, `:focus` etc.
   config.filter_run_when_matching :focus
 
+  if ENV['PARSER_ENGINE'] == 'parser_prism'
+    config.filter_run_excluding broken_on: :prism
+  end
+
   # We should address configuration warnings when we upgrade
   config.raise_errors_for_deprecations!
 
