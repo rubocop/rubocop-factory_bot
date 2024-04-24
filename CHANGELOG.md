@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+- Fix a false positive for `FactoryBot/AssociationStyle` when using nested factories with traits. ([@jaydorsey])
+
 ## 2.25.1 (2024-01-08)
 
 - Fix a false positive for `FactoryBot/CreateList` when create call does have method calls and repeat multiple times with other argument. ([@ydah])
@@ -88,6 +90,7 @@
 [@ddieulivol]: https://github.com/ddieulivol
 [@dmitrytsepelev]: https://github.com/dmitrytsepelev
 [@harrylewis]: https://github.com/harrylewis
+[@jaydorsey]: https://github.com/jaydorsey
 [@jfragoulis]: https://github.com/jfragoulis
 [@jonatas]: https://github.com/jonatas
 [@leoarnold]: https://github.com/leoarnold

@@ -405,5 +405,19 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
         RUBY
       end
     end
+
+    context 'when factory inside a factory with inline traits' do
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
+          factory :order do
+            traits :completed do
+              completed_at { 3.days.ago }
+            end
+
+            factory :order_completed, traits: [:completed]
+          end
+        RUBY
+      end
+    end
   end
 end

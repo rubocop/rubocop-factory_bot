@@ -67,6 +67,7 @@ module RuboCop
 
         DEFAULT_NON_IMPLICIT_ASSOCIATION_METHOD_NAMES = %w[
           association
+          factory
           sequence
           skip_create
           traits_for_enum
