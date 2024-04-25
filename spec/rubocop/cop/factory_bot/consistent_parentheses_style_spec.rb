@@ -349,7 +349,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
     end
 
     context 'when create and first argument are on same line' do
-      it 'register an offense' do
+      it 'registers an offense' do
         expect_offense(<<~RUBY)
           create(:user,
           ^^^^^^ Prefer method call without parentheses
@@ -459,7 +459,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
     let(:enforced_style) { :require_parentheses }
     let(:explicit_only) { false }
 
-    it 'register an offense when using `create` with an explicit receiver' do
+    it 'registers an offense when using `create` with an explicit receiver' do
       expect_offense(<<~RUBY)
         FactoryBot.create :user
                    ^^^^^^ Prefer method call with parentheses
@@ -470,7 +470,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
       RUBY
     end
 
-    it 'register an offense when using `create` with no explicit receiver' do
+    it 'registers an offense when using `create` with no explicit receiver' do
       expect_offense(<<~RUBY)
         create :user
         ^^^^^^ Prefer method call with parentheses
@@ -486,7 +486,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
     let(:enforced_style) { :require_parentheses }
     let(:explicit_only) { true }
 
-    it 'register an offense when using `create` with an explicit receiver' do
+    it 'registers an offense when using `create` with an explicit receiver' do
       expect_offense(<<~RUBY)
         FactoryBot.create :user
                    ^^^^^^ Prefer method call with parentheses
