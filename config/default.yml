@@ -2,9 +2,8 @@
 FactoryBot:
   Enabled: true
   Include:
-    - "**/spec/factories.rb"
+    - "**/factories.rb"
     - "**/spec/factories/**/*.rb"
-    - "**/test/factories.rb"
     - "**/test/factories/**/*.rb"
     - "**/features/support/factories/**/*.rb"
   DocumentationBaseURL: https://docs.rubocop.org/rubocop-factory_bot
