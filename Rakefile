@@ -86,13 +86,14 @@ task default: %i[build_config spec
 desc 'Generate a new cop template'
 task :new_cop, [:cop] do |_task, args|
   require 'rubocop'
+  require_relative 'lib/rubocop/factory_bot/cop/generator'
 
   cop_name = args.fetch(:cop) do
     warn "usage: bundle exec rake 'new_cop[Department/Name]'"
     exit!
   end
 
-  generator = RuboCop::Cop::Generator.new(cop_name)
+  generator = RuboCop::FactoryBot::Cop::Generator.new(cop_name)
   generator.write_source
   generator.write_spec
   generator.inject_require(
