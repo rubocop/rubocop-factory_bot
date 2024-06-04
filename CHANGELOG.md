@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Fix a false positive for `FactoryBot/AssociationStyle` when using nested factories with traits. ([@jaydorsey])
+- Support `AutoCorrect: contextual` option for LSP. ([@ydah])
 
 ## 2.25.1 (2024-01-08)
 
