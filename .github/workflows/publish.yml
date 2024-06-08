@@ -2,7 +2,7 @@ name: Publish
 on:
   push:
     branches: master
-    paths: lib/rubocop/rspec/version.rb
+    paths: lib/rubocop/factory_bot/version.rb
 jobs:
   publish:
     name: Publish to RubyGems
@@ -25,7 +25,7 @@ jobs:
         run: |
           bundle exec rake create_release_notes
           gh release create $(git tag --points-at @) \
-            --title "RuboCop RSpec $(git tag --points-at @)" \
+            --title "RuboCop FactoryBot $(git tag --points-at @)" \
             --notes-file relnotes.md
       - name: Replace version in Antora config
         run: |
