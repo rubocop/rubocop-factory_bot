@@ -62,7 +62,7 @@ FactoryBot/CreateList:
   ExplicitOnly: false
   SafeAutoCorrect: false
   VersionAdded: '1.25'
-  VersionChanged: "<<next>>"
+  VersionChanged: '2.26'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
 FactoryBot/ExcessiveCreateList:

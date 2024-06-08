@@ -257,7 +257,7 @@ build :user
 | Yes
 | Command-line only (Unsafe)
 | 1.25
-| <<next>>
+| 2.26
 |===
 
 Checks for create_list usage.
