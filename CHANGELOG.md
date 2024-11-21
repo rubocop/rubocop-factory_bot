@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+- Fix a false positive for `FactoryBot/ConsistentParenthesesStyle` when using traits and omitting hash values. ([@thejonroberts])
+
 ## 2.26.1 (2024-06-12)
 
 - Bump RuboCop requirement to +1.61. ([@ydah])
@@ -110,6 +112,7 @@
 [@seanpdoyle]: https://github.com/seanpdoyle
 [@tdeo]: https://github.com/tdeo
 [@tejasbubane]: https://github.com/tejasbubane
+[@thejonroberts]: https://github.com/thejonroberts
 [@vzvu3k6k]: https://github.com/vzvu3k6k
 [@walf443]: https://github.com/walf443
 [@ybiquitous]: https://github.com/ybiquitous
