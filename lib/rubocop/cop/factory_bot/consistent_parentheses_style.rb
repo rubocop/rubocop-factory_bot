@@ -79,7 +79,7 @@ module RuboCop
         def_node_matcher :omit_hash_value?, <<~PATTERN
           (send
             #factory_call? %FACTORY_CALLS
-            {sym str send lvar}
+            {sym str send lvar} _*
             (hash
               <value_omission? ...>
             )
