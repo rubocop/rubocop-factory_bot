@@ -6,6 +6,7 @@
 
 = FactoryBot
 
+[#factorybotassociationstyle]
 == FactoryBot/AssociationStyle
 
 |===
@@ -20,14 +21,17 @@
 
 Use a consistent style to define associations.
 
+[#safety-factorybotassociationstyle]
 === Safety
 
 This cop may cause false-positives in `EnforcedStyle: explicit`
 case. It recognizes any method call that has no arguments as an
 implicit association but it might be a user-defined trait call.
 
+[#examples-factorybotassociationstyle]
 === Examples
 
+[#enforcedstyle_-implicit-_default_-factorybotassociationstyle]
 ==== EnforcedStyle: implicit (default)
 
 [source,ruby]
@@ -53,6 +57,7 @@ factory :post do
 end
 ----
 
+[#enforcedstyle_-explicit-factorybotassociationstyle]
 ==== EnforcedStyle: explicit
 
 [source,ruby]
@@ -87,6 +92,7 @@ factory :user do
 end
 ----
 
+[#configurable-attributes-factorybotassociationstyle]
 === Configurable attributes
 
 |===
@@ -101,10 +107,12 @@ end
 | 
 |===
 
+[#references-factorybotassociationstyle]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AssociationStyle
 
+[#factorybotattributedefinedstatically]
 == FactoryBot/AttributeDefinedStatically
 
 |===
@@ -119,6 +127,7 @@ end
 
 Always declare attribute values as blocks.
 
+[#examples-factorybotattributedefinedstatically]
 === Examples
 
 [source,ruby]
@@ -142,10 +151,12 @@ count 1
 count { 1 }
 ----
 
+[#references-factorybotattributedefinedstatically]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AttributeDefinedStatically
 
+[#factorybotconsistentparenthesesstyle]
 == FactoryBot/ConsistentParenthesesStyle
 
 |===
@@ -160,8 +171,10 @@ count { 1 }
 
 Use a consistent style for parentheses in factory_bot calls.
 
+[#examples-factorybotconsistentparenthesesstyle]
 === Examples
 
+[#_enforcedstyle_-require_parentheses_-_default_-factorybotconsistentparenthesesstyle]
 ==== `EnforcedStyle: require_parentheses` (default)
 
 [source,ruby]
@@ -175,6 +188,7 @@ create(:user)
 build(:login)
 ----
 
+[#_enforcedstyle_-omit_parentheses_-factorybotconsistentparenthesesstyle]
 ==== `EnforcedStyle: omit_parentheses`
 
 [source,ruby]
@@ -198,6 +212,7 @@ build(
 )
 ----
 
+[#_explicitonly_-false_-_default_-factorybotconsistentparenthesesstyle]
 ==== `ExplicitOnly: false` (default)
 
 [source,ruby]
@@ -211,6 +226,7 @@ FactoryBot.create(:user)
 build(:user)
 ----
 
+[#_explicitonly_-true_-factorybotconsistentparenthesesstyle]
 ==== `ExplicitOnly: true`
 
 [source,ruby]
@@ -226,6 +242,7 @@ create :user
 build :user
 ----
 
+[#configurable-attributes-factorybotconsistentparenthesesstyle]
 === Configurable attributes
 
 |===
@@ -244,10 +261,12 @@ build :user
 | Boolean
 |===
 
+[#references-factorybotconsistentparenthesesstyle]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ConsistentParenthesesStyle
 
+[#factorybotcreatelist]
 == FactoryBot/CreateList
 
 |===
@@ -264,13 +283,16 @@ Checks for create_list usage.
 
 This cop can be configured using the `EnforcedStyle` option
 
+[#safety-factorybotcreatelist]
 === Safety
 
 This cop's autocorrection is unsafe because replacing `n.times` to
 `create_list` changes its returned value.
 
+[#examples-factorybotcreatelist]
 === Examples
 
+[#_enforcedstyle_-create_list_-_default_-factorybotcreatelist]
 ==== `EnforcedStyle: create_list` (default)
 
 [source,ruby]
@@ -294,6 +316,7 @@ create_list :user, 3
 3.times { create :user, age: rand }
 ----
 
+[#_enforcedstyle_-n_times_-factorybotcreatelist]
 ==== `EnforcedStyle: n_times`
 
 [source,ruby]
@@ -306,6 +329,7 @@ create_list :user, 3
 3.times.map { create :user }
 ----
 
+[#_explicitonly_-false_-_default_-factorybotcreatelist]
 ==== `ExplicitOnly: false` (default)
 
 [source,ruby]
@@ -319,6 +343,7 @@ FactoryBot.create_list :user, 3
 create_list :user, 3
 ----
 
+[#_explicitonly_-true_-factorybotcreatelist]
 ==== `ExplicitOnly: true`
 
 [source,ruby]
@@ -332,6 +357,7 @@ create_list :user, 3
 3.times { create :user }
 ----
 
+[#configurable-attributes-factorybotcreatelist]
 === Configurable attributes
 
 |===
@@ -350,10 +376,12 @@ create_list :user, 3
 | Boolean
 |===
 
+[#references-factorybotcreatelist]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
+[#factorybotexcessivecreatelist]
 == FactoryBot/ExcessiveCreateList
 
 |===
@@ -368,8 +396,10 @@ create_list :user, 3
 
 Check for excessive model creation in a list.
 
+[#examples-factorybotexcessivecreatelist]
 === Examples
 
+[#maxamount_-10-_default_-factorybotexcessivecreatelist]
 ==== MaxAmount: 10 (default)
 
 [source,ruby]
@@ -383,6 +413,7 @@ create_list(:merge_request, 1000, state: :opened)
 create_list(:merge_request, 10, state: :opened)
 ----
 
+[#maxamount_-20-factorybotexcessivecreatelist]
 ==== MaxAmount: 20
 
 [source,ruby]
@@ -396,6 +427,7 @@ create_list(:merge_request, 1000, state: :opened)
 create_list(:merge_request, 15, state: :opened)
 ----
 
+[#configurable-attributes-factorybotexcessivecreatelist]
 === Configurable attributes
 
 |===
@@ -410,10 +442,12 @@ create_list(:merge_request, 15, state: :opened)
 | Integer
 |===
 
+[#references-factorybotexcessivecreatelist]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ExcessiveCreateList
 
+[#factorybotfactoryassociationwithstrategy]
 == FactoryBot/FactoryAssociationWithStrategy
 
 |===
@@ -428,6 +462,7 @@ create_list(:merge_request, 15, state: :opened)
 
 Use definition in factory association instead of hard coding a strategy.
 
+[#examples-factorybotfactoryassociationwithstrategy]
 === Examples
 
 [source,ruby]
@@ -453,6 +488,7 @@ factory :foo do
 end
 ----
 
+[#configurable-attributes-factorybotfactoryassociationwithstrategy]
 === Configurable attributes
 
 |===
@@ -463,10 +499,12 @@ end
 | Array
 |===
 
+[#references-factorybotfactoryassociationwithstrategy]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryAssociationWithStrategy
 
+[#factorybotfactoryclassname]
 == FactoryBot/FactoryClassName
 
 |===
@@ -486,6 +524,7 @@ application files. Also, this could help you suppress potential bugs
 in combination with external libraries by avoiding a preload of
 application files from the factory files.
 
+[#examples-factorybotfactoryclassname]
 === Examples
 
 [source,ruby]
@@ -499,10 +538,12 @@ factory :foo, class: 'Foo' do
 end
 ----
 
+[#references-factorybotfactoryclassname]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryClassName
 
+[#factorybotfactorynamestyle]
 == FactoryBot/FactoryNameStyle
 
 |===
@@ -517,8 +558,10 @@ end
 
 Checks for name style for argument of FactoryBot::Syntax::Methods.
 
+[#examples-factorybotfactorynamestyle]
 === Examples
 
+[#enforcedstyle_-symbol-_default_-factorybotfactorynamestyle]
 ==== EnforcedStyle: symbol (default)
 
 [source,ruby]
@@ -535,6 +578,7 @@ build :user, username: "NAME"
 create('users/internal')
 ----
 
+[#enforcedstyle_-string-factorybotfactorynamestyle]
 ==== EnforcedStyle: string
 
 [source,ruby]
@@ -548,6 +592,7 @@ create('user')
 build "user", username: "NAME"
 ----
 
+[#_explicitonly_-false_-_default_-factorybotfactorynamestyle]
 ==== `ExplicitOnly: false` (default)
 
 [source,ruby]
@@ -561,6 +606,7 @@ FactoryBot.create(:user)
 create(:user)
 ----
 
+[#_explicitonly_-true_-factorybotfactorynamestyle]
 ==== `ExplicitOnly: true`
 
 [source,ruby]
@@ -576,6 +622,7 @@ FactoryBot.create(:user)
 create(:user)
 ----
 
+[#configurable-attributes-factorybotfactorynamestyle]
 === Configurable attributes
 
 |===
@@ -594,10 +641,12 @@ create(:user)
 | Boolean
 |===
 
+[#references-factorybotfactorynamestyle]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
+[#factorybotidsequence]
 == FactoryBot/IdSequence
 
 |===
@@ -612,6 +661,7 @@ create(:user)
 
 Do not create a FactoryBot sequence for an id column.
 
+[#examples-factorybotidsequence]
 === Examples
 
 [source,ruby]
@@ -627,10 +677,12 @@ factory :foo do
 end
 ----
 
+[#references-factorybotidsequence]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/IdSequence
 
+[#factorybotredundantfactoryoption]
 == FactoryBot/RedundantFactoryOption
 
 |===
@@ -645,6 +697,7 @@ end
 
 Checks for redundant `factory` option.
 
+[#examples-factorybotredundantfactoryoption]
 === Examples
 
 [source,ruby]
@@ -656,6 +709,7 @@ association :user, factory: :user
 association :user
 ----
 
+[#configurable-attributes-factorybotredundantfactoryoption]
 === Configurable attributes
 
 |===
@@ -666,10 +720,12 @@ association :user
 | Array
 |===
 
+[#references-factorybotredundantfactoryoption]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/RedundantFactoryOption
 
+[#factorybotsyntaxmethods]
 == FactoryBot/SyntaxMethods
 
 |===
@@ -684,6 +740,7 @@ association :user
 
 Use shorthands from `FactoryBot::Syntax::Methods` in your specs.
 
+[#safety-factorybotsyntaxmethods]
 === Safety
 
 The autocorrection is marked as unsafe because the cop
@@ -714,6 +771,7 @@ RSpec.configure do |config|
 end
 ----
 
+[#examples-factorybotsyntaxmethods]
 === Examples
 
 [source,ruby]
@@ -729,6 +787,7 @@ build(:bar)
 attributes_for(:bar)
 ----
 
+[#configurable-attributes-factorybotsyntaxmethods]
 === Configurable attributes
 
 |===
@@ -739,6 +798,7 @@ attributes_for(:bar)
 | Array
 |===
 
+[#references-factorybotsyntaxmethods]
 === References
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/SyntaxMethods
