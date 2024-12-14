@@ -418,6 +418,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
         expect_no_offenses(<<~RUBY)
           create(:user, name:)
           create(:user, name:, client:)
+          create(:user, :trait, name:, client:)
         RUBY
       end
 
@@ -426,6 +427,8 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
         expect_no_offenses(<<~RUBY)
           create(:user, client:, name: 'foo')
           create(:user, client: 'foo', name:)
+          create(:user, :trait, client:, name: 'foo')
+          create(:user, :trait, client: 'foo', name:)
         RUBY
       end
 
@@ -434,10 +437,13 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
         expect_offense(<<~RUBY)
           create(:user, name: 'foo')
           ^^^^^^ Prefer method call without parentheses
+          create(:user, :trait, name: 'foo')
+          ^^^^^^ Prefer method call without parentheses
         RUBY
 
         expect_correction(<<~RUBY)
           create :user, name: 'foo'
+          create :user, :trait, name: 'foo'
         RUBY
       end
 
@@ -446,10 +452,13 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
         expect_offense(<<~RUBY)
           create(:user, foo(name:))
           ^^^^^^ Prefer method call without parentheses
+          create(:user, :trait, foo(name:))
+          ^^^^^^ Prefer method call without parentheses
         RUBY
 
         expect_correction(<<~RUBY)
           create :user, foo(name:)
+          create :user, :trait, foo(name:)
         RUBY
       end
     end
