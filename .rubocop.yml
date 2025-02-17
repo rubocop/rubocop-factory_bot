@@ -1,10 +1,11 @@
 inherit_from: .rubocop_todo.yml
 
-require:
+plugins:
+  - rubocop-factory_bot
   - rubocop-performance
   - rubocop-rake
   - rubocop-rspec
-  - rubocop/cop/internal_affairs
+  - rubocop-internal_affairs
 
 AllCops:
   DisplayCopNames: true
