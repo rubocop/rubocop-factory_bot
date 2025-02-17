@@ -8,13 +8,13 @@ There are three ways to do this:
 Put this into your `.rubocop.yml`:
 
 ----
-require: rubocop-factory_bot
+plugins: rubocop-factory_bot
 ----
 
 or, if you are using several extensions:
 
 ----
-require:
+plugins:
   - rubocop-factory_bot
   - rubocop-performance
 ----
@@ -22,11 +22,13 @@ require:
 Now you can run `rubocop` and it will automatically load the RuboCop factory_bot
 cops together with the standard cops.
 
+NOTE: The plugin system is supported in RuboCop 1.72+. In earlier versions, use `require` instead of `plugins`.
+
 == Command line
 
 [source,bash]
 ----
-$ rubocop --require rubocop-factory_bot
+$ rubocop --plugin rubocop-factory_bot
 ----
 
 == Rake task
@@ -34,7 +36,7 @@ $ rubocop --require rubocop-factory_bot
 [source,ruby]
 ----
 RuboCop::RakeTask.new do |task|
-  task.requires << 'rubocop-factory_bot'
+  task.plugins << 'rubocop-factory_bot'
 end
 ----
 
