@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Fix a false positive for `FactoryBot/ConsistentParenthesesStyle` when using traits and omitting hash values. ([@thejonroberts])
+- Make RuboCop FactoryBot work as a RuboCop plugin. ([@bquorning])
 
 ## 2.26.1 (2024-06-12)
 

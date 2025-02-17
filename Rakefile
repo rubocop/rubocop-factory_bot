@@ -23,7 +23,9 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
 end
 
 desc 'Run RuboCop over this gem'
-RuboCop::RakeTask.new(:internal_investigation)
+RuboCop::RakeTask.new(:internal_investigation) do
+  RuboCop::ConfigLoader.inject_defaults!("#{__dir__}/config/default.yml")
+end
 
 desc 'Build config/default.yml'
 task :build_config do
