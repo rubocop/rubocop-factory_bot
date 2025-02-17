@@ -16,6 +16,9 @@ AllCops:
     - 'tmp/**/*'
     - 'spec/smoke_tests/**/*.rb'
 
+InternalAffairs/OnSendWithoutOnCSend:
+  Enabled: false
+
 Layout/HashAlignment:
   EnforcedHashRocketStyle:
     - key
