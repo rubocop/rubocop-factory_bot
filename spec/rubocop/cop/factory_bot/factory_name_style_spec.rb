@@ -239,7 +239,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::FactoryNameStyle do
     let(:enforced_style) { :symbol }
     let(:explicit_only) { false }
 
-    it 'register an offense when using `create` ' \
+    it 'registers an offense when using `create` ' \
        'with string name and an explicit receiver' do
       expect_offense(<<~RUBY)
         FactoryBot.create('user')
@@ -251,7 +251,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::FactoryNameStyle do
       RUBY
     end
 
-    it 'register an offense when using `create` ' \
+    it 'registers an offense when using `create` ' \
        'with string name and no explicit receiver' do
       expect_offense(<<~RUBY)
         create('user')
@@ -268,7 +268,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::FactoryNameStyle do
     let(:enforced_style) { :symbol }
     let(:explicit_only) { true }
 
-    it 'register an offense when using `create` ' \
+    it 'registers an offense when using `create` ' \
        'with string name and an explicit receiver' do
       expect_offense(<<~RUBY)
         FactoryBot.create('user')
