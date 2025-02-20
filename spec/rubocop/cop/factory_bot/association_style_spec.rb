@@ -178,6 +178,29 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
       end
     end
 
+    context 'with `strategy: :create` option' do
+      it 'registers an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            association :user, strategy: :create
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+            association :reviewer, factory: :user, strategy: :create
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+            association :tag, :pop, strategy: :create
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            user
+            reviewer factory: %i[user]
+            tag factory: %i[tag pop]
+          end
+        RUBY
+      end
+    end
+
     context 'when `association` is called in trait block ' \
             'and column name is keyword' do
       it 'does not register an offense' do
