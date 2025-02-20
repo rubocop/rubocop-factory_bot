@@ -105,6 +105,11 @@ module RuboCop
           )
         PATTERN
 
+        # @!method strategy_create_pair?(node)
+        def_node_matcher :strategy_create_pair?, <<~PATTERN
+          (pair (sym :strategy) (sym :create))
+        PATTERN
+
         # @!method implicit_association?(node)
         def_node_matcher :implicit_association?, <<~PATTERN
           (send nil? !#non_implicit_association_method_name? ...)
@@ -234,6 +239,8 @@ module RuboCop
           return {} unless node.last_argument.hash_type?
 
           node.last_argument.pairs.inject({}) do |options, pair|
+            next options if strategy_create_pair?(pair)
+
             options.merge(pair.key.value => pair.value.source)
           end
         end
