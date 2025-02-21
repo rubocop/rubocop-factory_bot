@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Fix a false positive for `FactoryBot/ConsistentParenthesesStyle` when using traits and omitting hash values. ([@thejonroberts])
+- Fix `FactoryBot/CreateList` to detect iterations over ranges. ([@ydakuka])
 
 ## 2.26.1 (2024-06-12)
 
@@ -117,3 +118,4 @@
 [@walf443]: https://github.com/walf443
 [@ybiquitous]: https://github.com/ybiquitous
 [@ydah]: https://github.com/ydah
+[@ydakuka]: https://github.com/ydakuka

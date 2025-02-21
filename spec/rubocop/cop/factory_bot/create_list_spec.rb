@@ -268,6 +268,788 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       end
     end
 
+    context 'with inclusive range' do
+      it 'registers and corrects an offense for a simple integer range' do
+        expect_offense(<<~RUBY)
+          (2..9).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, 8)
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when using Array() with a simple integer range' do
+        expect_offense(<<~RUBY)
+          Array(2..9).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, 8)
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a float upper bound' do
+        expect_offense(<<~RUBY)
+          (2..9.99).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, 8)
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a negative integer lower bound ' \
+         'and an positive integer upper bound' do
+        expect_offense(<<~RUBY)
+          (-5..7).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, 13)
+        RUBY
+      end
+
+      it 'does not register an offense ' \
+         'for an open-ended range with an infinite upper bound' do
+        expect_no_offenses(<<~RUBY)
+          (-5..).map { create :user }
+        RUBY
+      end
+
+      it 'does not register an offense ' \
+         'for an open-ended range with an infinite lower bound' do
+        expect_no_offenses(<<~RUBY)
+          (..7).map { create :user }
+        RUBY
+      end
+
+      it 'does not register an offense for a range with variable bounds' do
+        expect_no_offenses(<<~RUBY)
+          (n..m).map { create :user }
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and positive float upper bound' do
+        expect_offense(<<~RUBY)
+          n = 2
+          (n..9.99).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = 2
+          create_list(:user, (9 - n + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and positive integer upper bound' do
+        expect_offense(<<~RUBY)
+          n = 2
+          (n..9).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = 2
+          create_list(:user, (9 - n + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and a float positive upper bound' do
+        expect_offense(<<~RUBY)
+          n = -5
+          (n..7.99).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = -5
+          create_list(:user, (7 - n + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and an positive integer upper bound' do
+        expect_offense(<<~RUBY)
+          n = -5
+          (n..7).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = -5
+          create_list(:user, (7 - n + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and a negative float upper bound' do
+        expect_offense(<<~RUBY)
+          n = -5
+          (n..-2.99).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = -5
+          create_list(:user, (-3 - n + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and an negative integer upper bound' do
+        expect_offense(<<~RUBY)
+          n = -5
+          (n..-2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = -5
+          create_list(:user, (-2 - n + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is an instance variable' do
+        expect_offense(<<~RUBY)
+          (@instance_variable..2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - @instance_variable + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is a class variable' do
+        expect_offense(<<~RUBY)
+          (@@class_variable..2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - @@class_variable + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is a global variable' do
+        expect_offense(<<~RUBY)
+          ($global_variable..2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - $global_variable + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is a constant' do
+        expect_offense(<<~RUBY)
+          (CONST..2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - CONST + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is a namespaced constant' do
+        expect_offense(<<~RUBY)
+          (SomeModule::CONST..2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - SomeModule::CONST + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is a cbase namespaced constant' do
+        expect_offense(<<~RUBY)
+          (::SomeModule::CONST..2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - ::SomeModule::CONST + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with an positive integer lower bound ' \
+         'and a positive float upper bound' do
+        expect_offense(<<~RUBY)
+          m = 9.99
+          (2..m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = 9.99
+          create_list(:user, (m.floor - 2 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense for a range with integer bounds' do
+        expect_offense(<<~RUBY)
+          m = 9
+          (2..m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = 9
+          create_list(:user, (m.floor - 2 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a negative integer lower bound ' \
+         'and a positive float upper bound' do
+        expect_offense(<<~RUBY)
+          m = 7.99
+          (-5..m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = 7.99
+          create_list(:user, (m.floor + 5 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a negative integer lower bound ' \
+         'and a positive integer upper bound' do
+        expect_offense(<<~RUBY)
+          m = 7
+          (-5..m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = 7
+          create_list(:user, (m.floor + 5 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a negative float lower bound ' \
+         'and a negative float upper bound' do
+        expect_offense(<<~RUBY)
+          m = -2.99
+          (-5..m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = -2.99
+          create_list(:user, (m.floor + 5 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with negative integer bounds' do
+        expect_offense(<<~RUBY)
+          m = -2
+          (-5..m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = -2
+          create_list(:user, (m.floor + 5 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is an instance variable' do
+        expect_offense(<<~RUBY)
+          (2..@instance_variable).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (@instance_variable.floor - 2 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is a class variable' do
+        expect_offense(<<~RUBY)
+          (2..@@class_variable).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (@@class_variable.floor - 2 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is a global variable' do
+        expect_offense(<<~RUBY)
+          (2..$global_variable).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, ($global_variable.floor - 2 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is a constant' do
+        expect_offense(<<~RUBY)
+          (2..CONST).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (CONST.floor - 2 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is a namespaced constant' do
+        expect_offense(<<~RUBY)
+          (2..SomeModule::CONST).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (SomeModule::CONST.floor - 2 + 1))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is a cbase namespaced constant' do
+        expect_offense(<<~RUBY)
+          (2..::SomeModule::CONST).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (::SomeModule::CONST.floor - 2 + 1))
+        RUBY
+      end
+    end
+
+    context 'with exclusive range' do
+      it 'registers and corrects an offense for a simple integer range' do
+        expect_offense(<<~RUBY)
+          (2...9).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, 7)
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when using Array() with a simple integer range' do
+        expect_offense(<<~RUBY)
+          Array(2...9).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, 7)
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a float upper bound' do
+        expect_offense(<<~RUBY)
+          (2...9.99).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, 8)
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a negative integer lower bound ' \
+         'and an positive integer upper bound' do
+        expect_offense(<<~RUBY)
+          (-5...7).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, 12)
+        RUBY
+      end
+
+      it 'does not register an offense ' \
+         'for an open-ended range with an infinite upper bound' do
+        expect_no_offenses(<<~RUBY)
+          (-5...).map { create :user }
+        RUBY
+      end
+
+      it 'does not register an offense ' \
+         'for an open-ended range with an infinite lower bound' do
+        expect_no_offenses(<<~RUBY)
+          (...7).map { create :user }
+        RUBY
+      end
+
+      it 'does not register an offense for a range with variable bounds' do
+        expect_no_offenses(<<~RUBY)
+          (n...m).map { create :user }
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and positive float upper bound' do
+        expect_offense(<<~RUBY)
+          n = 2
+          (n...9.99).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = 2
+          create_list(:user, (10 - n))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and positive integer upper bound' do
+        expect_offense(<<~RUBY)
+          n = 2
+          (n...9).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = 2
+          create_list(:user, (9 - n))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and a float positive upper bound' do
+        expect_offense(<<~RUBY)
+          n = -5
+          (n...7.99).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = -5
+          create_list(:user, (8 - n))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and an positive integer upper bound' do
+        expect_offense(<<~RUBY)
+          n = -5
+          (n...7).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = -5
+          create_list(:user, (7 - n))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and a negative float upper bound' do
+        expect_offense(<<~RUBY)
+          n = -5
+          (n...-2.99).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = -5
+          create_list(:user, (-2 - n))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a variable lower bound ' \
+         'and an negative integer upper bound' do
+        expect_offense(<<~RUBY)
+          n = -5
+          (n...-2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          n = -5
+          create_list(:user, (-2 - n))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is an instance variable' do
+        expect_offense(<<~RUBY)
+          (@instance_variable...2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - @instance_variable))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is a class variable' do
+        expect_offense(<<~RUBY)
+          (@@class_variable...2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - @@class_variable))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is a global variable' do
+        expect_offense(<<~RUBY)
+          ($global_variable...2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - $global_variable))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is a constant' do
+        expect_offense(<<~RUBY)
+          (CONST...2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - CONST))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is a namespaced constant' do
+        expect_offense(<<~RUBY)
+          (SomeModule::CONST...2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - SomeModule::CONST))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the lower bound is a cbase namespaced constant' do
+        expect_offense(<<~RUBY)
+          (::SomeModule::CONST...2).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (2 - ::SomeModule::CONST))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with an positive integer lower bound ' \
+         'and a positive float upper bound' do
+        expect_offense(<<~RUBY)
+          m = 9.99
+          (2...m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = 9.99
+          create_list(:user, (m.ceil - 2))
+        RUBY
+      end
+
+      it 'registers and corrects an offense for a range with integer bounds' do
+        expect_offense(<<~RUBY)
+          m = 9
+          (2...m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = 9
+          create_list(:user, (m.ceil - 2))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a negative integer lower bound ' \
+         'and a positive float upper bound' do
+        expect_offense(<<~RUBY)
+          m = 7.99
+          (-5...m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = 7.99
+          create_list(:user, (m.ceil + 5))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a negative integer lower bound ' \
+         'and a positive integer upper bound' do
+        expect_offense(<<~RUBY)
+          m = 7
+          (-5...m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = 7
+          create_list(:user, (m.ceil + 5))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with a negative float lower bound ' \
+         'and a negative float upper bound' do
+        expect_offense(<<~RUBY)
+          m = -2.99
+          (-5...m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = -2.99
+          create_list(:user, (m.ceil + 5))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'for a range with negative integer bounds' do
+        expect_offense(<<~RUBY)
+          m = -2
+          (-5...m).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          m = -2
+          create_list(:user, (m.ceil + 5))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is an instance variable' do
+        expect_offense(<<~RUBY)
+          (2...@instance_variable).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (@instance_variable.ceil - 2))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is a class variable' do
+        expect_offense(<<~RUBY)
+          (2...@@class_variable).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (@@class_variable.ceil - 2))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is a global variable' do
+        expect_offense(<<~RUBY)
+          (2...$global_variable).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, ($global_variable.ceil - 2))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is a constant' do
+        expect_offense(<<~RUBY)
+          (2...CONST).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (CONST.ceil - 2))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is a namespaced constant' do
+        expect_offense(<<~RUBY)
+          (2...SomeModule::CONST).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (SomeModule::CONST.ceil - 2))
+        RUBY
+      end
+
+      it 'registers and corrects an offense ' \
+         'when the upper bound is a cbase namespaced constant' do
+        expect_offense(<<~RUBY)
+          (2...::SomeModule::CONST).map { create :user }
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer create_list.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          create_list(:user, (::SomeModule::CONST.ceil - 2))
+        RUBY
+      end
+    end
+
     context 'when ExplicitOnly is false' do
       let(:explicit_only) { false }
 
