@@ -108,6 +108,18 @@ module RuboCop
           (array #factory_call+)
         PATTERN
 
+        # @!method range_count(node)
+        def_node_matcher :range_count, <<~PATTERN
+          (block
+            (send
+              {
+                (begin            (range $_ $_))
+                (send nil? :Array (range $_ $_))
+              } :map)
+            (args)
+            (send nil? :create sym ...))
+        PATTERN
+
         def on_array(node)
           return unless same_factory_calls_in_array?(node)
           return if node.values.size < 2
@@ -120,9 +132,34 @@ module RuboCop
           end
         end
 
-        def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler, Metrics/CyclomaticComplexity
+        def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler
+          if (range = range_count(node))
+            process_range_based_offense(node, range)
+          else
+            process_repetition_offense(node)
+          end
+        end
+
+        def process_range_based_offense(node, range) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+          start_node, end_node = range
+          return if start_node.nil? || end_node.nil?
+          return if start_node.send_type? && end_node.send_type?
+
+          range_node = node.receiver.children.last
+          start_value = extract_numeric_or_source_value(start_node)
+          end_value = extract_numeric_or_source_value(end_node)
+
+          count = calculate_range_count(start_value, end_value, range_node.type)
+
+          add_offense(node, message: MSG_CREATE_LIST) do |corrector|
+            factory_name = node.body.first_argument.source
+            corrector.replace(node, "create_list(#{factory_name}, #{count})")
+          end
+        end
+
+        def process_repetition_offense(node) # rubocop:disable Metrics/CyclomaticComplexity
           return unless style == :create_list
-          return unless repeat_multiple_time?(node)
+          return unless repeats_multiple_times?(node)
           return if block_with_arg_and_used?(node)
           return unless node.body
           return if arguments_include_method_call?(node.body)
@@ -148,7 +185,51 @@ module RuboCop
 
         private
 
-        def repeat_multiple_time?(node)
+        def extract_numeric_or_source_value(end_node)
+          end_node.type?(:int, :float) ? end_node.value : end_node.source
+        end
+
+        def calculate_range_count(start_value, end_value, type) # rubocop:disable Metrics/MethodLength
+          if start_value.is_a?(Numeric) && end_value.is_a?(Numeric)
+            return calculate_numeric_range_count(start_value, end_value, type)
+          end
+
+          if end_value.is_a? Numeric
+            adjustment = "- #{start_value}"
+            count_expression_for_numeric_end(end_value, adjustment, type)
+          elsif start_value.is_a? Numeric
+            adjustment =
+              start_value.negative? ? "+ #{start_value.abs}" : "- #{start_value.floor}" # rubocop:disable Layout/LineLength
+            count_expression_for_numeric_start(end_value, adjustment, type)
+          end
+        end
+
+        def count_expression_for_numeric_end(value, adjustment, range_type)
+          case range_type
+          when :irange
+            "(#{value.floor} #{adjustment} + 1)"
+          when :erange
+            "(#{value.ceil} #{adjustment})"
+          end
+        end
+
+        def count_expression_for_numeric_start(value, adjustment, range_type)
+          case range_type
+          when :irange
+            "(#{value}.floor #{adjustment} + 1)"
+          when :erange
+            "(#{value}.ceil #{adjustment})"
+          end
+        end
+
+        def calculate_numeric_range_count(start_val, end_val, range_type)
+          count =
+            end_val.send(range_type == :irange ? :floor : :ceil) - start_val
+          count += 1 if range_type == :irange
+          count
+        end
+
+        def repeats_multiple_times?(node)
           return false unless (count = repeat_count(node))
 
           count > 1
