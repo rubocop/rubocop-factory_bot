@@ -42,8 +42,6 @@ RSpec.configure do |config|
   # RSpec gives helpful warnings when you are doing something wrong.
   # We should take their advice!
   config.raise_on_warning = true
-
-  config.include RuboCop::RSpec::ExpectOffense
 end
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))

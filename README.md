@@ -31,13 +31,13 @@ ways to do this:
 Put this into your `.rubocop.yml`.
 
 ```yaml
-require: rubocop-factory_bot
+plugins: rubocop-factory_bot
 ```
 
 Alternatively, use the following array notation when specifying multiple extensions.
 
 ```yaml
-require:
+plugins:
   - rubocop-other-extension
   - rubocop-factory_bot
 ```
@@ -45,17 +45,20 @@ require:
 Now you can run `rubocop` and it will automatically load the RuboCop factory_bot
 cops together with the standard cops.
 
+> [!NOTE]
+> The plugin system is supported in RuboCop 1.72+. In earlier versions, use `require` instead of `plugins`.
+
 ### Command line
 
 ```bash
-rubocop --require rubocop-factory_bot
+rubocop --plugin rubocop-factory_bot
 ```
 
 ### Rake task
 
 ```ruby
 RuboCop::RakeTask.new do |task|
-  task.requires << 'rubocop-factory_bot'
+  task.plugins << 'rubocop-factory_bot'
 end
 ```
 

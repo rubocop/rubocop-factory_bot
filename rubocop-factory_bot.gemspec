@@ -30,8 +30,10 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     'changelog_uri' => 'https://github.com/rubocop/rubocop-factory_bot/blob/master/CHANGELOG.md',
     'documentation_uri' => 'https://docs.rubocop.org/rubocop-factory_bot/',
-    'rubygems_mfa_required' => 'true'
+    'rubygems_mfa_required' => 'true',
+    'default_lint_roller_plugin' => 'RuboCop::FactoryBot::Plugin'
   }
 
-  spec.add_runtime_dependency 'rubocop', '~> 1.61'
+  spec.add_dependency 'lint_roller', '~> 1.1'
+  spec.add_dependency 'rubocop', '~> 1.72', '>= 1.72.1'
 end
