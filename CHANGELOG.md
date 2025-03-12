@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+- Fix incorrect plugin version. ([@koic])
+
 ## 2.27.0 (2025-03-06)
 
 - Fix a false positive for `FactoryBot/ConsistentParenthesesStyle` when using traits and omitting hash values. ([@thejonroberts])
@@ -105,6 +107,7 @@
 [@jaydorsey]: https://github.com/jaydorsey
 [@jfragoulis]: https://github.com/jfragoulis
 [@jonatas]: https://github.com/jonatas
+[@koic]: https://github.com/koic
 [@leoarnold]: https://github.com/leoarnold
 [@liberatys]: https://github.com/Liberatys
 [@morissetcl]: https://github.com/morissetcl
