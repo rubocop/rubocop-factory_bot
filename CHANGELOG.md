@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+## 2.27.1 (2025-03-12)
+
 - Fix incorrect plugin version. ([@koic])
 
 ## 2.27.0 (2025-03-06)
