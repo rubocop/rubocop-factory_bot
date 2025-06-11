@@ -2,10 +2,12 @@
 
 ## Master (Unreleased)
 
+- Fix an error for `FactoryBot/AssociationStyle` cop when `trait` is not inside `factory` block. ([@viralpraxis])
+- Fix an error for `FactoryBot/ConsistentParenthesesStyle` cop when using keyword splat argument. ([@viralpraxis])
+
 ## 2.27.1 (2025-03-12)
 
 - Fix incorrect plugin version. ([@koic])
-- Fix an error for `FactoryBot/AssociationStyle` cop when `trait` is not inside `factory` block. ([@viralpraxis])
 
 ## 2.27.0 (2025-03-06)
 

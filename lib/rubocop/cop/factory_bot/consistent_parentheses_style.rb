@@ -81,7 +81,7 @@ module RuboCop
             #factory_call? %FACTORY_CALLS
             {sym str send lvar} _*
             (hash
-              <value_omission? ...>
+              <[!kwsplat value_omission?] ...>
             )
           )
         PATTERN

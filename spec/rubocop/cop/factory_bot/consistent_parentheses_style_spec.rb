@@ -456,6 +456,20 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
         RUBY
       end
     end
+
+    it 'registers an offense with `splat`' do
+      expect_offense(<<~RUBY)
+        build(:user, :trait, *args)
+        ^^^^^ Prefer method call without parentheses
+      RUBY
+    end
+
+    it 'registers an offense with `kwsplat` node argument' do
+      expect_offense(<<~RUBY)
+        build(:user, :trait, foo: :bar, **kwargs)
+        ^^^^^ Prefer method call without parentheses
+      RUBY
+    end
   end
 
   context 'when ExplicitOnly is false' do
