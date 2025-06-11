@@ -5,6 +5,7 @@
 ## 2.27.1 (2025-03-12)
 
 - Fix incorrect plugin version. ([@koic])
+- Fix an error for `FactoryBot/AssociationStyle` cop when `trait` is not inside `factory` block. ([@viralpraxis])
 
 ## 2.27.0 (2025-03-06)
 
@@ -121,6 +122,7 @@
 [@tdeo]: https://github.com/tdeo
 [@tejasbubane]: https://github.com/tejasbubane
 [@thejonroberts]: https://github.com/thejonroberts
+[@viralpraxis]: https://github.com/viralpraxis
 [@vzvu3k6k]: https://github.com/vzvu3k6k
 [@walf443]: https://github.com/walf443
 [@ybiquitous]: https://github.com/ybiquitous
