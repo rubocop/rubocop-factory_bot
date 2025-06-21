@@ -315,6 +315,14 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
     end
 
     context 'when implicit association is called in trait block' do
+      it 'does not register an offense for `trait` without `factory` block' do
+        expect_no_offenses(<<~RUBY)
+          trait :with_user do
+            user
+          end
+        RUBY
+      end
+
       it 'registers and corrects an offense' do
         expect_offense(<<~RUBY)
           factory :article do

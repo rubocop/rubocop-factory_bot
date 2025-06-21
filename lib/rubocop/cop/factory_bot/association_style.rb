@@ -175,7 +175,9 @@ module RuboCop
         def bad?(node)
           if style == :explicit
             implicit_association?(node) &&
-              !trait_within_trait?(node)
+              (factory_node = trait_factory_node(node)) && !trait_within_trait?(
+                node, factory_node
+              )
           else
             explicit_association?(node) &&
               !with_strategy_build_option?(node) &&
@@ -247,12 +249,14 @@ module RuboCop
           options
         end
 
-        def trait_within_trait?(node)
-          factory_node = node.ancestors.reverse.find do |ancestor|
+        def trait_within_trait?(node, factory_node)
+          trait_name(factory_node).include?(node.method_name)
+        end
+
+        def trait_factory_node(node)
+          node.ancestors.reverse.find do |ancestor|
             ancestor.method?(:factory) if ancestor.block_type?
           end
-
-          trait_name(factory_node).include?(node.method_name)
         end
       end
     end
