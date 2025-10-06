@@ -682,6 +682,56 @@ end
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/IdSequence
 
+[#factorybotredundantenumtrait]
+== FactoryBot/RedundantEnumTrait
+
+NOTE: Required FactoryBot version: 6.1
+
+|===
+| Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
+
+| Pending
+| Yes
+| Always
+| <<next>>
+| -
+|===
+
+Checks for redundant enum traits in FactoryBot definitions.
+
+[#examples-factorybotredundantenumtrait]
+=== Examples
+
+[source,ruby]
+----
+# bad
+factory :task do
+  trait :queued do
+    status { Task.statuses[:queued] }
+  end
+end
+
+# good
+factory :task do
+end
+----
+
+[#configurable-attributes-factorybotredundantenumtrait]
+=== Configurable attributes
+
+|===
+| Name | Default value | Configurable values
+
+| TargetFactoryBotVersion
+| `6.1`
+| Float
+|===
+
+[#references-factorybotredundantenumtrait]
+=== References
+
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/RedundantEnumTrait
+
 [#factorybotredundantfactoryoption]
 == FactoryBot/RedundantFactoryOption
 

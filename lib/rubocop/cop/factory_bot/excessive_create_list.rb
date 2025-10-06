@@ -23,7 +23,7 @@ module RuboCop
       #   # good
       #   create_list(:merge_request, 15, state: :opened)
       #
-      class ExcessiveCreateList < ::RuboCop::Cop::Base
+      class ExcessiveCreateList < Base
         include ConfigurableExplicitOnly
 
         MESSAGE =

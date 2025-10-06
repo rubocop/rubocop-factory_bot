@@ -1,4 +1,14 @@
 ---
+AllCops:
+  # What version of FactoryBot is the inspected code using? If a value is specified
+  # for `TargetFactoryBotVersion` then it is used. Acceptable values are specified
+  # as a float (e.g., 6.1); the patch version of FactoryBot should not be included.
+  # If `TargetFactoryBotVersion` is not set, RuboCop will parse the Gemfile.lock or
+  # gems.locked file to find the version of FactoryBot that has been bound to the
+  # application. If neither of those files exist, RuboCop will use FactoryBot 6.1
+  # as the default.
+  TargetFactoryBotVersion: ~
+
 FactoryBot:
   Enabled: true
   Include:
@@ -118,6 +128,12 @@ FactoryBot/IdSequence:
   Enabled: pending
   VersionAdded: '2.24'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/IdSequence
+
+FactoryBot/RedundantEnumTrait:
+  Description: Checks for redundant enum traits in FactoryBot definitions.
+  Enabled: pending
+  VersionAdded: "<<next>>"
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/RedundantEnumTrait
 
 FactoryBot/RedundantFactoryOption:
   Description: Checks for redundant `factory` option.

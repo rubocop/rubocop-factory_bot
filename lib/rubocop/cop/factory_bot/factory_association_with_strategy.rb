@@ -26,7 +26,7 @@ module RuboCop
       #     profile { association :profile }
       #   end
       #
-      class FactoryAssociationWithStrategy < ::RuboCop::Cop::Base
+      class FactoryAssociationWithStrategy < Base
         MSG = 'Use an implicit, explicit or inline definition instead of ' \
               'hard coding a strategy for setting association within factory.'
 

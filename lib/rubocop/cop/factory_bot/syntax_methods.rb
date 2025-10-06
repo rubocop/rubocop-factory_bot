@@ -45,7 +45,7 @@ module RuboCop
       #   build(:bar)
       #   attributes_for(:bar)
       #
-      class SyntaxMethods < ::RuboCop::Cop::Base
+      class SyntaxMethods < Base
         extend AutoCorrector
         include RangeHelp
         include RuboCop::FactoryBot::Language
