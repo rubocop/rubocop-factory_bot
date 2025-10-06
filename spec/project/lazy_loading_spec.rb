@@ -17,7 +17,10 @@ RSpec.describe 'cop lazy loading' do
 
   it 'registers every cop file in `lib/rubocop/cop/factory_bot` exactly once' do
     cop_root = File.expand_path('../../lib/rubocop/cop', __dir__)
-    files = Dir[File.join(cop_root, 'factory_bot', '*.rb')].sort
+    files =
+      Dir[File.join(cop_root, 'factory_bot', '*.rb')]
+      .sort
+      .reject { |file| file.end_with?('/base.rb') }
 
     department = RuboCop::Cop::Registry.global.cops_for_department(:FactoryBot)
     registered = department.map do |cop|

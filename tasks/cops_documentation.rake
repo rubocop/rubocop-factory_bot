@@ -12,8 +12,18 @@ end
 
 desc 'Generate docs of all cops departments'
 task generate_cops_documentation: :yard_for_generate_documentation do
+  # NOTE: Insert minimum_target_factory_bot_version after ruby version
+  required_factory_bot_version = lambda do |data|
+    unless (version = data.cop.gem_requirements[RuboCop::Cop::FactoryBot::TargetFactoryBotVersion::TARGET_GEM_NAME])
+      return ''
+    end
+
+    "NOTE: Required FactoryBot version: #{version.requirements[0][1]}\n\n"
+  end
+  extra_info = { required_ruby_version: required_factory_bot_version }
   generator = CopsDocumentationGenerator.new(
     departments: %w[FactoryBot],
+    extra_info: extra_info,
     plugin_name: 'rubocop-factory_bot'
   )
   generator.call

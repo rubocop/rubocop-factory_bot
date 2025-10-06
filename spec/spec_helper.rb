@@ -47,3 +47,4 @@ end
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'rubocop-factory_bot'
+require_relative 'support/shared_contexts'

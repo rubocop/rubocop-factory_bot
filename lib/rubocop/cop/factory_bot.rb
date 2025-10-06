@@ -18,6 +18,7 @@ module RuboCop
       register_cop :HardcodedId, "#{__dir__}/factory_bot/hardcoded_id"
       register_cop :IdSequence, "#{__dir__}/factory_bot/id_sequence"
       register_cop :RedundantFactoryOption, "#{__dir__}/factory_bot/redundant_factory_option"
+      register_cop :RedundantEnumTrait, "#{__dir__}/factory_bot/redundant_enum_trait"
       register_cop :SyntaxMethods, "#{__dir__}/factory_bot/syntax_methods"
     end
   end
