@@ -16,7 +16,7 @@ module RuboCop
       #     sequence :some_non_id_column
       #   end
       #
-      class IdSequence < ::RuboCop::Cop::Base
+      class IdSequence < Base
         extend AutoCorrector
         include RangeHelp
         include RuboCop::FactoryBot::Language

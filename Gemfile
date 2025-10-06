@@ -6,6 +6,7 @@ gemspec
 
 gem 'bump'
 gem 'danger'
+gem 'irb'
 gem 'rack'
 gem 'rake'
 gem 'rspec', '~> 3.11'

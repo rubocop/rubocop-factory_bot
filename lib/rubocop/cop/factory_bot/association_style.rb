@@ -60,7 +60,7 @@ module RuboCop
       #   factory :user do
       #     email
       #   end
-      class AssociationStyle < ::RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
+      class AssociationStyle < Base # rubocop:disable Metrics/ClassLength
         extend AutoCorrector
 
         include ConfigurableEnforcedStyle

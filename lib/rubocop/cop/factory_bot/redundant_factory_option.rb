@@ -11,7 +11,7 @@ module RuboCop
       #
       #   # good
       #   association :user
-      class RedundantFactoryOption < ::RuboCop::Cop::Base
+      class RedundantFactoryOption < Base
         extend AutoCorrector
 
         include RangeHelp

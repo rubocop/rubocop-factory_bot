@@ -58,7 +58,7 @@ module RuboCop
       #   create_list :user, 3
       #   3.times { create :user }
       #
-      class CreateList < ::RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
+      class CreateList < Base # rubocop:disable Metrics/ClassLength
         extend AutoCorrector
         include ConfigurableEnforcedStyle
         include RuboCop::FactoryBot::Language

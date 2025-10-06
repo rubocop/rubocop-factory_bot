@@ -13,12 +13,13 @@ RSpec.describe 'config/default.yml' do
 
   let(:cop_names) do
     glob = SpecHelper::ROOT.join('lib', 'rubocop', 'cop', 'factory_bot', '*.rb')
-    Pathname.glob(glob).map do |file|
+    names = Pathname.glob(glob).map do |file|
       file_name = file.basename('.rb').to_s
       cop_name  = file_name.gsub(/(^|_)(.)/) { Regexp.last_match(2).upcase }
       namespace = namespaces[file.dirname.basename.to_s]
       "#{namespace}/#{cop_name}"
     end
+    names.reject { |name| name == 'FactoryBot/Base' }
   end
 
   let(:config_keys) do
@@ -53,7 +54,7 @@ RSpec.describe 'config/default.yml' do
 
   it 'has configuration for all cops' do
     expect(default_config.keys)
-      .to match_array(config_keys)
+      .to match_array(['AllCops'] + config_keys)
   end
 
   it 'sorts configuration keys alphabetically with nested namespaces last' do

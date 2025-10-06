@@ -19,7 +19,7 @@ module RuboCop
       #   factory :foo, class: 'Foo' do
       #   end
       #
-      class FactoryClassName < ::RuboCop::Cop::Base
+      class FactoryClassName < Base
         extend AutoCorrector
 
         MSG = "Pass '%<class_name>s' string instead of `%<class_name>s` " \
