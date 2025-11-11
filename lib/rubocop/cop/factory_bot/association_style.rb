@@ -65,14 +65,6 @@ module RuboCop
 
         include ConfigurableEnforcedStyle
 
-        DEFAULT_NON_IMPLICIT_ASSOCIATION_METHOD_NAMES = %w[
-          association
-          factory
-          sequence
-          skip_create
-          traits_for_enum
-        ].freeze
-
         RESTRICT_ON_SEND = %i[factory trait].freeze
         KEYWORDS = %i[alias and begin break case class def defined? do
                       else elsif end ensure false for if in module
@@ -228,7 +220,7 @@ module RuboCop
         end
 
         def non_implicit_association_method_names
-          DEFAULT_NON_IMPLICIT_ASSOCIATION_METHOD_NAMES +
+          RuboCop::FactoryBot.reserved_methods.map(&:to_s) +
             (cop_config['NonImplicitAssociationMethodNames'] || [])
         end
 
