@@ -7,6 +7,7 @@
 - Fix an error for `FactoryBot/AssociationStyle` cop when `trait` is not inside `factory` block. ([@viralpraxis])
 - Fix an error for `FactoryBot/ConsistentParenthesesStyle` cop when using keyword splat argument. ([@viralpraxis])
 - Fix a false negative for `FactoryBot/SyntaxMethods` when method is used inside a module. ([@lovro-bikic])
+- Fix an autocorrection for `FactoryBot/AssociationStyle` cop when the trait is not a symbol literal. ([@ydah])
 
 ## 2.27.1 (2025-03-12)
 

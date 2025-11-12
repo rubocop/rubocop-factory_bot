@@ -123,9 +123,9 @@ module RuboCop
           )
         PATTERN
 
-        # @!method trait_names_from_explicit(node)
-        def_node_matcher :trait_names_from_explicit, <<~PATTERN
-          (send nil? :association _ (sym $_)* ...)
+        # @!method trait_arguments(node)
+        def_node_matcher :trait_arguments, <<~PATTERN
+          (send nil? :association sym $_ ...)
         PATTERN
 
         # @!method association_names(node)
@@ -206,11 +206,34 @@ module RuboCop
         end
 
         def factory_names_from_explicit(node)
-          trait_names = trait_names_from_explicit(node)
-          factory_names = Array(factory_option_matcher(node))
-          result = factory_names + trait_names
-          if factory_names.empty? && !trait_names.empty?
-            result.prepend(node.first_argument.value)
+          factory_option_names = Array(factory_option_matcher(node))
+          trait_args = collect_trait_arguments(node)
+          if factory_option_names.any?
+            build_factory_list_with_option(factory_option_names, trait_args)
+          elsif trait_args.any?
+            build_factory_list_without_option(node.first_argument.value,
+                                              trait_args)
+          else
+            []
+          end
+        end
+
+        def collect_trait_arguments(node)
+          node.arguments[1..].reject(&:hash_type?)
+        end
+
+        def build_factory_list_with_option(factory_option_names, trait_args)
+          result = factory_option_names.dup
+          trait_args.each do |arg|
+            result << (arg.sym_type? ? arg.value : arg.source)
+          end
+          result
+        end
+
+        def build_factory_list_without_option(association_name, trait_args)
+          result = [association_name]
+          trait_args.each do |arg|
+            result << (arg.sym_type? ? arg.value : arg.source)
           end
           result
         end
@@ -236,9 +259,21 @@ module RuboCop
           options = options_from_explicit(node)
           factory_names = factory_names_from_explicit(node)
           unless factory_names.empty?
-            options[:factory] = "%i[#{factory_names.join(' ')}]"
+            options[:factory] = implicit_style(factory_names)
           end
           options
+        end
+
+        def implicit_style(factory_names)
+          if factory_names.any?(String)
+            "[#{formatted_elements(factory_names).join(', ')}]"
+          else
+            "%i[#{factory_names.join(' ')}]"
+          end
+        end
+
+        def formatted_elements(factory_names)
+          factory_names.map { |name| name.is_a?(Symbol) ? ":#{name}" : name }
         end
 
         def trait_within_trait?(node, factory_node)

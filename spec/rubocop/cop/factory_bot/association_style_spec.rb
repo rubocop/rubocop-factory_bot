@@ -113,6 +113,111 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
       end
     end
 
+    context 'when `association` is called with non-symbol trait' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            association :user, foo
+            ^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            user factory: [:user, foo]
+          end
+        RUBY
+      end
+    end
+
+    context 'when `association` is called with mixed symbol and ' \
+            'non-symbol traits' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            association :user, :admin, foo
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            user factory: [:user, :admin, foo]
+          end
+        RUBY
+      end
+    end
+
+    context 'when `association` is called with multiple non-symbol traits' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            association :user, foo, bar
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            user factory: [:user, foo, bar]
+          end
+        RUBY
+      end
+    end
+
+    context 'when `association` is called with non-symbol trait and ' \
+            'factory option' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            association :author, foo, factory: :user
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            author factory: [:user, foo]
+          end
+        RUBY
+      end
+    end
+
+    context 'when `association` is called with method call as trait' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            association :user, get_trait
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            user factory: [:user, get_trait]
+          end
+        RUBY
+      end
+    end
+
+    context 'when `association` is called with conditional expression ' \
+            'as trait' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            association :user, admin? ? :admin : :regular
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            user factory: [:user, admin? ? :admin : :regular]
+          end
+        RUBY
+      end
+    end
+
     context 'when `association` is called with factory option' do
       it 'registers and corrects an offense' do
         expect_offense(<<~RUBY)
