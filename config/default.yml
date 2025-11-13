@@ -80,13 +80,14 @@ FactoryBot/ExcessiveCreateList:
 FactoryBot/FactoryAssociationWithStrategy:
   Description: Use definition in factory association instead of hard coding a strategy.
   Enabled: pending
+  SafeAutoCorrect: false
   Include:
     - "**/*_spec.rb"
     - "**/spec/**/*"
     - "**/test/**/*"
     - "**/features/support/factories/**/*.rb"
   VersionAdded: '2.23'
-  VersionChanged: '2.23'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryAssociationWithStrategy
 
 FactoryBot/FactoryClassName:

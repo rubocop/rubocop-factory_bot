@@ -2,6 +2,8 @@
 
 ## Master (Unreleased)
 
+- Mark `FactoryBot/FactoryAssociationWithStrategy`'s autocorrection as unsafe. ([@r7kamura])
+
 ## 2.28.0 (2025-11-12)
 
 - Fix an error for `FactoryBot/AssociationStyle` cop when `trait` is not inside `factory` block. ([@viralpraxis])

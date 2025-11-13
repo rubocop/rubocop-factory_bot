@@ -5,6 +5,9 @@ module RuboCop
     module FactoryBot
       # Use definition in factory association instead of hard coding a strategy.
       #
+      # @safety
+      #   This cop's autocorrection is unsafe because the strategy may change.
+      #
       # @example
       #   # bad - only works for one strategy
       #   factory :foo do
