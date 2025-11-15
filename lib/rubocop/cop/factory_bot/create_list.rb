@@ -3,7 +3,7 @@
 module RuboCop
   module Cop
     module FactoryBot
-      # Checks for create_list usage.
+      # Enforce consistent style for repeated factory creation.
       #
       # This cop can be configured using the `EnforcedStyle` option
       #

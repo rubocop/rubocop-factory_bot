@@ -3,7 +3,7 @@
 module RuboCop
   module Cop
     module FactoryBot
-      # Checks for redundant `factory` option.
+      # Remove redundant `factory` option.
       #
       # @example
       #   # bad

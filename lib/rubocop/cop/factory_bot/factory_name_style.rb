@@ -3,9 +3,9 @@
 module RuboCop
   module Cop
     module FactoryBot
-      # Checks for name style for argument of FactoryBot::Syntax::Methods.
+      # Enforce consistent style for factory names.
       #
-      # @example EnforcedStyle: symbol (default)
+      # @example `EnforcedStyle: symbol` (default)
       #   # bad
       #   create('user')
       #   build "user", username: "NAME"
@@ -17,7 +17,7 @@ module RuboCop
       #   # good - namespaced models
       #   create('users/internal')
       #
-      # @example EnforcedStyle: string
+      # @example `EnforcedStyle: string`
       #   # bad
       #   create(:user)
       #   build :user, username: "NAME"

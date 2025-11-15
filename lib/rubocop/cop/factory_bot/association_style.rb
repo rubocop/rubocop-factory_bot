@@ -10,7 +10,7 @@ module RuboCop
       #   case. It recognizes any method call that has no arguments as an
       #   implicit association but it might be a user-defined trait call.
       #
-      # @example EnforcedStyle: implicit (default)
+      # @example `EnforcedStyle: implicit` (default)
       #   # bad
       #   factory :post do
       #     association :user
@@ -31,7 +31,7 @@ module RuboCop
       #     user factory: %i[user author]
       #   end
       #
-      # @example EnforcedStyle: explicit
+      # @example `EnforcedStyle: explicit`
       #   # bad
       #   factory :post do
       #     user
