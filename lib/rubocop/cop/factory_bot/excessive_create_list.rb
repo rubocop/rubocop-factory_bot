@@ -3,9 +3,9 @@
 module RuboCop
   module Cop
     module FactoryBot
-      # Check for excessive model creation in a list.
+      # Limit the number of models created in a list.
       #
-      # @example MaxAmount: 10 (default)
+      # @example `MaxAmount: 10` (default)
       #   # We do not allow more than 10 items to be created
       #
       #   # bad
@@ -14,7 +14,7 @@ module RuboCop
       #   # good
       #   create_list(:merge_request, 10, state: :opened)
       #
-      # @example MaxAmount: 20
+      # @example `MaxAmount: 20`
       #   # We do not allow more than 20 items to be created
       #
       #   # bad
