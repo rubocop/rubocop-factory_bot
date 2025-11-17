@@ -3,59 +3,76 @@
 module RuboCop
   module Cop
     module FactoryBot
-      # Use definition in factory association instead of hard coding a strategy.
+      # Avoid hard-coding the strategy when defining an association.
+      #
+      # @safety
+      #   This cop's autocorrection is unsafe because it changes the strategy.
       #
       # @example
-      #   # bad - only works for one strategy
-      #   factory :foo do
-      #     profile { create(:profile) }
+      #   # bad
+      #   factory :article do
+      #     user { create(:user) }
       #   end
       #
       #   # good - implicit
-      #   factory :foo do
-      #     profile
+      #   factory :article do
+      #     user
       #   end
       #
       #   # good - explicit
-      #   factory :foo do
-      #     association :profile
+      #   factory :article do
+      #     association :user
       #   end
       #
       #   # good - inline
-      #   factory :foo do
-      #     profile { association :profile }
+      #   factory :article do
+      #     user { association(:user) }
       #   end
-      #
       class FactoryAssociationWithStrategy < ::RuboCop::Cop::Base
-        MSG = 'Use an implicit, explicit or inline definition instead of ' \
-              'hard coding a strategy for setting association within factory.'
+        extend AutoCorrector
 
-        HARDCODED = Set.new(%i[create build build_stubbed]).freeze
+        MSG = 'Avoid hard-coding the strategy when defining an association.'
 
-        # @!method factory_declaration(node)
-        def_node_matcher :factory_declaration, <<~PATTERN
+        BUILD_METHOD_NAMES = %i[
+          build
+          build_stubbed
+          create
+        ].to_set.freeze
+
+        # @!method factory_or_trait_declaration?(node)
+        def_node_matcher :factory_or_trait_declaration?, <<~PATTERN
           (block (send nil? {:factory :trait} ...)
             ...
           )
         PATTERN
 
-        # @!method factory_strategy_association(node)
-        def_node_matcher :factory_strategy_association, <<~PATTERN
+        # @!method hardcoded_association(node)
+        def_node_matcher :hardcoded_association, <<~PATTERN
           (block
             (send nil? _association_name)
             (args)
-            < $(send nil? HARDCODED ...) ... >
+            < $(send nil? BUILD_METHOD_NAMES ...) ... >
           )
         PATTERN
 
         def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler
-          factory_declaration(node) do
-            node.each_node do |statement|
-              factory_strategy_association(statement) do |hardcoded_association|
-                add_offense(hardcoded_association)
-              end
+          return unless factory_or_trait_declaration?(node)
+
+          node.each_node do |factory_descendant|
+            build_node = hardcoded_association(factory_descendant)
+            next unless build_node
+
+            add_offense(build_node) do |corrector|
+              autocorrect(corrector, build_node)
             end
           end
+        end
+
+        def autocorrect(corrector, node)
+          corrector.replace(
+            node.location.selector,
+            'association'
+          )
         end
       end
     end

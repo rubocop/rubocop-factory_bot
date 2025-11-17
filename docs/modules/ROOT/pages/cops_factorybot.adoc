@@ -455,36 +455,41 @@ create_list(:merge_request, 15, state: :opened)
 
 | Pending
 | Yes
-| No
+| Always (Unsafe)
 | 2.23
-| 2.23
+| <<next>>
 |===
 
-Use definition in factory association instead of hard coding a strategy.
+Avoid hard-coding the strategy when defining an association.
+
+[#safety-factorybotfactoryassociationwithstrategy]
+=== Safety
+
+This cop's autocorrection is unsafe because it changes the strategy.
 
 [#examples-factorybotfactoryassociationwithstrategy]
 === Examples
 
 [source,ruby]
 ----
-# bad - only works for one strategy
-factory :foo do
-  profile { create(:profile) }
+# bad
+factory :article do
+  user { create(:user) }
 end
 
 # good - implicit
-factory :foo do
-  profile
+factory :article do
+  user
 end
 
 # good - explicit
-factory :foo do
-  association :profile
+factory :article do
+  association :user
 end
 
 # good - inline
-factory :foo do
-  profile { association :profile }
+factory :article do
+  user { association(:user) }
 end
 ----
 
