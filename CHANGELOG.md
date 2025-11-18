@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
+- Fix a false positive for `FactoryBot/AssociationStyle` when `strategy` option is used. ([@r7kamura])
 
 ## 2.28.0 (2025-11-12)
 
