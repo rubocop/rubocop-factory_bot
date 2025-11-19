@@ -55,6 +55,21 @@ end
 factory :post do
   user factory: %i[user author]
 end
+
+# bad
+factory :post do
+  user { association :user }
+end
+
+# good
+factory :post do
+  user
+end
+
+# good (NonImplicitAssociationMethodNames: ['foo'])
+factory :post do
+  foo { association :foo }
+end
 ----
 
 [#_enforcedstyle_-explicit_-factorybotassociationstyle]
@@ -80,6 +95,16 @@ end
 # good
 factory :post do
   association :user, :author
+end
+
+# bad
+factory :post do
+  user { association :user }
+end
+
+# good
+factory :post do
+  association :user
 end
 
 # good (NonImplicitAssociationMethodNames: ['email'])
