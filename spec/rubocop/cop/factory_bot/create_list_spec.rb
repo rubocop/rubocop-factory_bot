@@ -66,6 +66,14 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       RUBY
     end
 
+    context 'when Ruby 3.4', :ruby34 do
+      it 'ignores n.times with the implicit block parameter' do
+        expect_no_offenses(<<~RUBY)
+          3.times { create :user, position: it }
+        RUBY
+      end
+    end
+
     it 'flags n.times when create call doesn\'t have method calls' do
       expect_offense(<<~RUBY)
         3.times { |n| create :user, :active }

@@ -36,7 +36,7 @@ module RuboCop
 
         # @!method factory_attributes(node)
         def_node_matcher :factory_attributes, <<~PATTERN
-          (block (send _ #attribute_defining_method? ...) _ { (begin $...) $(send ...) } )
+          (any_block (send _ #attribute_defining_method? ...) _ { (begin $...) $(send ...) } )
         PATTERN
 
         def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler
@@ -52,6 +52,7 @@ module RuboCop
             end
           end
         end
+        alias on_itblock on_block
 
         private
 

@@ -41,7 +41,7 @@ module RuboCop
 
         # @!method factory_or_trait_declaration?(node)
         def_node_matcher :factory_or_trait_declaration?, <<~PATTERN
-          (block (send nil? {:factory :trait} ...)
+          (any_block (send nil? {:factory :trait} ...)
             ...
           )
         PATTERN
@@ -67,6 +67,7 @@ module RuboCop
             end
           end
         end
+        alias on_itblock on_block
 
         def autocorrect(corrector, node)
           corrector.replace(
