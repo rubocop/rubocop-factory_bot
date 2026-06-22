@@ -120,7 +120,7 @@ module RuboCop
           end
         end
 
-        def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler, Metrics/CyclomaticComplexity
+        def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler, InternalAffairs/ItblockHandler, Metrics/CyclomaticComplexity
           return unless style == :create_list
           return unless repeat_multiple_time?(node)
           return if block_with_arg_and_used?(node)
