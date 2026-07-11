@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Confirm config and documentation
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
-      - uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74 # v1.314.0
         with:
           ruby-version: ruby
           bundler-cache: true
@@ -41,8 +41,8 @@ jobs:
           - spec
     name: "Ruby ${{ matrix.ruby }}: ${{ matrix.task }}"
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
-      - uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74 # v1.314.0
         with:
           ruby-version: "${{ matrix.ruby }}"
           bundler-cache: true
@@ -52,8 +52,8 @@ jobs:
     runs-on: ubuntu-latest
     name: "Test coverage"
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
-      - uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74 # v1.314.0
         with:
           ruby-version: ruby
           bundler-cache: true
@@ -68,11 +68,11 @@ jobs:
           - spec
     name: "Edge RuboCop: ${{ matrix.task }}"
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       - name: Use latest RuboCop from `master`
         run: |
           echo "gem 'rubocop', github: 'rubocop/rubocop'" > Gemfile.local
-      - uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74
+      - uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74 # v1.314.0
         with:
           ruby-version: ruby
           bundler-cache: true
@@ -82,14 +82,14 @@ jobs:
     runs-on: ubuntu-latest
     name: Prism
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       - name: Use prism parser
         run: |
           cat << EOF > Gemfile.local
             gem 'prism'
           EOF
       - name: set up Ruby
-        uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74
+        uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74 # v1.314.0
         with:
           # Specify the minimum Ruby version 2.7 required for Prism to run.
           ruby-version: 2.7
