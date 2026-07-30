@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Confirm config and documentation
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1.319.0
         with:
           ruby-version: ruby
@@ -41,7 +41,7 @@ jobs:
           - spec
     name: "Ruby ${{ matrix.ruby }}: ${{ matrix.task }}"
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1.319.0
         with:
           ruby-version: "${{ matrix.ruby }}"
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     name: "Test coverage"
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1.319.0
         with:
           ruby-version: ruby
@@ -68,7 +68,7 @@ jobs:
           - spec
     name: "Edge RuboCop: ${{ matrix.task }}"
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Use latest RuboCop from `master`
         run: |
           echo "gem 'rubocop', github: 'rubocop/rubocop'" > Gemfile.local
@@ -82,7 +82,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Prism
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Use prism parser
         run: |
           cat << EOF > Gemfile.local
