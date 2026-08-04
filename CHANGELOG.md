@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
+- Speed up loading rubocop-factory_bot by lazily loading only the cops needed for a run. This requires RuboCop 1.89.0+. ([@bquorning])
 
 ## 2.28.0 (2025-11-12)
 

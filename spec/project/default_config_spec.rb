@@ -12,13 +12,7 @@ RSpec.describe 'config/default.yml' do
   end
 
   let(:cop_names) do
-    glob = SpecHelper::ROOT.join('lib', 'rubocop', 'cop', 'factory_bot', '*.rb')
-    Pathname.glob(glob).map do |file|
-      file_name = file.basename('.rb').to_s
-      cop_name  = file_name.gsub(/(^|_)(.)/) { Regexp.last_match(2).upcase }
-      namespace = namespaces[file.dirname.basename.to_s]
-      "#{namespace}/#{cop_name}"
-    end
+    RuboCop::Cop::Registry.global.names.grep(%r{\AFactoryBot/})
   end
 
   let(:config_keys) do
