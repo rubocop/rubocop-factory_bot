@@ -14,7 +14,7 @@ Use the bundled rake task `new_cop` to generate a cop template:
 $ bundle exec rake 'new_cop[FactoryBot/CopName]'
 [create] lib/rubocop/cop/factory_bot/cop_name.rb
 [create] spec/rubocop/cop/factory_bot/cop_name_spec.rb
-[modify] lib/rubocop/cop/factory_bot_cops.rb - `require_relative 'factory_bot/cop_name'` was injected.
+[modify] lib/rubocop/cop/factory_bot.rb - `register_cop :CopName, "#{__dir__}/factory_bot/cop_name"` was injected.
 [modify] A configuration for the cop is added into config/default.yml.
 Do 4 steps:
   1. Modify the description of FactoryBot/CopName in config/default.yml
