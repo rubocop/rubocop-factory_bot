@@ -57,7 +57,7 @@ module RuboCop
       #   create :user
       #   build :user
       #
-      class ConsistentParenthesesStyle < ::RuboCop::Cop::Base
+      class ConsistentParenthesesStyle < RuboCop::Cop::Base
         extend AutoCorrector
         include ConfigurableEnforcedStyle
         include ConfigurableExplicitOnly

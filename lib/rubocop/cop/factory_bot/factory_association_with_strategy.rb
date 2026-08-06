@@ -28,7 +28,7 @@ module RuboCop
       #   factory :article do
       #     user { association(:user) }
       #   end
-      class FactoryAssociationWithStrategy < ::RuboCop::Cop::Base
+      class FactoryAssociationWithStrategy < RuboCop::Cop::Base
         extend AutoCorrector
 
         MSG = 'Avoid hard-coding the strategy when defining an association.'
