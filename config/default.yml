@@ -115,7 +115,7 @@ FactoryBot/FactoryNameStyle:
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
 FactoryBot/HardcodedId:
-  Description: Do not pass a hardcoded `id:` to `create`.
+  Description: Checks for an `id:` attribute passed to `create`.
   Enabled: pending
   Include:
     - "**/*_spec.rb"
@@ -124,7 +124,7 @@ FactoryBot/HardcodedId:
     - "**/features/support/factories/**/*.rb"
   AllowedFactories: []
   ExplicitOnly: false
-  VersionAdded: '2.29'
+  VersionAdded: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/HardcodedId
 
 FactoryBot/IdSequence:

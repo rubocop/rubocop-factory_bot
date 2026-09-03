@@ -3,29 +3,18 @@
 module RuboCop
   module Cop
     module FactoryBot
-      # Checks for a hardcoded `id:` passed to `create`.
+      # Checks for an `id:` attribute passed to `create`.
       #
       # Forcing the primary key of a row the database is about to insert
-      # collides with whatever else occupies it -- fixtures, parallel
-      # workers, the table's own sequence -- and is a common source of
-      # flaky, order-dependent failures. Let the database assign the id and
-      # reference the record `create` returns.
-      #
-      # Only `create` is checked. `build` and `build_stubbed` never insert,
-      # so nothing can collide with what they return.
-      #
-      # Both `id:` and `'id' =>` count, since FactoryBot symbolizes override
-      # keys and a string-rocket key forces the same primary key.
-      #
-      # Only literal values are flagged, because a literal is the only value
-      # the cop can see. An id read from a variable or a `let` is the same
-      # hazard when it holds a constant, but telling that apart from
-      # `id: company.id` means following the assignment.
+      # collides with whatever else occupies it -- fixtures, the table's
+      # own sequence -- and is a common source of flaky, order-dependent
+      # failures. Let the database assign the id.
       #
       # @example
       #   # bad
       #   create(:company, id: 123)
       #   create(:company, 'id' => 123)
+      #   create(:employee, id: company.id)
       #
       #   # good - the database assigns the id
       #   company = create(:company)
@@ -52,33 +41,24 @@ module RuboCop
       class HardcodedId < RuboCop::Cop::Base
         include ConfigurableExplicitOnly
 
-        MSG = 'Do not pass a hardcoded `id:` to `create`; ' \
-              'let the database assign it.'
+        MSG = 'Do not pass `id:` to `create`; let the database assign it.'
         RESTRICT_ON_SEND = %i[create].freeze
 
-        # @!method create_attributes(node)
-        def_node_matcher :create_attributes, <<~PATTERN
-          (send #factory_call? :create ${sym str} ... (hash $...))
+        # @!method create_with_id(node)
+        def_node_matcher :create_with_id, <<~PATTERN
+          (send #factory_call? :create ${sym str} ...
+            (hash <$(pair {(sym :id) (str "id")} _) ...>))
         PATTERN
 
         def on_send(node)
-          factory, attributes = create_attributes(node)
-          return unless attributes
+          factory, id_pair = create_with_id(node)
+          return unless id_pair
           return if allowed_factories.include?(factory.value.to_s)
 
-          attributes.each do |pair|
-            add_offense(pair) if hardcoded_id?(pair)
-          end
+          add_offense(id_pair)
         end
 
         private
-
-        def hardcoded_id?(pair)
-          return false unless pair.pair_type?
-          return false unless pair.key.type?(:sym, :str)
-
-          pair.key.value.to_s == 'id' && pair.value.type?(:int, :str)
-        end
 
         def allowed_factories
           @allowed_factories ||=

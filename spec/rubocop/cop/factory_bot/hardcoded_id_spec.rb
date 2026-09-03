@@ -6,56 +6,56 @@ RSpec.describe RuboCop::Cop::FactoryBot::HardcodedId do
   it 'registers an offense for a hardcoded `id:`' do
     expect_offense(<<~RUBY)
       create(:company, id: 123)
-                       ^^^^^^^ Do not pass a hardcoded `id:` to `create`; let the database assign it.
+                       ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
     RUBY
   end
 
   it 'registers an offense for a string id' do
     expect_offense(<<~RUBY)
       create(:company, id: '123456789')
-                       ^^^^^^^^^^^^^^^ Do not pass a hardcoded `id:` to `create`; let the database assign it.
+                       ^^^^^^^^^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
     RUBY
   end
 
   it 'registers an offense for a string-rocket key' do
     expect_offense(<<~RUBY)
       create(:company, 'id' => 123)
-                       ^^^^^^^^^^^ Do not pass a hardcoded `id:` to `create`; let the database assign it.
+                       ^^^^^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
     RUBY
   end
 
   it 'registers an offense for a string factory name' do
     expect_offense(<<~RUBY)
       create('company', id: 123)
-                        ^^^^^^^ Do not pass a hardcoded `id:` to `create`; let the database assign it.
+                        ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
     RUBY
   end
 
   it 'registers an offense beside other attributes' do
     expect_offense(<<~RUBY)
       create(:company, name: 'Acme', id: 123, active: true)
-                                     ^^^^^^^ Do not pass a hardcoded `id:` to `create`; let the database assign it.
+                                     ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
     RUBY
   end
 
   it 'registers an offense after a trait' do
     expect_offense(<<~RUBY)
       create(:company, :active, id: 123)
-                                ^^^^^^^ Do not pass a hardcoded `id:` to `create`; let the database assign it.
+                                ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
     RUBY
   end
 
   it 'registers an offense for a braced attribute hash' do
     expect_offense(<<~RUBY)
       create(:company, { id: 123 })
-                         ^^^^^^^ Do not pass a hardcoded `id:` to `create`; let the database assign it.
+                         ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
     RUBY
   end
 
   it 'registers an offense on an explicit `FactoryBot` receiver' do
     expect_offense(<<~RUBY)
       FactoryBot.create(:company, id: 123)
-                                  ^^^^^^^ Do not pass a hardcoded `id:` to `create`; let the database assign it.
+                                  ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
     RUBY
   end
 
@@ -71,15 +71,17 @@ RSpec.describe RuboCop::Cop::FactoryBot::HardcodedId do
     RUBY
   end
 
-  it 'does not register an offense for a referenced id' do
-    expect_no_offenses(<<~RUBY)
+  it 'registers an offense for a referenced id' do
+    expect_offense(<<~RUBY)
       create(:employee, id: company.id)
+                        ^^^^^^^^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
     RUBY
   end
 
-  it 'does not register an offense for an id held in a variable' do
-    expect_no_offenses(<<~RUBY)
+  it 'registers an offense for an id held in a variable' do
+    expect_offense(<<~RUBY)
       create(:employee, id: company_id)
+                        ^^^^^^^^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
     RUBY
   end
 
@@ -134,7 +136,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::HardcodedId do
     it 'still registers an offense for other factories' do
       expect_offense(<<~RUBY)
         create(:company, id: 123)
-                         ^^^^^^^ Do not pass a hardcoded `id:` to `create`; let the database assign it.
+                         ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
       RUBY
     end
   end
@@ -151,7 +153,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::HardcodedId do
     it 'registers an offense for an explicit call' do
       expect_offense(<<~RUBY)
         FactoryBot.create(:company, id: 123)
-                                    ^^^^^^^ Do not pass a hardcoded `id:` to `create`; let the database assign it.
+                                    ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
       RUBY
     end
   end
