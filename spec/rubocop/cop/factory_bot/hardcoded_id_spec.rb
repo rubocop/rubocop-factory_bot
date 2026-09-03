@@ -91,6 +91,13 @@ RSpec.describe RuboCop::Cop::FactoryBot::HardcodedId do
     RUBY
   end
 
+  it 'registers an offense beside a keyword splat' do
+    expect_offense(<<~RUBY)
+      create(:company, **attributes, id: 123)
+                                     ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
+    RUBY
+  end
+
   it 'does not register an offense for a key that merely ends in id' do
     expect_no_offenses(<<~RUBY)
       create(:employee, company_id: 123)
