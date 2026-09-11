@@ -651,6 +651,98 @@ create(:user)
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
+[#factorybothardcodedid]
+== FactoryBot/HardcodedId
+
+|===
+| Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
+
+| Pending
+| Yes
+| No
+| <<next>>
+| -
+|===
+
+Checks for an `id:` attribute passed to `create`.
+
+Forcing the primary key of a row the database is about to insert
+collides with whatever else occupies it -- fixtures, the table's
+own sequence -- and is a common source of flaky, order-dependent
+failures. Let the database assign the id.
+
+[#examples-factorybothardcodedid]
+=== Examples
+
+[source,ruby]
+----
+# bad
+create(:company, id: 123)
+create(:company, 'id' => 123)
+create(:employee, id: company.id)
+
+# good - the database assigns the id
+company = create(:company)
+create(:employee, company: company)
+----
+
+[#allowedfactories_-__money__-_default_-___-factorybothardcodedid]
+==== AllowedFactories: ['money'] (default: [])
+
+[source,ruby]
+----
+# good - a `skip_create` factory builds a value object rather than
+# a row, so `id:` is that object's own identity and is often
+# required
+create(:money, id: 123)
+----
+
+[#explicitonly_-false-_default_-factorybothardcodedid]
+==== ExplicitOnly: false (default)
+
+[source,ruby]
+----
+# bad
+create(:company, id: 123)
+FactoryBot.create(:company, id: 123)
+----
+
+[#explicitonly_-true-factorybothardcodedid]
+==== ExplicitOnly: true
+
+[source,ruby]
+----
+# good
+create(:company, id: 123)
+
+# bad
+FactoryBot.create(:company, id: 123)
+----
+
+[#configurable-attributes-factorybothardcodedid]
+=== Configurable attributes
+
+|===
+| Name | Default value | Configurable values
+
+| Include
+| `+**/*_spec.rb+`, `+**/spec/**/*+`, `+**/test/**/*+`, `+**/features/support/factories/**/*.rb+`
+| Array
+
+| AllowedFactories
+| `[]`
+| Array
+
+| ExplicitOnly
+| `false`
+| Boolean
+|===
+
+[#references-factorybothardcodedid]
+=== References
+
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/HardcodedId
+
 [#factorybotidsequence]
 == FactoryBot/IdSequence
 

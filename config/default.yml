@@ -114,6 +114,19 @@ FactoryBot/FactoryNameStyle:
   VersionChanged: '2.23'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
+FactoryBot/HardcodedId:
+  Description: Checks for an `id:` attribute passed to `create`.
+  Enabled: pending
+  Include:
+    - "**/*_spec.rb"
+    - "**/spec/**/*"
+    - "**/test/**/*"
+    - "**/features/support/factories/**/*.rb"
+  AllowedFactories: []
+  ExplicitOnly: false
+  VersionAdded: "<<next>>"
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/HardcodedId
+
 FactoryBot/IdSequence:
   Description: Do not create a FactoryBot sequence for an id column.
   Enabled: pending
