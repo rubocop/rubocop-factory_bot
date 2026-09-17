@@ -299,6 +299,22 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
       end
     end
 
+    context 'when the call is a splat argument' do
+      it 'does not flag the call' do
+        expect_no_offenses(<<~RUBY)
+          [*build(:user)]
+        RUBY
+      end
+    end
+
+    context 'when the call is a double splat argument' do
+      it 'does not flag the call' do
+        expect_no_offenses(<<~RUBY)
+          foo(**build(:user))
+        RUBY
+      end
+    end
+
     context 'with already valid usage of parentheses' do
       it 'does not flag as invalid - create' do
         expect_no_offenses(<<~RUBY)
