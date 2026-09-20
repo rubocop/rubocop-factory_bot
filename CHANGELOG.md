@@ -2,6 +2,7 @@
 
 ## Master (Unreleased)
 
+- Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
 - Speed up loading rubocop-factory_bot by lazily loading only the cops needed for a run. This requires RuboCop 1.89.0+. ([@bquorning])
 
@@ -112,6 +113,7 @@
 [@andrykonchin]: https://github.com/andrykonchin
 [@bquorning]: https://github.com/bquorning
 [@composerinteralia]: https://github.com/composerinteralia
+[@corsonknowles]: https://github.com/corsonknowles
 [@darhazer]: https://github.com/Darhazer
 [@ddieulivol]: https://github.com/ddieulivol
 [@dmitrytsepelev]: https://github.com/dmitrytsepelev
