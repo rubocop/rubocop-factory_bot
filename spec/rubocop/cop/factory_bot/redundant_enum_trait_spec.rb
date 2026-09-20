@@ -7,7 +7,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::RedundantEnumTrait, :config do
         FactoryBot.define do
           factory :task do
             trait :queued do
-            ^^^^^^^^^^^^^^^ This trait is redundant because enum traits are automatically defined.
+            ^^^^^^^^^^^^^^^^ This trait is redundant because enum traits are automatically defined.
               status { Task.statuses[:queued] }
             end
           end
@@ -26,7 +26,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::RedundantEnumTrait, :config do
       expect_offense(<<~RUBY)
         factory :job do
           trait :failed do
-          ^^^^^^^^^^^^^^ This trait is redundant because enum traits are automatically defined.
+          ^^^^^^^^^^^^^^^^ This trait is redundant because enum traits are automatically defined.
             state { Job.states[:failed] }
           end
         end
@@ -48,6 +48,24 @@ RSpec.describe RuboCop::Cop::FactoryBot::RedundantEnumTrait, :config do
         factory :task do
           trait :queued do
             status { :queued }
+          end
+        end
+      RUBY
+    end
+
+    it 'does not register an offense for a trait without a block' do
+      expect_no_offenses(<<~RUBY)
+        factory :task do
+          trait :queued
+        end
+      RUBY
+    end
+
+    it 'does not register an offense when the enum name does not match' do
+      expect_no_offenses(<<~RUBY)
+        factory :task do
+          trait :queued do
+            status { Task.kinds[:queued] }
           end
         end
       RUBY

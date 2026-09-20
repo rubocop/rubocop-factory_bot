@@ -10,6 +10,13 @@ gem 'irb' # undeclared dependency of yard
 gem 'rack'
 gem 'rake'
 gem 'rspec', '~> 3.11'
+
+# FIXME: temporary, https://github.com/rubocop/rubocop/pull/15734
+#        adds generic support for Target*Version
+gem 'rubocop',
+    git: 'https://github.com/koic/rubocop.git',
+    branch: 'make_requires_gem_gating_go_through_target_gem_version'
+
 gem 'rubocop-performance', '~> 1.24'
 gem 'rubocop-rake', '~> 0.7'
 gem 'rubocop-rspec', '~> 3.5'

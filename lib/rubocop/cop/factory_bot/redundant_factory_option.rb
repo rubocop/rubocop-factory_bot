@@ -30,7 +30,6 @@ module RuboCop
                   (sym :factory)
                   {
                     (sym $_factory_name)
-
                     (array (sym $_factory_name))
                   }
                 )

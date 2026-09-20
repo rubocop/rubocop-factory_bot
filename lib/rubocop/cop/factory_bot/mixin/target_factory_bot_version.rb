@@ -4,43 +4,54 @@ module RuboCop
   module Cop
     module FactoryBot
       # Common functionality for checking target factory_bot version.
+      #
+      # A cop that only makes sense from a certain factory_bot version on
+      # declares that version with `minimum_target_factory_bot_version`, and is
+      # skipped for code that targets an older one.
       module TargetFactoryBotVersion
-        # Informs the base RuboCop gem that it the FactoryBot version is checked
-        # via `requires_gem` API, without needing to call this
-        # `#support_target_factory_bot_version` method.
-        USES_REQUIRES_GEM_API = true
         TARGET_GEM_NAME = 'factory_bot' # :nodoc:
 
-        def minimum_target_factory_bot_version(version)
-          if respond_to?(:requires_gem)
-            case version
-            when Integer, Float then requires_gem(TARGET_GEM_NAME,
-                                                  ">= #{version}")
-            when String then requires_gem(TARGET_GEM_NAME, version)
-            end
-          else
-            # Fallback path for previous versions of RuboCop which don't support
-            # the `requires_gem` API yet.
-            @minimum_target_factory_bot_version = version
-          end
+        # Used when neither `AllCops: TargetFactoryBotVersion` nor the target's
+        # lockfile tells which factory_bot version the inspected code targets.
+        DEFAULT_FACTORY_BOT_VERSION = '6.0'
+        private_constant :DEFAULT_FACTORY_BOT_VERSION
+
+        def self.extended(cop_class)
+          cop_class.include(InstanceMethods)
         end
 
-        def support_target_factory_bot_version?(version)
-          pp version
-          if respond_to?(:requires_gem)
-            return false unless gem_requirements
+        # @param [Float, Integer, String] version the oldest factory_bot
+        #   version the cop makes sense for, e.g. `6.0` or `'6.0.1'`.
+        def minimum_target_factory_bot_version(version)
+          requires_gem(TARGET_GEM_NAME, ">= #{version}")
+        end
 
-            gem_requirement = gem_requirements[TARGET_GEM_NAME]
-            # If we have no requirement, then we support all versions
-            return true unless gem_requirement
+        # Included automatically when a cop extends `TargetFactoryBotVersion`.
+        module InstanceMethods
+          # The requirements declared with `minimum_target_factory_bot_version`
+          # are checked against the version this returns.
+          # Firstly, `AllCops: TargetFactoryBotVersion` is considered.
+          # If it's not set, RuboCop will parse the `factory_bot` version in the
+          # target's Gemfile.lock/gems.locked.
+          # By default, RuboCop assumes FactoryBot 6.0.
+          #
+          # @param [String] gem_name
+          # @return [Gem::Version, nil]
+          def target_gem_version(gem_name)
+            return super unless gem_name == TARGET_GEM_NAME
 
-            pp gem_requirement
+            configured_target_factory_bot_version ||
+              super ||
+              Gem::Version.new(DEFAULT_FACTORY_BOT_VERSION)
+          end
 
-            gem_requirement.satisfied_by?(Gem::Version.new(version))
-          else
-            # Fallback path for previous versions of RuboCop which don't support
-            # the `requires_gem` API yet.
-            @minimum_target_factory_bot_version <= version
+          private
+
+          # @return [Gem::Version, nil]
+          def configured_target_factory_bot_version
+            version = config.for_all_cops['TargetFactoryBotVersion']
+
+            Gem::Version.new(version.to_s) if version
           end
         end
       end

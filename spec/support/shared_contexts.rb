@@ -6,8 +6,8 @@ RSpec.shared_context 'with FactoryBot 6.0', :factory_bot60 do
   end
 end
 
-RSpec.shared_context 'with FactoryBot 6.1', :factory_bot61 do
+RSpec.shared_context 'with FactoryBot 5.2', :factory_bot52 do
   let(:all_cops_config) do
-    super().merge('TargetFactoryBotVersion' => 6.1)
+    super().merge('TargetFactoryBotVersion' => 5.2)
   end
 end

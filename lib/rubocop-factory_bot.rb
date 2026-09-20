@@ -4,7 +4,6 @@ require 'pathname'
 require 'yaml'
 
 require 'rubocop'
-require_relative 'rubocop/config'
 
 require_relative 'rubocop/factory_bot/factory_bot'
 require_relative 'rubocop/factory_bot/language'

@@ -781,7 +781,7 @@ end
 [#factorybotredundantenumtrait]
 == FactoryBot/RedundantEnumTrait
 
-NOTE: Required FactoryBot version: 6.1
+NOTE: Required FactoryBot version: 6.0
 
 |===
 | Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
@@ -794,6 +794,10 @@ NOTE: Required FactoryBot version: 6.1
 |===
 
 Checks for redundant enum traits in FactoryBot definitions.
+
+Since factory_bot 6.0, traits for Active Record enums are defined
+automatically, so a trait that only assigns the enum attribute the
+value of the same name is redundant.
 
 [#examples-factorybotredundantenumtrait]
 === Examples
@@ -811,17 +815,6 @@ end
 factory :task do
 end
 ----
-
-[#configurable-attributes-factorybotredundantenumtrait]
-=== Configurable attributes
-
-|===
-| Name | Default value | Configurable values
-
-| TargetFactoryBotVersion
-| `6.1`
-| Float
-|===
 
 [#references-factorybotredundantenumtrait]
 === References
