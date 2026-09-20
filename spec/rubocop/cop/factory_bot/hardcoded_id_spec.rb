@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe RuboCop::Cop::FactoryBot::HardcodedId do
-  let(:cop_config) { { 'ExplicitOnly' => false } }
-
   it 'registers an offense for a hardcoded `id:`' do
     expect_offense(<<~RUBY)
       create(:company, id: 123)
@@ -131,7 +129,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::HardcodedId do
 
   context 'with AllowedFactories' do
     let(:cop_config) do
-      { 'ExplicitOnly' => false, 'AllowedFactories' => ['money'] }
+      { 'AllowedFactories' => ['money'] }
     end
 
     it 'does not register an offense for an allowed factory' do
@@ -144,23 +142,6 @@ RSpec.describe RuboCop::Cop::FactoryBot::HardcodedId do
       expect_offense(<<~RUBY)
         create(:company, id: 123)
                          ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
-      RUBY
-    end
-  end
-
-  context 'with ExplicitOnly' do
-    let(:cop_config) { { 'ExplicitOnly' => true } }
-
-    it 'does not register an offense for an implicit call' do
-      expect_no_offenses(<<~RUBY)
-        create(:company, id: 123)
-      RUBY
-    end
-
-    it 'registers an offense for an explicit call' do
-      expect_offense(<<~RUBY)
-        FactoryBot.create(:company, id: 123)
-                                    ^^^^^^^ Do not pass `id:` to `create`; let the database assign it.
       RUBY
     end
   end

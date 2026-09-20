@@ -35,32 +35,10 @@ module RuboCop
       #     name: 'foo'
       #   )
       #
-      # @example `ExplicitOnly: false` (default)
-      #
-      #   # bad - with `EnforcedStyle: require_parentheses`
-      #   FactoryBot.create :user
-      #   build :user
-      #
-      #   # good - with `EnforcedStyle: require_parentheses`
-      #   FactoryBot.create(:user)
-      #   build(:user)
-      #
-      # @example `ExplicitOnly: true`
-      #
-      #   # bad - with `EnforcedStyle: require_parentheses`
-      #   FactoryBot.create :user
-      #   FactoryBot.build :user
-      #
-      #   # good - with `EnforcedStyle: require_parentheses`
-      #   FactoryBot.create(:user)
-      #   FactoryBot.build(:user)
-      #   create :user
-      #   build :user
-      #
       class ConsistentParenthesesStyle < RuboCop::Cop::Base
         extend AutoCorrector
         include ConfigurableEnforcedStyle
-        include ConfigurableExplicitOnly
+        include RuboCop::FactoryBot::Language
 
         MSG_REQUIRE_PARENS = 'Prefer method call with parentheses'
         MSG_OMIT_PARENS = 'Prefer method call without parentheses'
@@ -70,7 +48,7 @@ module RuboCop
         # @!method factory_call(node)
         def_node_matcher :factory_call, <<~PATTERN
           (send
-            #factory_call? %FACTORY_CALLS
+            {#factory_bot? nil?} %FACTORY_CALLS
             {sym str send lvar} _*
           )
         PATTERN
@@ -78,7 +56,7 @@ module RuboCop
         # @!method omit_hash_value?(node)
         def_node_matcher :omit_hash_value?, <<~PATTERN
           (send
-            #factory_call? %FACTORY_CALLS
+            {#factory_bot? nil?} %FACTORY_CALLS
             {sym str send lvar} _*
             (hash
               <[!kwsplat value_omission?] ...>

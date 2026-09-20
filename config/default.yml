@@ -41,9 +41,8 @@ FactoryBot/ConsistentParenthesesStyle:
   SupportedStyles:
     - require_parentheses
     - omit_parentheses
-  ExplicitOnly: false
   VersionAdded: '2.14'
-  VersionChanged: '2.23'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ConsistentParenthesesStyle
 
 FactoryBot/CreateList:
@@ -59,10 +58,9 @@ FactoryBot/CreateList:
   SupportedStyles:
     - create_list
     - n_times
-  ExplicitOnly: false
   SafeAutoCorrect: false
   VersionAdded: '1.25'
-  VersionChanged: '2.26'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
 
 FactoryBot/ExcessiveCreateList:
@@ -75,6 +73,7 @@ FactoryBot/ExcessiveCreateList:
     - "**/features/support/factories/**/*.rb"
   MaxAmount: 10
   VersionAdded: '2.25'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ExcessiveCreateList
 
 FactoryBot/FactoryAssociationWithStrategy:
@@ -109,9 +108,8 @@ FactoryBot/FactoryNameStyle:
   SupportedStyles:
     - symbol
     - string
-  ExplicitOnly: false
   VersionAdded: '2.16'
-  VersionChanged: '2.23'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
 
 FactoryBot/HardcodedId:
@@ -123,7 +121,6 @@ FactoryBot/HardcodedId:
     - "**/test/**/*"
     - "**/features/support/factories/**/*.rb"
   AllowedFactories: []
-  ExplicitOnly: false
   VersionAdded: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/HardcodedId
 

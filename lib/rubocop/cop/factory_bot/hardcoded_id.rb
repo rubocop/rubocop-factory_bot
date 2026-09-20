@@ -25,27 +25,15 @@ module RuboCop
       #   # required
       #   create(:money, id: 123)
       #
-      # @example ExplicitOnly: false (default)
-      #   # bad
-      #   create(:company, id: 123)
-      #   FactoryBot.create(:company, id: 123)
-      #
-      # @example ExplicitOnly: true
-      #   # good
-      #   create(:company, id: 123)
-      #
-      #   # bad
-      #   FactoryBot.create(:company, id: 123)
-      #
       class HardcodedId < RuboCop::Cop::Base
-        include ConfigurableExplicitOnly
+        include RuboCop::FactoryBot::Language
 
         MSG = 'Do not pass `id:` to `create`; let the database assign it.'
         RESTRICT_ON_SEND = %i[create].freeze
 
         # @!method create_with_id(node)
         def_node_matcher :create_with_id, <<~PATTERN
-          (send #factory_call? :create ${sym str} ...
+          (send {#factory_bot? nil?} :create ${sym str} ...
             (hash <$(pair {(sym :id) (str "id")} _) ...>))
         PATTERN
 

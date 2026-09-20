@@ -38,31 +38,10 @@ module RuboCop
       #   # good
       #   3.times.map { create :user }
       #
-      # @example `ExplicitOnly: false` (default)
-      #
-      #   # bad - with `EnforcedStyle: create_list`
-      #   3.times { FactoryBot.create :user }
-      #   3.times { create :user }
-      #
-      #   # good - with `EnforcedStyle: create_list`
-      #   FactoryBot.create_list :user, 3
-      #   create_list :user, 3
-      #
-      # @example `ExplicitOnly: true`
-      #
-      #   # bad - with `EnforcedStyle: create_list`
-      #   3.times { FactoryBot.create :user }
-      #
-      #   # good - with `EnforcedStyle: create_list`
-      #   FactoryBot.create_list :user, 3
-      #   create_list :user, 3
-      #   3.times { create :user }
-      #
       class CreateList < RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
         extend AutoCorrector
         include ConfigurableEnforcedStyle
         include RuboCop::FactoryBot::Language
-        include ConfigurableExplicitOnly
 
         MSG_CREATE_LIST = 'Prefer create_list.'
         MSG_N_TIMES = 'Prefer %<number>s.times.map.'
@@ -90,17 +69,17 @@ module RuboCop
 
         # @!method arguments_include_method_call?(node)
         def_node_matcher :arguments_include_method_call?, <<~PATTERN
-          (send #factory_call? :create sym ... `(send ...))
+          (send {#factory_bot? nil?} :create sym ... `(send ...))
         PATTERN
 
         # @!method factory_call(node)
         def_node_matcher :factory_call, <<~PATTERN
-          (send #factory_call? :create sym ...)
+          (send {#factory_bot? nil?} :create sym ...)
         PATTERN
 
         # @!method factory_list_call(node)
         def_node_matcher :factory_list_call, <<~PATTERN
-          (send #factory_call? :create_list (sym _) (int $_) ...)
+          (send {#factory_bot? nil?} :create_list (sym _) (int $_) ...)
         PATTERN
 
         # @!method factory_calls_in_array?(node)

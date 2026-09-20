@@ -2,9 +2,8 @@
 
 RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
   let(:cop_config) do
-    { 'EnforcedStyle' => enforced_style, 'ExplicitOnly' => explicit_only }
+    { 'EnforcedStyle' => enforced_style }
   end
-  let(:explicit_only) { false }
 
   context 'when EnforcedStyle is :enforce_parentheses' do
     let(:enforced_style) { :require_parentheses }
@@ -484,56 +483,6 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
       expect_offense(<<~RUBY)
         build(:user, :trait, foo: :bar, **kwargs)
         ^^^^^ Prefer method call without parentheses
-      RUBY
-    end
-  end
-
-  context 'when ExplicitOnly is false' do
-    let(:enforced_style) { :require_parentheses }
-    let(:explicit_only) { false }
-
-    it 'registers an offense when using `create` with an explicit receiver' do
-      expect_offense(<<~RUBY)
-        FactoryBot.create :user
-                   ^^^^^^ Prefer method call with parentheses
-      RUBY
-
-      expect_correction(<<~RUBY)
-        FactoryBot.create(:user)
-      RUBY
-    end
-
-    it 'registers an offense when using `create` with no explicit receiver' do
-      expect_offense(<<~RUBY)
-        create :user
-        ^^^^^^ Prefer method call with parentheses
-      RUBY
-
-      expect_correction(<<~RUBY)
-        create(:user)
-      RUBY
-    end
-  end
-
-  context 'when ExplicitOnly is true' do
-    let(:enforced_style) { :require_parentheses }
-    let(:explicit_only) { true }
-
-    it 'registers an offense when using `create` with an explicit receiver' do
-      expect_offense(<<~RUBY)
-        FactoryBot.create :user
-                   ^^^^^^ Prefer method call with parentheses
-      RUBY
-
-      expect_correction(<<~RUBY)
-        FactoryBot.create(:user)
-      RUBY
-    end
-
-    it 'dose not register an offense when using `create` ' \
-       'with no explicit receiver' do
-      expect_no_offenses(<<~RUBY)
-        create :user
       RUBY
     end
   end
