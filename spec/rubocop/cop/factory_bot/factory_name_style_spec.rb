@@ -2,9 +2,8 @@
 
 RSpec.describe RuboCop::Cop::FactoryBot::FactoryNameStyle do
   let(:cop_config) do
-    { 'EnforcedStyle' => enforced_style, 'ExplicitOnly' => explicit_only }
+    { 'EnforcedStyle' => enforced_style }
   end
-  let(:explicit_only) { false }
 
   context 'when EnforcedStyle is :symbol' do
     let(:enforced_style) { :symbol }
@@ -231,59 +230,6 @@ RSpec.describe RuboCop::Cop::FactoryBot::FactoryNameStyle do
        'with keyword argument' do
       expect_no_offenses(<<~RUBY)
         build user: :foo
-      RUBY
-    end
-  end
-
-  context 'when ExplicitOnly is false' do
-    let(:enforced_style) { :symbol }
-    let(:explicit_only) { false }
-
-    it 'registers an offense when using `create` ' \
-       'with string name and an explicit receiver' do
-      expect_offense(<<~RUBY)
-        FactoryBot.create('user')
-                          ^^^^^^ Use symbol to refer to a factory.
-      RUBY
-
-      expect_correction(<<~RUBY)
-        FactoryBot.create(:user)
-      RUBY
-    end
-
-    it 'registers an offense when using `create` ' \
-       'with string name and no explicit receiver' do
-      expect_offense(<<~RUBY)
-        create('user')
-               ^^^^^^ Use symbol to refer to a factory.
-      RUBY
-
-      expect_correction(<<~RUBY)
-        create(:user)
-      RUBY
-    end
-  end
-
-  context 'when ExplicitOnly is true' do
-    let(:enforced_style) { :symbol }
-    let(:explicit_only) { true }
-
-    it 'registers an offense when using `create` ' \
-       'with string name and an explicit receiver' do
-      expect_offense(<<~RUBY)
-        FactoryBot.create('user')
-                          ^^^^^^ Use symbol to refer to a factory.
-      RUBY
-
-      expect_correction(<<~RUBY)
-        FactoryBot.create(:user)
-      RUBY
-    end
-
-    it 'dose not register an offense when using `create` ' \
-       'with string name and no explicit receiver' do
-      expect_no_offenses(<<~RUBY)
-        create('user')
       RUBY
     end
   end

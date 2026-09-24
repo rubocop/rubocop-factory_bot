@@ -24,14 +24,14 @@ module RuboCop
       #   create_list(:merge_request, 15, state: :opened)
       #
       class ExcessiveCreateList < RuboCop::Cop::Base
-        include ConfigurableExplicitOnly
+        include RuboCop::FactoryBot::Language
 
         MESSAGE =
           'Avoid using `create_list` with more than %<max_amount>s items.'
 
         # @!method create_list?(node)
         def_node_matcher :create_list?, <<~PATTERN
-          (send #factory_call? :create_list {sym str} $(int _) ...)
+          (send {#factory_bot? nil?} :create_list {sym str} $(int _) ...)
         PATTERN
 
         RESTRICT_ON_SEND = %i[create_list].freeze

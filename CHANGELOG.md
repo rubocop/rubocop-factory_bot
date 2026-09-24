@@ -2,6 +2,7 @@
 
 ## Master (Unreleased)
 
+- **BREAKING**: Remove the `ExplicitOnly` option from a number of cops. ([@pirj])
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
 - Speed up loading rubocop-factory_bot by lazily loading only the cops needed for a run. This requires RuboCop 1.89.0+. ([@bquorning])

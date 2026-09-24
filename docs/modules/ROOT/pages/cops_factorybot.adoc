@@ -166,7 +166,7 @@ count { 1 }
 | Yes
 | Always
 | 2.14
-| 2.23
+| <<next>>
 |===
 
 Use a consistent style for parentheses in factory_bot calls.
@@ -212,36 +212,6 @@ build(
 )
 ----
 
-[#_explicitonly_-false_-_default_-factorybotconsistentparenthesesstyle]
-==== `ExplicitOnly: false` (default)
-
-[source,ruby]
-----
-# bad - with `EnforcedStyle: require_parentheses`
-FactoryBot.create :user
-build :user
-
-# good - with `EnforcedStyle: require_parentheses`
-FactoryBot.create(:user)
-build(:user)
-----
-
-[#_explicitonly_-true_-factorybotconsistentparenthesesstyle]
-==== `ExplicitOnly: true`
-
-[source,ruby]
-----
-# bad - with `EnforcedStyle: require_parentheses`
-FactoryBot.create :user
-FactoryBot.build :user
-
-# good - with `EnforcedStyle: require_parentheses`
-FactoryBot.create(:user)
-FactoryBot.build(:user)
-create :user
-build :user
-----
-
 [#configurable-attributes-factorybotconsistentparenthesesstyle]
 === Configurable attributes
 
@@ -255,10 +225,6 @@ build :user
 | EnforcedStyle
 | `require_parentheses`
 | `require_parentheses`, `omit_parentheses`
-
-| ExplicitOnly
-| `false`
-| Boolean
 |===
 
 [#references-factorybotconsistentparenthesesstyle]
@@ -276,7 +242,7 @@ build :user
 | Yes
 | Command-line only (Unsafe)
 | 1.25
-| 2.26
+| <<next>>
 |===
 
 Enforce consistent style for repeated factory creation.
@@ -329,34 +295,6 @@ create_list :user, 3
 3.times.map { create :user }
 ----
 
-[#_explicitonly_-false_-_default_-factorybotcreatelist]
-==== `ExplicitOnly: false` (default)
-
-[source,ruby]
-----
-# bad - with `EnforcedStyle: create_list`
-3.times { FactoryBot.create :user }
-3.times { create :user }
-
-# good - with `EnforcedStyle: create_list`
-FactoryBot.create_list :user, 3
-create_list :user, 3
-----
-
-[#_explicitonly_-true_-factorybotcreatelist]
-==== `ExplicitOnly: true`
-
-[source,ruby]
-----
-# bad - with `EnforcedStyle: create_list`
-3.times { FactoryBot.create :user }
-
-# good - with `EnforcedStyle: create_list`
-FactoryBot.create_list :user, 3
-create_list :user, 3
-3.times { create :user }
-----
-
 [#configurable-attributes-factorybotcreatelist]
 === Configurable attributes
 
@@ -370,10 +308,6 @@ create_list :user, 3
 | EnforcedStyle
 | `create_list`
 | `create_list`, `n_times`
-
-| ExplicitOnly
-| `false`
-| Boolean
 |===
 
 [#references-factorybotcreatelist]
@@ -391,7 +325,7 @@ create_list :user, 3
 | Yes
 | No
 | 2.25
-| -
+| <<next>>
 |===
 
 Limit the number of models created in a list.
@@ -558,7 +492,7 @@ end
 | Yes
 | Always
 | 2.16
-| 2.23
+| <<next>>
 |===
 
 Enforce consistent style for factory names.
@@ -597,36 +531,6 @@ create('user')
 build "user", username: "NAME"
 ----
 
-[#_explicitonly_-false_-_default_-factorybotfactorynamestyle]
-==== `ExplicitOnly: false` (default)
-
-[source,ruby]
-----
-# bad - with `EnforcedStyle: symbol`
-FactoryBot.create('user')
-create('user')
-
-# good - with `EnforcedStyle: symbol`
-FactoryBot.create(:user)
-create(:user)
-----
-
-[#_explicitonly_-true_-factorybotfactorynamestyle]
-==== `ExplicitOnly: true`
-
-[source,ruby]
-----
-# bad - with `EnforcedStyle: symbol`
-FactoryBot.create(:user)
-FactoryBot.build "user", username: "NAME"
-
-# good - with `EnforcedStyle: symbol`
-FactoryBot.create('user')
-FactoryBot.build "user", username: "NAME"
-FactoryBot.create(:user)
-create(:user)
-----
-
 [#configurable-attributes-factorybotfactorynamestyle]
 === Configurable attributes
 
@@ -640,10 +544,6 @@ create(:user)
 | EnforcedStyle
 | `symbol`
 | `symbol`, `string`
-
-| ExplicitOnly
-| `false`
-| Boolean
 |===
 
 [#references-factorybotfactorynamestyle]
@@ -696,28 +596,6 @@ create(:employee, company: company)
 create(:money, id: 123)
 ----
 
-[#explicitonly_-false-_default_-factorybothardcodedid]
-==== ExplicitOnly: false (default)
-
-[source,ruby]
-----
-# bad
-create(:company, id: 123)
-FactoryBot.create(:company, id: 123)
-----
-
-[#explicitonly_-true-factorybothardcodedid]
-==== ExplicitOnly: true
-
-[source,ruby]
-----
-# good
-create(:company, id: 123)
-
-# bad
-FactoryBot.create(:company, id: 123)
-----
-
 [#configurable-attributes-factorybothardcodedid]
 === Configurable attributes
 
@@ -731,10 +609,6 @@ FactoryBot.create(:company, id: 123)
 | AllowedFactories
 | `[]`
 | Array
-
-| ExplicitOnly
-| `false`
-| Boolean
 |===
 
 [#references-factorybothardcodedid]
