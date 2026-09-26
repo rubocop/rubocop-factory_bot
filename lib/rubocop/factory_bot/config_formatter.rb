@@ -26,13 +26,19 @@ module RuboCop
       private
 
       def unified_config
-        cops.each_with_object(config.dup) do |cop, unified|
-          next if SUBDEPARTMENTS.include?(cop) || AMENDMENTS.include?(cop)
+        replace_nil(config['AllCops'])
 
-          replace_nil(unified[cop])
-          unified[cop].merge!(descriptions.fetch(cop))
-          unified[cop]['Reference'] = reference(cop)
+        cops.each_with_object(config.dup) do |cop, unified|
+          unify(cop, unified)
         end
+      end
+
+      def unify(cop, unified)
+        return if SUBDEPARTMENTS.include?(cop) || AMENDMENTS.include?(cop)
+
+        replace_nil(unified[cop])
+        unified[cop].merge!(descriptions.fetch(cop))
+        unified[cop]['Reference'] = reference(cop)
       end
 
       def cops
@@ -40,7 +46,7 @@ module RuboCop
       end
 
       def replace_nil(config)
-        config.each do |key, value|
+        config&.each do |key, value|
           config[key] = '~' if value.nil?
         end
       end

@@ -133,6 +133,12 @@ FactoryBot/IdSequence:
   VersionAdded: '2.24'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/IdSequence
 
+FactoryBot/RedundantEnumTrait:
+  Description: Checks for redundant enum traits in FactoryBot definitions.
+  Enabled: pending
+  VersionAdded: "<<next>>"
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/RedundantEnumTrait
+
 FactoryBot/RedundantFactoryOption:
   Description: Remove redundant `factory` option.
   Enabled: pending
@@ -155,3 +161,5 @@ FactoryBot/SyntaxMethods:
   SafeAutoCorrect: false
   VersionAdded: '2.7'
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/SyntaxMethods
+AllCops:
+  TargetFactoryBotVersion: ~
