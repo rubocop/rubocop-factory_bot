@@ -4,6 +4,7 @@
 
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
+- Inspect inline style for `FactoryBot/AssociationStyle`. ([@r7kamura])
 - Fix a false positive for `FactoryBot/AssociationStyle` when `strategy` option is used. ([@r7kamura])
 - Fix a false negative for `FactoryBot/AssociationStyle` when using keyword traits with explicit associations. ([@r7kamura])
 - Fix a false negative for `FactoryBot/AssociationStyle` when using implicit associations in global traits. ([@r7kamura])

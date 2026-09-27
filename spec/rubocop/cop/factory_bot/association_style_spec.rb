@@ -12,7 +12,7 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
   context 'when EnforcedStyle is :implicit' do
     let(:enforced_style) { :implicit }
 
-    context 'when factory block is empty' do
+    context 'with empty block factory' do
       it 'does not register an offense' do
         expect_no_offenses(<<~RUBY)
           FactoryBot.define do
@@ -23,18 +23,17 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
       end
     end
 
-    context 'with when factory has no block' do
+    context 'with no block factory' do
       it 'does not register an offense' do
         expect_no_offenses(<<~RUBY)
           FactoryBot.define do
             factory :user
-            factory :admin_user, parent: :user
           end
         RUBY
       end
     end
 
-    context 'when implicit style is used' do
+    context 'with implicit association' do
       it 'does not register an offense' do
         expect_no_offenses(<<~RUBY)
           FactoryBot.define do
@@ -46,12 +45,46 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
       end
     end
 
-    context 'when `association` is called in attribute block' do
+    context 'with inline association' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            author do
+            ^^^^^^^^^ Use implicit style to define associations.
+              association :user
+            end
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            author factory: %i[user]
+          end
+        RUBY
+      end
+    end
+
+    context 'with inline association with options' do
+      it 'registers an offense and does not corrects' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            author do
+            ^^^^^^^^^ Use implicit style to define associations.
+              association :user, factory: :admin
+            end
+          end
+        RUBY
+
+        expect_no_corrections
+      end
+    end
+
+    context 'with inline association with strategy option' do
       it 'does not register an offense' do
         expect_no_offenses(<<~RUBY)
           factory :article do
             author do
-              association :user
+              association :user, strategy: :build
             end
           end
         RUBY
@@ -478,6 +511,106 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
             end
 
             factory :order_completed, traits: [:completed]
+          end
+        RUBY
+      end
+    end
+
+    context 'with inline association' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            author do
+            ^^^^^^^^^ Use explicit style to define associations.
+              association :user
+            end
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            association :author, factory: [:user]
+          end
+        RUBY
+      end
+    end
+
+    context 'with inline association with non-literal association name' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            author do
+            ^^^^^^^^^ Use explicit style to define associations.
+              association association_name
+            end
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            association :author, factory: [association_name]
+          end
+        RUBY
+      end
+    end
+
+    context 'with inline association with strategy option' do
+      it 'registers an offense and does not corrects' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            author do
+            ^^^^^^^^^ Use explicit style to define associations.
+              association :user, strategy: :build
+            end
+          end
+        RUBY
+
+        expect_no_corrections
+      end
+    end
+
+    context 'with inline association with options' do
+      it 'registers an offense and does not corrects' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            author do
+            ^^^^^^^^^ Use explicit style to define associations.
+              association :user, factory: :admin
+            end
+          end
+        RUBY
+
+        expect_no_corrections
+      end
+    end
+
+    context 'with inline association-like call with ' \
+            'NonImplicitAssociationMethodNames' do
+      let(:cop_config) do
+        super().merge('NonImplicitAssociationMethodNames' => %w[foo])
+      end
+
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
+          factory :article do
+            foo do
+              association :user
+            end
+          end
+        RUBY
+      end
+    end
+
+    context 'with implicit association-like call with ' \
+            'NonImplicitAssociationMethodNames' do
+      let(:cop_config) do
+        super().merge('NonImplicitAssociationMethodNames' => %w[foo])
+      end
+
+      it 'does not register an offense' do
+        expect_no_offenses(<<~RUBY)
+          factory :article do
+            foo
           end
         RUBY
       end
