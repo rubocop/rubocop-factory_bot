@@ -174,13 +174,17 @@ module RuboCop
 
         def correctable_to_implicit_style?(node)
           if explicit_association?(node)
-            !with_strategy_option?(node) &&
+            static_arguments?(node) && !with_strategy_option?(node) &&
               !keyword_explicit_association_name?(node)
           elsif implicit_association?(node)
             false
           elsif inline_association?(node)
             !with_strategy_option?(node.body)
           end
+        end
+
+        def static_arguments?(node)
+          node.arguments.drop(1).all? { |arg| arg.type?(:sym, :hash) }
         end
 
         def inline_association?(node)

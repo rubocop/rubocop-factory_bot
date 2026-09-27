@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Detect literal integer range iterations in `FactoryBot/CreateList`. ([@ydah])
+- Avoid unsafe autocorrection for `FactoryBot/AssociationStyle` when an argument may be a trait or options hash. ([@ydah])
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
 - Inspect inline style for `FactoryBot/AssociationStyle`. ([@r7kamura])
