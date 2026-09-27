@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Detect literal integer range iterations in `FactoryBot/CreateList`. ([@ydah])
+- Allow backslash line continuations in `FactoryBot/ConsistentParenthesesStyle` with the `AllowBackslashContinuation` option. ([@ydah])
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
 - Inspect inline style for `FactoryBot/AssociationStyle`. ([@r7kamura])
