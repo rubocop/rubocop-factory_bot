@@ -8,6 +8,7 @@
 - Fix a false positive for `FactoryBot/AssociationStyle` when `strategy` option is used. ([@r7kamura])
 - Fix a false negative for `FactoryBot/AssociationStyle` when using keyword traits with explicit associations. ([@r7kamura])
 - Fix a false negative for `FactoryBot/AssociationStyle` when using implicit associations in global traits. ([@r7kamura])
+- Fix false positives for `FactoryBot/FactoryAssociationWithStrategy` inside `transient` blocks. ([@ydah])
 - Speed up loading rubocop-factory_bot by lazily loading only the cops needed for a run. This requires RuboCop 1.89.0+. ([@bquorning])
 - Fix an incorrect autocorrect for `FactoryBot/ConsistentParenthesesStyle` when using `EnforcedStyle: omit_parentheses` and a factory call is a splat, double splat, or block-pass argument. ([@viralpraxis])
 

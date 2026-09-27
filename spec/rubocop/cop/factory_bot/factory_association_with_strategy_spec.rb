@@ -149,21 +149,33 @@ RSpec.describe RuboCop::Cop::FactoryBot::FactoryAssociationWithStrategy do
     end
   end
 
-  context 'with hard-coded association inside `transient`' do
-    it 'registers an offense' do
-      expect_offense(<<~RUBY)
+  context 'with a strategy call inside `transient`' do
+    it 'does not register an offense for create' do
+      expect_no_offenses(<<~RUBY)
         factory :article do
           transient do
             user { create(:user) }
-                   ^^^^^^^^^^^^^ Avoid hard-coding the strategy when defining an association.
           end
         end
       RUBY
+    end
 
-      expect_correction(<<~RUBY)
-        factory :article do
+    it 'does not register an offense for a default build' do
+      expect_no_offenses(<<~RUBY)
+        factory :visit do
           transient do
-            user { association(:user) }
+            address { build(:address) }
+          end
+        end
+      RUBY
+    end
+
+    it 'ignores a build with a forwarded keyword', :ruby31 do
+      expect_no_offenses(<<~RUBY)
+        factory :holding do
+          transient do
+            location factory: :gre_stacks
+            item { build(:item, :available, location:) }
           end
         end
       RUBY
