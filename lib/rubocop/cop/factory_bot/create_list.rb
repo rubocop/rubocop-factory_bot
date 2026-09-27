@@ -10,11 +10,15 @@ module RuboCop
       # @safety
       #   This cop's autocorrection is unsafe because replacing `n.times` to
       #   `create_list` changes its returned value.
+      #   Range iteration with `each` is reported without autocorrection
+      #   because it returns the range, not the created records.
       #
       # @example `EnforcedStyle: create_list` (default)
       #   # bad
       #   3.times { create :user }
       #   3.times.map { create :user }
+      #   (1..3).each { create :user }
+      #   (1..3).map { create :user }
       #   [create(:user), create(:user), create(:user)]
       #   Array.new(3) { create :user }
       #
@@ -79,6 +83,11 @@ module RuboCop
           ...)
         PATTERN
 
+        # @!method integer_range_iteration(node)
+        def_node_matcher :integer_range_iteration, <<~PATTERN
+          (block (send (begin $(range (int _) (int _))) {:each :map}) ...)
+        PATTERN
+
         # @!method block_with_arg_and_used?(node)
         def_node_matcher :block_with_arg_and_used?, <<~PATTERN
           (block
@@ -122,15 +131,15 @@ module RuboCop
 
         def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler, InternalAffairs/ItblockHandler, Metrics/CyclomaticComplexity
           return unless style == :create_list
-          return unless repeat_multiple_time?(node)
+
+          range_count = literal_range_count(node)
+          return unless repeat_multiple_time?(node, range_count)
           return if block_with_arg_and_used?(node)
           return unless node.body
           return if arguments_include_method_call?(node.body)
           return unless contains_only_factory?(node.body)
 
-          add_offense(node.send_node, message: MSG_CREATE_LIST) do |corrector|
-            CreateListCorrector.new(node.send_node).call(corrector)
-          end
+          register_repetition(node, range_count)
         end
 
         def on_send(node)
@@ -148,10 +157,27 @@ module RuboCop
 
         private
 
-        def repeat_multiple_time?(node)
-          return false unless (count = repeat_count(node))
+        def literal_range_count(node)
+          return unless (range = integer_range_iteration(node))
 
-          count > 1
+          first, last = range.children.map(&:value)
+          last - first + (range.irange_type? ? 1 : 0)
+        end
+
+        def repeat_multiple_time?(node, range_count)
+          count = repeat_count(node) || range_count
+          count && count > 1
+        end
+
+        def register_repetition(node, range_count)
+          if node.method?(:each)
+            add_offense(node.send_node, message: MSG_CREATE_LIST)
+            return
+          end
+
+          add_offense(node.send_node, message: MSG_CREATE_LIST) do |corrector|
+            CreateListCorrector.new(node.send_node, range_count).call(corrector)
+          end
         end
 
         # For ease of modification, it is replaced with the `n_times` style,
@@ -254,8 +280,9 @@ module RuboCop
         class CreateListCorrector
           include Corrector
 
-          def initialize(node)
+          def initialize(node, range_count = nil)
             @node = node.parent
+            @range_count = range_count
           end
 
           def call(corrector)
@@ -304,16 +331,13 @@ module RuboCop
           end
 
           def count_from(node)
-            count_node =
-              case node.method_name
-              when :map
-                node.receiver.receiver
-              when :new
-                node.send_node.first_argument
-              when :times
-                node.receiver
-              end
-            count_node.source
+            return @range_count.to_s if @range_count
+
+            case node.method_name
+            when :map then node.receiver.receiver.source
+            when :new then node.send_node.first_argument.source
+            when :times then node.receiver.source
+            end
           end
 
           def format_block(node)

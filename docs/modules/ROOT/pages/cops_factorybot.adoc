@@ -288,6 +288,8 @@ This cop can be configured using the `EnforcedStyle` option
 
 This cop's autocorrection is unsafe because replacing `n.times` to
 `create_list` changes its returned value.
+Range iteration with `each` is reported without autocorrection
+because it returns the range, not the created records.
 
 [#examples-factorybotcreatelist]
 === Examples
@@ -300,6 +302,8 @@ This cop's autocorrection is unsafe because replacing `n.times` to
 # bad
 3.times { create :user }
 3.times.map { create :user }
+(1..3).each { create :user }
+(1..3).map { create :user }
 [create(:user), create(:user), create(:user)]
 Array.new(3) { create :user }
 
