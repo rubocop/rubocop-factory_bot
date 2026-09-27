@@ -58,7 +58,7 @@ module RuboCop
       #   create_list :user, 3
       #   3.times { create :user }
       #
-      class CreateList < ::RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
+      class CreateList < RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
         extend AutoCorrector
         include ConfigurableEnforcedStyle
         include RuboCop::FactoryBot::Language
@@ -120,7 +120,7 @@ module RuboCop
           end
         end
 
-        def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler, Metrics/CyclomaticComplexity
+        def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler, InternalAffairs/ItblockHandler, Metrics/CyclomaticComplexity
           return unless style == :create_list
           return unless repeat_multiple_time?(node)
           return if block_with_arg_and_used?(node)

@@ -178,16 +178,45 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
       end
     end
 
-    context 'when `association` is called in trait block ' \
-            'and column name is keyword' do
+    context 'with keyword association name' do
       it 'does not register an offense' do
         expect_no_offenses(<<~RUBY)
           factory :article do
-            trait :with_class do
-              association :alias
-              association :and, factory: :user
-              association :foo, :__FILE__
-            end
+            association :alias
+          end
+        RUBY
+      end
+    end
+
+    context 'with keyword factory name' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            association :foo, factory: :alias
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            foo factory: %i[alias]
+          end
+        RUBY
+      end
+    end
+
+    context 'with keyword trait name' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            association :foo, :alias
+            ^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            foo factory: %i[foo alias]
           end
         RUBY
       end
@@ -216,6 +245,23 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
               bar factory: %i[and]
               baz factory: %i[__FILE__]
             end
+          end
+        RUBY
+      end
+    end
+
+    context 'with explicit association in global trait definition' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
+          trait :with_user do
+            association :user
+            ^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          trait :with_user do
+            user
           end
         RUBY
       end
@@ -314,15 +360,24 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
       end
     end
 
-    context 'when implicit association is called in trait block' do
-      it 'does not register an offense for `trait` without `factory` block' do
-        expect_no_offenses(<<~RUBY)
+    context 'with implicit association in global trait definition' do
+      it 'registers and corrects an offense' do
+        expect_offense(<<~RUBY)
           trait :with_user do
             user
+            ^^^^ Use explicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          trait :with_user do
+            association :user
           end
         RUBY
       end
+    end
 
+    context 'when implicit association is called in trait block' do
       it 'registers and corrects an offense' do
         expect_offense(<<~RUBY)
           factory :article do

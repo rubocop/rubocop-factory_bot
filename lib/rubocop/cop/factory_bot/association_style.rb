@@ -60,7 +60,7 @@ module RuboCop
       #   factory :user do
       #     email
       #   end
-      class AssociationStyle < ::RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
+      class AssociationStyle < RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
         extend AutoCorrector
 
         include ConfigurableEnforcedStyle
@@ -70,7 +70,7 @@ module RuboCop
                       else elsif end ensure false for if in module
                       next nil not or redo rescue retry return self
                       super then true undef unless until when while
-                      yield __FILE__ __LINE__ __ENCODING__].freeze
+                      yield __FILE__ __LINE__ __ENCODING__].to_set.freeze
 
         def on_send(node)
           bad_associations_in(node).each do |association|
@@ -95,9 +95,9 @@ module RuboCop
           (send ... (hash <(pair (sym :strategy) _) ...>))
         PATTERN
 
-        # @!method implicit_association?(node)
-        def_node_matcher :implicit_association?, <<~PATTERN
-          (send nil? !#non_implicit_association_method_name? ...)
+        # @!method receiverless_method_call?(node)
+        def_node_matcher :receiverless_method_call?, <<~PATTERN
+          (send nil? ...)
         PATTERN
 
         # @!method factory_option_matcher(node)
@@ -126,14 +126,14 @@ module RuboCop
           (send nil? :association _ (sym $_)* ...)
         PATTERN
 
-        # @!method association_names(node)
-        def_node_search :association_names, <<~PATTERN
-          (send nil? :association $...)
+        # @!method search_defined_trait_names_in(node)
+        def_node_search :search_defined_trait_names_in, <<~PATTERN
+          (send nil? :trait (sym $_) )
         PATTERN
 
-        # @!method trait_name(node)
-        def_node_search :trait_name, <<~PATTERN
-          (send nil? :trait (sym $_) )
+        # @!method factory_definition_node?(node)
+        def_node_matcher :factory_definition_node?, <<~PATTERN
+          (block (send nil? :factory ...) ...)
         PATTERN
 
         def autocorrect(corrector, node)
@@ -164,24 +164,46 @@ module RuboCop
 
         def bad?(node)
           if style == :explicit
-            implicit_association?(node) &&
-              (factory_node = trait_factory_node(node)) && !trait_within_trait?(
-                node, factory_node
-              )
+            implicit_association?(node)
           else
-            explicit_association?(node) &&
-              !with_strategy_option?(node) &&
-              !keyword?(node)
+            correctable_explicit_association?(node)
           end
         end
 
-        def keyword?(node)
-          association_names(node).any? do |associations|
-            associations.any? do |association|
-              next unless association.sym_type?
+        def correctable_explicit_association?(node)
+          explicit_association?(node) &&
+            !with_strategy_option?(node) &&
+            !keyword_explicit_association_name?(node)
+        end
 
-              KEYWORDS.include?(association.value)
-            end
+        def keyword_explicit_association_name?(node)
+          KEYWORDS.include?(node.first_argument.value)
+        end
+
+        def implicit_association?(node)
+          return false unless receiverless_method_call?(node)
+
+          !non_implicit_association_method_names_for(node)
+            .include?(node.method_name)
+        end
+
+        def non_implicit_association_method_names_for(node)
+          RuboCop::FactoryBot.reserved_methods +
+            (cop_config['NonImplicitAssociationMethodNames'] || [])
+              .map(&:to_sym) +
+            search_defined_trait_names_in_same_factory(node)
+        end
+
+        def search_defined_trait_names_in_same_factory(node)
+          factory_definition_node = find_factory_definition_node_from(node)
+          return [] unless factory_definition_node
+
+          search_defined_trait_names_in(factory_definition_node).to_a
+        end
+
+        def find_factory_definition_node_from(node)
+          node.ancestors.reverse.find do |ancestor|
+            factory_definition_node?(ancestor)
           end
         end
 
@@ -217,11 +239,6 @@ module RuboCop
           non_implicit_association_method_names.include?(method_name.to_s)
         end
 
-        def non_implicit_association_method_names
-          RuboCop::FactoryBot.reserved_methods.map(&:to_s) +
-            (cop_config['NonImplicitAssociationMethodNames'] || [])
-        end
-
         def options_from_explicit(node)
           return {} unless node.last_argument.hash_type?
 
@@ -237,16 +254,6 @@ module RuboCop
             options[:factory] = "%i[#{factory_names.join(' ')}]"
           end
           options
-        end
-
-        def trait_within_trait?(node, factory_node)
-          trait_name(factory_node).include?(node.method_name)
-        end
-
-        def trait_factory_node(node)
-          node.ancestors.reverse.find do |ancestor|
-            ancestor.method?(:factory) if ancestor.block_type?
-          end
         end
       end
     end
