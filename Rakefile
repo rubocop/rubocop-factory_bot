@@ -96,9 +96,7 @@ task :new_cop, [:cop] do |_task, args|
   generator = RuboCop::FactoryBot::Cop::Generator.new(cop_name)
   generator.write_source
   generator.write_spec
-  generator.inject_require(
-    root_file_path: 'lib/rubocop/cop/factory_bot_cops.rb'
-  )
+  generator.inject_registration
   generator.inject_config
 
   puts generator.todo

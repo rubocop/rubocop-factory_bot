@@ -82,6 +82,25 @@ RSpec.describe RuboCop::Cop::FactoryBot::FactoryAssociationWithStrategy do
     end
   end
 
+  context 'when Ruby 3.4', :ruby34 do
+    it 'registers an offense in an it block factory definition' do
+      expect_offense(<<~RUBY)
+        factory :article do
+          it.to_s
+          user { create(:user) }
+                 ^^^^^^^^^^^^^ Avoid hard-coding the strategy when defining an association.
+        end
+      RUBY
+
+      expect_correction(<<~RUBY)
+        factory :article do
+          it.to_s
+          user { association(:user) }
+        end
+      RUBY
+    end
+  end
+
   context 'with hard-coded association and traits and attributes' do
     it 'registers an offense' do
       expect_offense(<<~RUBY)

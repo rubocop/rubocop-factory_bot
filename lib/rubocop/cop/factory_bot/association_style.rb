@@ -85,7 +85,7 @@ module RuboCop
       #   factory :user do
       #     email
       #   end
-      class AssociationStyle < ::RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
+      class AssociationStyle < RuboCop::Cop::Base # rubocop:disable Metrics/ClassLength
         extend AutoCorrector
 
         include ConfigurableEnforcedStyle
@@ -120,7 +120,7 @@ module RuboCop
 
         # @!method with_strategy_option?(node)
         def_node_matcher :with_strategy_option?, <<~PATTERN
-          (send nil? ... (hash <(pair (sym :strategy) _) ...>))
+          (send ... (hash <(pair (sym :strategy) _) ...>))
         PATTERN
 
         # @!method receiverless_method_call?(node)
@@ -167,13 +167,9 @@ module RuboCop
         end
 
         def correctable_to_explicit_style?(node)
-          if explicit_association?(node)
-            false
-          elsif implicit_association?(node)
-            true
-          elsif inline_association?(node)
-            true
-          end
+          return false if explicit_association?(node)
+
+          implicit_association?(node) || inline_association?(node)
         end
 
         def correctable_to_implicit_style?(node)
@@ -276,7 +272,7 @@ module RuboCop
           if explicit_association?(node)
             autocorrect_from_explicit_to_implicit_style(corrector, node)
           else
-            autocorrect_from_inline_to_implicit_style(corrector, node)
+            autocorrect_from_inline_to_explicit_style(corrector, node)
           end
         end
 
@@ -310,10 +306,6 @@ module RuboCop
             )
           )
         end
-
-        # Autocorrect to implicit style with the next trial.
-        alias autocorrect_from_inline_to_implicit_style \
-          autocorrect_from_inline_to_explicit_style
 
         # Parsing of options is too complex, so it is not currently supported.
         def autocorrectable_inline_association?(node)
