@@ -61,6 +61,7 @@ module RuboCop
           node.each_node do |factory_descendant|
             build_node = hardcoded_association(factory_descendant)
             next unless build_node
+            next if inside_transient?(factory_descendant)
 
             add_offense(build_node) do |corrector|
               autocorrect(corrector, build_node)
@@ -68,6 +69,12 @@ module RuboCop
           end
         end
         alias on_itblock on_block
+
+        def inside_transient?(node)
+          node.each_ancestor.any? do |ancestor|
+            ancestor.any_block_type? && ancestor.method?(:transient)
+          end
+        end
 
         def autocorrect(corrector, node)
           corrector.replace(
