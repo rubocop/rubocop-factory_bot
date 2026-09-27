@@ -778,6 +778,52 @@ end
 
 * https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/IdSequence
 
+[#factorybotredundantenumtrait]
+== FactoryBot/RedundantEnumTrait
+
+|===
+| Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
+
+| Pending
+| No
+| Always (Unsafe)
+| <<next>>
+| -
+|===
+
+Checks for redundant enum traits in FactoryBot definitions.
+
+Since factory_bot 6.0, traits for Active Record enums are defined
+automatically, so a trait that only assigns the enum attribute the
+value of the same name is redundant.
+
+[#safety-factorybotredundantenumtrait]
+=== Safety
+
+This cop cannot detect when automatic enum traits are disabled.
+
+[#examples-factorybotredundantenumtrait]
+=== Examples
+
+[source,ruby]
+----
+# bad
+factory :task do
+  trait :queued do
+    status { Task.statuses[:queued] }
+  end
+end
+
+# good
+factory :task do
+end
+----
+
+[#references-factorybotredundantenumtrait]
+=== References
+
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/RedundantEnumTrait
+
 [#factorybotredundantfactoryoption]
 == FactoryBot/RedundantFactoryOption
 

@@ -6,7 +6,8 @@ RSpec.describe RuboCop::FactoryBot::ConfigFormatter do
   let(:config) do
     {
       'AllCops' => {
-        'Setting' => 'forty two'
+        'Setting' => 'forty two',
+        'TargetFactoryBotVersion' => nil
       },
       'FactoryBot/Foo' => {
         'Config' => 2,
@@ -44,6 +45,7 @@ RSpec.describe RuboCop::FactoryBot::ConfigFormatter do
       ---
       AllCops:
         Setting: forty two
+        TargetFactoryBotVersion: ~
 
       FactoryBot/Foo:
         Config: 2

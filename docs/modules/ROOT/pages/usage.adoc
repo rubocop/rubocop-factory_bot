@@ -74,3 +74,19 @@ FactoryBot:
 ----
 
 NOTE: Please keep in mind that merge mode for `Include` is set to override the default settings, so if you intend to add a path while keeping the default paths, you should include the default `Include` paths in your configuration.
+
+== Setting the target factory_bot version
+
+Some cops only apply to code that targets a recent enough factory_bot, and are
+skipped otherwise. `FactoryBot/RedundantEnumTrait`, for example, needs
+factory_bot 6.0.
+
+The version is taken from `Gemfile.lock` or `gems.locked`. When neither is
+available, or the lockfile does not mention factory_bot, RuboCop assumes
+factory_bot 6.0. Set it explicitly to override both:
+
+[source,yaml]
+----
+AllCops:
+  TargetFactoryBotVersion: 5.2
+----
