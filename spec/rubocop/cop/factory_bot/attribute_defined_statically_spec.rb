@@ -79,6 +79,29 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
     RUBY
   end
 
+  context 'when Ruby 3.4', :ruby34 do
+    it 'registers an offense in an it block factory definition' do
+      expect_offense(<<~RUBY)
+        FactoryBot.define do
+          factory :post do
+            title "Something"
+            ^^^^^^^^^^^^^^^^^ Use a block to declare attribute values.
+            it.to_s
+          end
+        end
+      RUBY
+
+      expect_correction(<<~RUBY)
+        FactoryBot.define do
+          factory :post do
+            title { "Something" }
+            it.to_s
+          end
+        end
+      RUBY
+    end
+  end
+
   it 'registers an offense in a transient block' do
     expect_offense(<<~RUBY)
       FactoryBot.define do
