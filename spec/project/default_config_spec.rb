@@ -47,7 +47,7 @@ RSpec.describe 'config/default.yml' do
 
   it 'has configuration for all cops' do
     expect(default_config.keys)
-      .to match_array(config_keys)
+      .to contain_exactly('AllCops', *config_keys)
   end
 
   it 'sorts configuration keys alphabetically with nested namespaces last' do
