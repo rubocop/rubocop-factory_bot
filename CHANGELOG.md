@@ -2,8 +2,12 @@
 
 ## Master (Unreleased)
 
+- Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
 - Fix a false negative for `FactoryBot/AssociationStyle` when using keyword traits with explicit associations. ([@r7kamura])
+- Fix a false negative for `FactoryBot/AssociationStyle` when using implicit associations in global traits. ([@r7kamura])
+- Speed up loading rubocop-factory_bot by lazily loading only the cops needed for a run. This requires RuboCop 1.89.0+. ([@bquorning])
+- Fix an incorrect autocorrect for `FactoryBot/ConsistentParenthesesStyle` when using `EnforcedStyle: omit_parentheses` and a factory call is a splat, double splat, or block-pass argument. ([@viralpraxis])
 
 ## 2.28.0 (2025-11-12)
 
@@ -112,6 +116,7 @@
 [@andrykonchin]: https://github.com/andrykonchin
 [@bquorning]: https://github.com/bquorning
 [@composerinteralia]: https://github.com/composerinteralia
+[@corsonknowles]: https://github.com/corsonknowles
 [@darhazer]: https://github.com/Darhazer
 [@ddieulivol]: https://github.com/ddieulivol
 [@dmitrytsepelev]: https://github.com/dmitrytsepelev

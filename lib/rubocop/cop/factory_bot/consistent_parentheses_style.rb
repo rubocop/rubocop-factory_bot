@@ -57,7 +57,7 @@ module RuboCop
       #   create :user
       #   build :user
       #
-      class ConsistentParenthesesStyle < ::RuboCop::Cop::Base
+      class ConsistentParenthesesStyle < RuboCop::Cop::Base
         extend AutoCorrector
         include ConfigurableEnforcedStyle
         include ConfigurableExplicitOnly
@@ -125,7 +125,11 @@ module RuboCop
           end
         end
 
-        AMBIGUOUS_TYPES = %i[send pair array and or if].freeze
+        AMBIGUOUS_TYPES = %i[
+          send pair array and or if
+          splat kwsplat
+        ].freeze
+        private_constant :AMBIGUOUS_TYPES
 
         def ambiguous_without_parentheses?(node)
           node.parent && AMBIGUOUS_TYPES.include?(node.parent.type)
