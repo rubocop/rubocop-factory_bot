@@ -90,11 +90,9 @@ module RuboCop
           (send nil? :association sym ...)
         PATTERN
 
-        # @!method with_strategy_build_option?(node)
-        def_node_matcher :with_strategy_build_option?, <<~PATTERN
-          (send nil? :association sym ...
-            (hash <(pair (sym :strategy) (sym :build)) ...>)
-          )
+        # @!method with_strategy_option?(node)
+        def_node_matcher :with_strategy_option?, <<~PATTERN
+          (send ... (hash <(pair (sym :strategy) _) ...>))
         PATTERN
 
         # @!method receiverless_method_call?(node)
@@ -174,7 +172,7 @@ module RuboCop
 
         def correctable_explicit_association?(node)
           explicit_association?(node) &&
-            !with_strategy_build_option?(node) &&
+            !with_strategy_option?(node) &&
             !keyword_explicit_association_name?(node)
         end
 
