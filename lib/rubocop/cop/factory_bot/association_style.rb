@@ -70,7 +70,7 @@ module RuboCop
                       else elsif end ensure false for if in module
                       next nil not or redo rescue retry return self
                       super then true undef unless until when while
-                      yield __FILE__ __LINE__ __ENCODING__].freeze
+                      yield __FILE__ __LINE__ __ENCODING__].to_set.freeze
 
         def on_send(node)
           bad_associations_in(node).each do |association|
@@ -128,11 +128,6 @@ module RuboCop
           (send nil? :association _ (sym $_)* ...)
         PATTERN
 
-        # @!method association_names(node)
-        def_node_search :association_names, <<~PATTERN
-          (send nil? :association $...)
-        PATTERN
-
         # @!method search_defined_trait_names_in(node)
         def_node_search :search_defined_trait_names_in, <<~PATTERN
           (send nil? :trait (sym $_) )
@@ -173,10 +168,18 @@ module RuboCop
           if style == :explicit
             implicit_association?(node)
           else
-            explicit_association?(node) &&
-              !with_strategy_build_option?(node) &&
-              !keyword?(node)
+            correctable_explicit_association?(node)
           end
+        end
+
+        def correctable_explicit_association?(node)
+          explicit_association?(node) &&
+            !with_strategy_build_option?(node) &&
+            !keyword_explicit_association_name?(node)
+        end
+
+        def keyword_explicit_association_name?(node)
+          KEYWORDS.include?(node.first_argument.value)
         end
 
         def implicit_association?(node)
@@ -203,16 +206,6 @@ module RuboCop
         def find_factory_definition_node_from(node)
           node.ancestors.reverse.find do |ancestor|
             factory_definition_node?(ancestor)
-          end
-        end
-
-        def keyword?(node)
-          association_names(node).any? do |associations|
-            associations.any? do |association|
-              next unless association.sym_type?
-
-              KEYWORDS.include?(association.value)
-            end
           end
         end
 
