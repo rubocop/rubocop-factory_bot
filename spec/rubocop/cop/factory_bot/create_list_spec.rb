@@ -196,6 +196,51 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       RUBY
     end
 
+    it 'flags a literal integer range mapped to factory creations' do
+      expect_offense(<<~RUBY)
+        (1..3).map { create :user }
+        ^^^^^^^^^^ Prefer create_list.
+      RUBY
+
+      expect_correction(<<~RUBY)
+        create_list :user, 3
+      RUBY
+    end
+
+    it 'flags range iteration without changing its range return value' do
+      expect_offense(<<~RUBY)
+        (1..3).each { create :user }
+        ^^^^^^^^^^^ Prefer create_list.
+      RUBY
+
+      expect_no_corrections
+    end
+
+    it 'uses the exclusive range length when correcting map' do
+      expect_offense(<<~RUBY)
+        (2...5).map { create :user }
+        ^^^^^^^^^^^ Prefer create_list.
+      RUBY
+
+      expect_correction(<<~RUBY)
+        create_list :user, 3
+      RUBY
+    end
+
+    it 'ignores ranges with fewer than two values or variable bounds' do
+      expect_no_offenses(<<~RUBY)
+        (3..2).map { create :user }
+        (1...2).each { create :user }
+        (1..count).map { create :user }
+      RUBY
+    end
+
+    it 'ignores range iterations that use the yielded value' do
+      expect_no_offenses(<<~RUBY)
+        (1..3).map { |n| create :user, position: n }
+      RUBY
+    end
+
     it 'ignores n.times.map when create call does have method calls' do
       expect_no_offenses(<<~RUBY)
         3.times.map { create :user, repositories_count: rand }
