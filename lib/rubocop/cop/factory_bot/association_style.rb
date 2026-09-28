@@ -97,6 +97,9 @@ module RuboCop
                       next nil not or redo rescue retry return self
                       super then true undef unless until when while
                       yield __FILE__ __LINE__ __ENCODING__].to_set.freeze
+        IMPLICIT_METHOD_NAME = /\A[a-z_]\w*[!?]?\z/.freeze
+        OPTION_KEY_NAME = /\A[a-z_]\w*\z/.freeze
+        PERCENT_I_TOKEN = /\A[^\s\\\]]+\z/.freeze
 
         def on_send(node)
           body_nodes_from(node).each do |maybe_association|
@@ -175,7 +178,8 @@ module RuboCop
         def correctable_to_implicit_style?(node)
           if explicit_association?(node)
             !with_strategy_option?(node) &&
-              !keyword_explicit_association_name?(node)
+              !invalid_implicit_association_name?(node) &&
+              safe_explicit_arguments?(node)
           elsif implicit_association?(node)
             false
           elsif inline_association?(node)
@@ -221,8 +225,51 @@ module RuboCop
           end
         end
 
-        def keyword_explicit_association_name?(node)
-          KEYWORDS.include?(node.first_argument.value)
+        def invalid_implicit_association_name?(node)
+          name = node.first_argument.value
+          KEYWORDS.include?(name) ||
+            non_implicit_association_method_names_for(node).include?(name) ||
+            !name.to_s.match?(IMPLICIT_METHOD_NAME)
+        end
+
+        def safe_explicit_arguments?(node)
+          arguments = node.arguments.drop(1)
+          options = arguments.pop if arguments.last&.hash_type?
+          return false unless valid_trait_arguments?(arguments)
+          return true unless options
+
+          valid_option_pairs?(options) &&
+            valid_factory_option?(node, options, arguments)
+        end
+
+        def valid_trait_arguments?(arguments)
+          arguments.all? do |arg|
+            arg.sym_type? && safe_percent_i_token?(arg.value)
+          end
+        end
+
+        def valid_option_pairs?(options)
+          options.children.all? do |pair|
+            pair.pair_type? && pair.key.sym_type? &&
+              pair.key.value.to_s.match?(OPTION_KEY_NAME)
+          end
+        end
+
+        def valid_factory_option?(node, options, arguments)
+          factory = options.pairs.find { |pair| pair.key.value == :factory }
+          return !arguments.empty? unless factory
+
+          matched_factory = factory_option_matcher(node)
+          return arguments.empty? unless matched_factory
+
+          factory_names = Array(matched_factory)
+          return false if factory_names.empty? && arguments.any?
+
+          factory_names.all? { |name| safe_percent_i_token?(name) }
+        end
+
+        def safe_percent_i_token?(name)
+          name.to_s.match?(PERCENT_I_TOKEN)
         end
 
         def body_nodes_from(node)
