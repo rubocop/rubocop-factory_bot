@@ -2,6 +2,7 @@
 
 ## Master (Unreleased)
 
+- Fix `FactoryBot/FactoryAssociationWithStrategy` false positives on reserved methods and detect qualified factory calls. ([@ydah])
 - Fix a crash in `FactoryBot/CreateList` when a `create` call has an empty block. ([@ydah])
 - Fix `FactoryBot/IdSequence` autocorrection for sequences with multiline blocks. ([@ydah])
 - Fix `FactoryBot/AssociationStyle` autocorrection of inline associations with the same name in implicit style. ([@ydah])

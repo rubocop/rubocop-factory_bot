@@ -82,6 +82,37 @@ RSpec.describe RuboCop::Cop::FactoryBot::FactoryAssociationWithStrategy do
     end
   end
 
+  it 'ignores reserved factory DSL methods' do
+    expect_no_offenses(<<~RUBY)
+      factory :article do
+        initialize_with { build(:user, :admin) }
+      end
+    RUBY
+  end
+
+  it 'corrects an explicitly qualified factory call' do
+    expect_offense(<<~RUBY)
+      factory :article do
+        user { FactoryBot.create(:user) }
+               ^^^^^^^^^^^^^^^^^^^^^^^^ Avoid hard-coding the strategy when defining an association.
+      end
+    RUBY
+
+    expect_correction(<<~RUBY)
+      factory :article do
+        user { association(:user) }
+      end
+    RUBY
+  end
+
+  it 'ignores create calls on unrelated receivers' do
+    expect_no_offenses(<<~RUBY)
+      factory :article do
+        user { Other.create(:user) }
+      end
+    RUBY
+  end
+
   context 'when Ruby 3.4', :ruby34 do
     it 'registers an offense in an it block factory definition' do
       expect_offense(<<~RUBY)
