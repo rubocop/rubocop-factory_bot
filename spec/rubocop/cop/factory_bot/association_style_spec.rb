@@ -163,6 +163,21 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
       end
     end
 
+    it 'keeps a dynamic factory option without trait arguments' do
+      expect_offense(<<~RUBY)
+        factory :article do
+          association :author, factory: factory_name
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+        end
+      RUBY
+
+      expect_correction(<<~RUBY)
+        factory :article do
+          author factory: factory_name
+        end
+      RUBY
+    end
+
     context 'when `association` is called with array factory option' do
       it 'registers and corrects an offense' do
         expect_offense(<<~RUBY)
@@ -196,6 +211,41 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
           end
         RUBY
       end
+    end
+
+    it 'keeps options when trait names provide the factory option' do
+      expect_offense(<<~RUBY)
+        factory :article do
+          association :user, :admin, name: 'x'
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+        end
+      RUBY
+
+      expect_correction(<<~RUBY)
+        factory :article do
+          user name: 'x', factory: %i[user admin]
+        end
+      RUBY
+    end
+
+    it 'does not rewrite associations that cannot use implicit syntax safely' do
+      expect_no_offenses(<<~RUBY)
+        factory :article do
+          association :user, name: 'x'
+          association :user, **opts
+          association :user, factory: :user, **opts
+          association :user, trait_name
+          association :user, :admin, *extra
+          association :sequence
+          association :method
+          association :callback
+          association :after
+          association :"user-account"
+          association :user, :"admin role"
+          association :user, "first name": 'x'
+          association :user, factory: :user, "first name": 'x'
+        end
+      RUBY
     end
 
     context 'with `strategy` option' do

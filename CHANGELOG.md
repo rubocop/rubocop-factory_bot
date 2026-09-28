@@ -3,6 +3,7 @@
 ## Master (Unreleased)
 
 - Fix a crash in `FactoryBot/CreateList` when a `create` call has an empty block. ([@ydah])
+- Skip unsafe implicit autocorrection for `FactoryBot/AssociationStyle` with unsupported arguments, reserved names, or invalid identifiers. ([@ydah])
 - Detect literal integer range iterations in `FactoryBot/CreateList`. ([@ydah])
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
