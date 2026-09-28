@@ -341,6 +341,10 @@ module RuboCop
           end
 
           def format_block(node)
+            unless node.body
+              return node.source.delete_prefix(node.send_node.source)
+            end
+
             if node.body.begin_type?
               format_multiline_block(node)
             else

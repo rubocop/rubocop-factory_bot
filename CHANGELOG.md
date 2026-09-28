@@ -2,6 +2,7 @@
 
 ## Master (Unreleased)
 
+- Fix a crash in `FactoryBot/CreateList` when a `create` call has an empty block. ([@ydah])
 - Detect literal integer range iterations in `FactoryBot/CreateList`. ([@ydah])
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])

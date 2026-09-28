@@ -142,6 +142,28 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       RUBY
     end
 
+    it 'flags and corrects an empty create block' do
+      expect_offense(<<~RUBY)
+        3.times { create(:user) {} }
+        ^^^^^^^ Prefer create_list.
+      RUBY
+
+      expect_correction(<<~RUBY)
+        create_list(:user, 3) {}
+      RUBY
+    end
+
+    it 'preserves parameters in an empty create block' do
+      expect_offense(<<~RUBY)
+        3.times { create(:user) { |user| } }
+        ^^^^^^^ Prefer create_list.
+      RUBY
+
+      expect_correction(<<~RUBY)
+        create_list(:user, 3) { |user| }
+      RUBY
+    end
+
     it 'flags usage of n.times with arguments' do
       expect_offense(<<~RUBY)
         5.times { create(:user, :trait) }
