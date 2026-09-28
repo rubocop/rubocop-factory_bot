@@ -9,6 +9,12 @@ FactoryBot:
     - "**/features/support/factories/**/*.rb"
   DocumentationBaseURL: https://docs.rubocop.org/rubocop-factory_bot
 
+FactoryBot/AmbiguousTraitUsage:
+  Description: Avoid ambiguous implicit trait usage in nested factories.
+  Enabled: pending
+  VersionAdded: "<<next>>"
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AmbiguousTraitUsage
+
 FactoryBot/AssociationStyle:
   Description: Use a consistent style to define associations.
   Enabled: pending
