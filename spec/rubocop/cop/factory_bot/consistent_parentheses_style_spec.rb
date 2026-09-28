@@ -92,6 +92,21 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
         RUBY
       end
 
+      it 'still requires parentheses for a call passed to yield' do
+        expect_offense(<<~RUBY)
+          def foo
+            yield create :user
+                  ^^^^^^ Prefer method call with parentheses
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          def foo
+            yield create(:user)
+          end
+        RUBY
+      end
+
       it 'works in a bigger context' do
         expect_offense(<<~RUBY)
           context 'with context' do
@@ -172,6 +187,27 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
         expect_correction(<<~RUBY)
           create :user
         RUBY
+      end
+    end
+
+    it 'does not remove parentheses when the surrounding syntax needs them' do
+      expect_no_offenses(<<~RUBY)
+        create(:user) { |user| user }
+        create(:user) { _1 }
+
+        def foo(user = create(:user), other: create(:user))
+          yield(create(:user), 1)
+          super(create(:user), 1)
+        end
+
+        create(:user)&.id
+        obj&.update(create(:user), 1)
+      RUBY
+    end
+
+    context 'when Ruby 3.4', :ruby34 do
+      it 'keeps parentheses around a call with an it block' do
+        expect_no_offenses('create(:user) { it }')
       end
     end
 

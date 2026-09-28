@@ -131,8 +131,18 @@ module RuboCop
         ].freeze
         private_constant :AMBIGUOUS_TYPES
 
+        OMIT_PARENTHESES_AMBIGUOUS_TYPES = %i[
+          csend yield super optarg kwoptarg
+        ].freeze
+        private_constant :OMIT_PARENTHESES_AMBIGUOUS_TYPES
+
         def ambiguous_without_parentheses?(node)
-          node.parent && AMBIGUOUS_TYPES.include?(node.parent.type)
+          parent_type = node.parent&.type
+          return true if AMBIGUOUS_TYPES.include?(parent_type)
+          return false unless style == :omit_parentheses
+          return true if node.block_node
+
+          OMIT_PARENTHESES_AMBIGUOUS_TYPES.include?(parent_type)
         end
 
         def remove_parentheses(corrector, node)
