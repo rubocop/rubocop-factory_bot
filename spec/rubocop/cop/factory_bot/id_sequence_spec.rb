@@ -23,6 +23,28 @@ RSpec.describe RuboCop::Cop::FactoryBot::IdSequence do
     RUBY
   end
 
+  it 'removes a sequence with a multiline block' do
+    expect_offense(<<~RUBY)
+      FactoryBot.define do
+        factory :post do
+          sequence(:id) do |n|
+          ^^^^^^^^^^^^^ Do not create a sequence for an id attribute
+            n + 1000
+          end
+          title { "A title" }
+        end
+      end
+    RUBY
+
+    expect_correction(<<~RUBY)
+      FactoryBot.define do
+        factory :post do
+          title { "A title" }
+        end
+      end
+    RUBY
+  end
+
   it 'registers an offense with a default value' do
     expect_offense(<<~RUBY)
       FactoryBot.define do
