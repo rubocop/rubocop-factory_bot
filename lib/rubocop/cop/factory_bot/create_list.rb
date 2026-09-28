@@ -97,11 +97,6 @@ module RuboCop
           )
         PATTERN
 
-        # @!method arguments_include_method_call?(node)
-        def_node_matcher :arguments_include_method_call?, <<~PATTERN
-          (send #factory_call? :create sym ... `(send ...))
-        PATTERN
-
         # @!method factory_call(node)
         def_node_matcher :factory_call, <<~PATTERN
           (send #factory_call? :create sym ...)
@@ -136,8 +131,8 @@ module RuboCop
           return unless repeat_multiple_time?(node, range_count)
           return if block_with_arg_and_used?(node)
           return unless node.body
-          return if arguments_include_method_call?(node.body)
           return unless contains_only_factory?(node.body)
+          return if arguments_include_dynamic_value?(node.body)
 
           register_repetition(node, range_count)
         end
@@ -202,9 +197,19 @@ module RuboCop
           end
         end
 
+        def arguments_include_dynamic_value?(node)
+          create_call = node.block_type? ? node.send_node : node
+          create_call.arguments.drop(1).any? do |argument|
+            argument.each_node.any? do |part|
+              part.call_type? || part.assignment? ||
+                part.type?(:yield, :super, :zsuper)
+            end
+          end
+        end
+
         def preferred_message_for_array(node)
           if style == :create_list &&
-              !arguments_include_method_call?(node.children.first)
+              !arguments_include_dynamic_value?(node.children.first)
             MSG_CREATE_LIST
           else
             format(MSG_N_TIMES, number: node.children.count)

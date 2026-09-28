@@ -2,6 +2,7 @@
 
 ## Master (Unreleased)
 
+- Fix unsafe autocorrection in `FactoryBot/CreateList` when `create` arguments contain method calls or assignments. ([@ydah])
 - Detect literal integer range iterations in `FactoryBot/CreateList`. ([@ydah])
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
