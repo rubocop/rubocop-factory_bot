@@ -22,6 +22,28 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
       end
     end
 
+    it 'flags a factory call with a modifier condition' do
+      expect_offense(<<~RUBY)
+        create :user if admin?
+        ^^^^^^ Prefer method call with parentheses
+      RUBY
+
+      expect_correction(<<~RUBY)
+        create(:user) if admin?
+      RUBY
+    end
+
+    it 'flags a factory call passed to another method' do
+      expect_offense(<<~RUBY)
+        expect(create :user)
+               ^^^^^^ Prefer method call with parentheses
+      RUBY
+
+      expect_correction(<<~RUBY)
+        expect(create(:user))
+      RUBY
+    end
+
     context 'with multiline method calls' do
       it 'expects parentheses around multiline call' do
         expect_offense(<<~RUBY)

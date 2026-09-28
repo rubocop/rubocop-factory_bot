@@ -6,6 +6,7 @@
 - Fix `FactoryBot/IdSequence` autocorrection for sequences with multiline blocks. ([@ydah])
 - Fix `FactoryBot/AssociationStyle` autocorrection of inline associations with the same name in implicit style. ([@ydah])
 - Fix unsafe `FactoryBot/ConsistentParenthesesStyle` autocorrection around blocks, optional parameters, safe navigation, `yield`, and `super`. ([@ydah])
+- Detect nested and conditional calls in `FactoryBot/ConsistentParenthesesStyle` with `EnforcedStyle: require_parentheses`. ([@ydah])
 - Detect literal integer range iterations in `FactoryBot/CreateList`. ([@ydah])
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])

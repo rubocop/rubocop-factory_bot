@@ -91,8 +91,6 @@ module RuboCop
         end
 
         def on_send(node)
-          return if ambiguous_without_parentheses?(node)
-
           factory_call(node) { register_offense(node) }
         end
 
@@ -107,6 +105,7 @@ module RuboCop
 
         def register_offense_with_parentheses(node)
           return if style == :require_parentheses || !node.parenthesized?
+          return if ambiguous_without_parentheses?(node)
           return unless same_line?(node, node.first_argument)
           return if omit_hash_value?(node)
 
