@@ -272,7 +272,7 @@ module RuboCop
           if explicit_association?(node)
             autocorrect_from_explicit_to_implicit_style(corrector, node)
           else
-            autocorrect_from_inline_to_explicit_style(corrector, node)
+            autocorrect_from_inline_to_implicit_style(corrector, node)
           end
         end
 
@@ -305,6 +305,20 @@ module RuboCop
               factory_name: node.body.first_argument.source
             )
           )
+        end
+
+        def autocorrect_from_inline_to_implicit_style(corrector, node)
+          return unless autocorrectable_inline_association?(node)
+
+          factory_name = node.body.first_argument
+          source = node.method_name.to_s
+          if factory_name.sym_type?
+            name = factory_name.value
+            source += " factory: %i[#{name}]" unless name == node.method_name
+          else
+            source += " factory: [#{factory_name.source}]"
+          end
+          corrector.replace(node, source)
         end
 
         # Parsing of options is too complex, so it is not currently supported.
