@@ -53,6 +53,27 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
     RUBY
   end
 
+  it 'ignores attribute calls with multiple arguments' do
+    expect_no_offenses(<<~RUBY)
+      FactoryBot.define do
+        factory :post do
+          tags 'a', 'b'
+          roles('admin', 'editor')
+        end
+      end
+    RUBY
+  end
+
+  it 'ignores attribute calls with splatted arguments' do
+    expect_no_offenses(<<~RUBY)
+      FactoryBot.define do
+        factory :post do
+          tags(*values)
+        end
+      end
+    RUBY
+  end
+
   it 'registers an offense in a trait' do
     expect_offense(<<~RUBY)
       FactoryBot.define do
