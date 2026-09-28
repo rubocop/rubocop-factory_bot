@@ -315,6 +315,24 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
       end
     end
 
+    context 'when the call is a keyword parameter default' do
+      it 'does not flag the call' do
+        expect_no_offenses(<<~RUBY)
+          def foo(bar: build(:user))
+          end
+        RUBY
+      end
+    end
+
+    context 'when the call is an optional parameter default' do
+      it 'does not flag the call' do
+        expect_no_offenses(<<~RUBY)
+          def foo(bar = build(:user))
+          end
+        RUBY
+      end
+    end
+
     context 'with already valid usage of parentheses' do
       it 'does not flag as invalid - create' do
         expect_no_offenses(<<~RUBY)

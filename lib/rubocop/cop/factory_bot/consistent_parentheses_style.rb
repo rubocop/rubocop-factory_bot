@@ -127,7 +127,7 @@ module RuboCop
 
         AMBIGUOUS_TYPES = %i[
           send pair array and or if
-          splat kwsplat
+          splat kwsplat optarg kwoptarg
         ].freeze
         private_constant :AMBIGUOUS_TYPES
 
