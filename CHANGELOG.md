@@ -5,6 +5,7 @@
 - Fix a crash in `FactoryBot/CreateList` when a `create` call has an empty block. ([@ydah])
 - Fix `FactoryBot/IdSequence` autocorrection for sequences with multiline blocks. ([@ydah])
 - Fix `FactoryBot/AssociationStyle` autocorrection of inline associations with the same name in implicit style. ([@ydah])
+- Fix unsafe `FactoryBot/ConsistentParenthesesStyle` autocorrection around blocks, optional parameters, safe navigation, `yield`, and `super`. ([@ydah])
 - Detect literal integer range iterations in `FactoryBot/CreateList`. ([@ydah])
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
