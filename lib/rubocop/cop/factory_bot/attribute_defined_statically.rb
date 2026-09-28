@@ -45,7 +45,8 @@ module RuboCop
 
           attributes.each do |attribute|
             next unless offensive_receiver?(attribute.receiver, node)
-            next if proc?(attribute) || association?(attribute.first_argument)
+            next if unsupported_arguments?(attribute) ||
+              association?(attribute.first_argument)
 
             add_offense(attribute) do |corrector|
               autocorrect(corrector, attribute)
@@ -78,8 +79,9 @@ module RuboCop
             receiver.node_parts == first_block_argument.node_parts
         end
 
-        def proc?(attribute)
-          value_matcher(attribute).to_a.all?(&:block_pass_type?)
+        def unsupported_arguments?(attribute)
+          values = value_matcher(attribute).to_a
+          values.size != 1 || values.first.type?(:block_pass, :splat)
         end
 
         # @!method association?(node)
