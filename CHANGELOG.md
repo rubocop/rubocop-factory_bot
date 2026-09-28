@@ -12,6 +12,7 @@
 - Fix false positives for `FactoryBot/FactoryAssociationWithStrategy` inside `transient` blocks. ([@ydah])
 - Speed up loading rubocop-factory_bot by lazily loading only the cops needed for a run. This requires RuboCop 1.89.0+. ([@bquorning])
 - Fix an incorrect autocorrect for `FactoryBot/ConsistentParenthesesStyle` when using `EnforcedStyle: omit_parentheses` and a factory call is a splat, double splat, or block-pass argument. ([@viralpraxis])
+- Fix an incorrect autocorrect for `FactoryBot/ConsistentParenthesesStyle` with `EnforcedStyle: omit_parentheses` when the factory call is a method parameter's default value. ([@viralpraxis])
 
 ## 2.28.0 (2025-11-12)
 
