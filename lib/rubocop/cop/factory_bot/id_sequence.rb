@@ -31,7 +31,7 @@ module RuboCop
 
           add_offense(node) do |corrector|
             range_to_remove = range_by_whole_lines(
-              node.source_range,
+              (node.block_node || node).source_range,
               include_final_newline: true
             )
 
