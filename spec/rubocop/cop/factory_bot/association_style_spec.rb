@@ -62,6 +62,36 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
           end
         RUBY
       end
+
+      it 'removes an inline association with the same name' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            user { association :user }
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            user
+          end
+        RUBY
+      end
+
+      it 'preserves a non-literal factory name' do
+        expect_offense(<<~RUBY)
+          factory :article do
+            author { association association_name }
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Use implicit style to define associations.
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :article do
+            author factory: [association_name]
+          end
+        RUBY
+      end
     end
 
     context 'with inline association with options' do
