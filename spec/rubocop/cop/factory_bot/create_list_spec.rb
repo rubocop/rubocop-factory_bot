@@ -247,6 +247,25 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
       RUBY
     end
 
+    it 'ignores method calls in positional arguments before options' do
+      expect_no_offenses(<<~RUBY)
+        3.times.map { create :user, traits.sample, admin: true }
+      RUBY
+    end
+
+    it 'ignores method calls in arguments of create with a block' do
+      expect_no_offenses(<<~RUBY)
+        3.times.map { create(:user, name: Faker::Name.name) { |user| user.touch } }
+      RUBY
+    end
+
+    it 'ignores assignments in interpolated arguments' do
+      expect_no_offenses(<<~'RUBY')
+        n = 0
+        3.times.map { create :user, email: "u#{n += 1}@x" }
+      RUBY
+    end
+
     it 'flags usage of Array.new(n) with no arguments' do
       expect_offense(<<~RUBY)
         Array.new(3) { create(:user) }
@@ -317,6 +336,19 @@ RSpec.describe RuboCop::Cop::FactoryBot::CreateList do
 
         expect_correction(<<~RUBY)
           2.times.map { create(:user, point: rand) }
+        RUBY
+      end
+    end
+
+    context 'with method calls before trailing options in an array' do
+      it 'keeps method calls inside the repetition' do
+        expect_offense(<<~RUBY)
+          [create(:user, xs.pop, admin: true), create(:user, xs.pop, admin: true)]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Prefer 2.times.map.
+        RUBY
+
+        expect_correction(<<~RUBY)
+          2.times.map { create(:user, xs.pop, admin: true) }
         RUBY
       end
     end
