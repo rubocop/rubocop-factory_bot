@@ -45,6 +45,38 @@ RSpec.describe RuboCop::Cop::FactoryBot::IdSequence do
     RUBY
   end
 
+  it 'registers an offense for a string id name inside a factory' do
+    expect_offense(<<~RUBY)
+      FactoryBot.define do
+        factory :post do
+          sequence('id')
+          ^^^^^^^^^^^^^^ Do not create a sequence for an id attribute
+        end
+      end
+    RUBY
+
+    expect_correction(<<~RUBY)
+      FactoryBot.define do
+        factory :post do
+        end
+      end
+    RUBY
+  end
+
+  it 'does not register an offense for a global id sequence' do
+    expect_no_offenses(<<~RUBY)
+      FactoryBot.define do
+        sequence(:id) { |n| n + 1000 }
+
+        factory :post do
+          title { 'A title' }
+        end
+      end
+
+      generate(:id)
+    RUBY
+  end
+
   it 'registers an offense with a default value' do
     expect_offense(<<~RUBY)
       FactoryBot.define do

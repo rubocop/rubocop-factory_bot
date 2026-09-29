@@ -794,12 +794,19 @@ Do not create a FactoryBot sequence for an id column.
 # bad - can lead to conflicts between FactoryBot and DB sequences
 factory :foo do
   sequence :id
+  sequence 'id'
 end
 
 # good - a non-id column
 factory :foo do
   sequence :some_non_id_column
 end
+
+# good - a global sequence used with generate(:id)
+FactoryBot.define do
+  sequence(:id) { |n| n + 1000 }
+end
+generate(:id)
 ----
 
 [#references-factorybotidsequence]
