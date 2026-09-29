@@ -19,12 +19,15 @@ module RuboCop
       #   factory :foo, class: 'Foo' do
       #   end
       #
+      # @example AllowedClasses: ['Hash', 'OpenStruct', 'Money::Amount']
+      #   # good
+      #   factory :amount, class: Money::Amount
+      #
       class FactoryClassName < RuboCop::Cop::Base
         extend AutoCorrector
 
         MSG = "Pass '%<class_name>s' string instead of `%<class_name>s` " \
               'constant.'
-        ALLOWED_CONSTANTS = %w[Hash OpenStruct].freeze
         RESTRICT_ON_SEND = %i[factory].freeze
 
         # @!method class_name(node)
@@ -34,19 +37,13 @@ module RuboCop
 
         def on_send(node)
           class_name(node) do |cn|
-            next if allowed?(cn.const_name)
+            next if cop_config['AllowedClasses'].include?(cn.const_name)
 
             msg = format(MSG, class_name: cn.const_name)
             add_offense(cn, message: msg) do |corrector|
               corrector.replace(cn, "'#{cn.source}'")
             end
           end
-        end
-
-        private
-
-        def allowed?(const_name)
-          ALLOWED_CONSTANTS.include?(const_name)
         end
       end
     end

@@ -81,4 +81,32 @@ RSpec.describe RuboCop::Cop::FactoryBot::FactoryClassName do
       RUBY
     end
   end
+
+  context 'with AllowedClasses' do
+    let(:cop_config) { { 'AllowedClasses' => %w[Hash Money::Amount] } }
+
+    it 'ignores a configured class' do
+      expect_no_offenses(<<~RUBY)
+        factory :amount, class: Money::Amount
+      RUBY
+    end
+
+    it 'still flags a class outside the configured list' do
+      expect_offense(<<~RUBY)
+        factory :foo, class: Foo
+                             ^^^ Pass 'Foo' string instead of `Foo` constant.
+      RUBY
+    end
+  end
+
+  context 'with an empty AllowedClasses list' do
+    let(:cop_config) { { 'AllowedClasses' => [] } }
+
+    it 'flags a formerly allowed class' do
+      expect_offense(<<~RUBY)
+        factory :foo, class: Hash
+                             ^^^^ Pass 'Hash' string instead of `Hash` constant.
+      RUBY
+    end
+  end
 end
