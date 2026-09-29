@@ -176,6 +176,19 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
       end
     end
 
+    context 'when the last argument could be a trait or an options hash' do
+      it 'does not flag ambiguous arguments' do
+        expect_no_offenses(<<~RUBY)
+          factory :article do
+            overrides = {name: 'Alice'}
+            association :user, overrides
+            association :reviewer, default_options
+            association :author, admin? ? :admin : :regular
+          end
+        RUBY
+      end
+    end
+
     context 'when `association` is called with factory option' do
       it 'registers and corrects an offense' do
         expect_offense(<<~RUBY)

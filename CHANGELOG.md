@@ -9,6 +9,7 @@
 - Fix unsafe `FactoryBot/ConsistentParenthesesStyle` autocorrection around blocks, optional parameters, safe navigation, `yield`, and `super`. ([@ydah])
 - Detect nested and conditional calls in `FactoryBot/ConsistentParenthesesStyle` with `EnforcedStyle: require_parentheses`. ([@ydah])
 - Detect literal integer range iterations in `FactoryBot/CreateList`. ([@ydah])
+- Avoid unsafe autocorrection for `FactoryBot/AssociationStyle` when an argument may be a trait or options hash. ([@ydah])
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
 - Inspect inline style for `FactoryBot/AssociationStyle`. ([@r7kamura])
