@@ -107,7 +107,7 @@ factory :post do
   association :user
 end
 
-# good (NonImplicitAssociationMethodNames: ['email'])
+# good
 sequence :email do |n|
   "person#{n}@example.com"
 end

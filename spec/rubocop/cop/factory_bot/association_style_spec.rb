@@ -423,6 +423,18 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
       end
     end
 
+    context 'when a sequence is defined in the same file' do
+      it 'does not register an offense for the sequence call' do
+        expect_no_offenses(<<~RUBY)
+          sequence(:email) { |n| "person\#{n}@example.com" }
+
+          factory :user do
+            email
+          end
+        RUBY
+      end
+    end
+
     context 'with implicit association in global trait definition' do
       it 'registers and corrects an offense' do
         expect_offense(<<~RUBY)
@@ -491,6 +503,37 @@ RSpec.describe RuboCop::Cop::FactoryBot::AssociationStyle do
                 completed
                 refunded_at { 1.day.ago }
               end
+            end
+          end
+        RUBY
+      end
+    end
+
+    context 'when a trait is defined in a sibling factory' do
+      it 'registers and corrects an association with the same name' do
+        expect_offense(<<~RUBY)
+          factory :user do
+            factory :admin do
+              trait :account do
+              end
+            end
+
+            factory :member do
+              account
+              ^^^^^^^ Use explicit style to define associations.
+            end
+          end
+        RUBY
+
+        expect_correction(<<~RUBY)
+          factory :user do
+            factory :admin do
+              trait :account do
+              end
+            end
+
+            factory :member do
+              association :account
             end
           end
         RUBY
