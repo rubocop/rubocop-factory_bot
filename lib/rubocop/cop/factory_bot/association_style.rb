@@ -77,7 +77,7 @@ module RuboCop
       #     association :user
       #   end
       #
-      #   # good (NonImplicitAssociationMethodNames: ['email'])
+      #   # good
       #   sequence :email do |n|
       #     "person#{n}@example.com"
       #   end
@@ -138,9 +138,14 @@ module RuboCop
           (send nil? :association _ (sym $_)* ...)
         PATTERN
 
-        # @!method search_defined_trait_names_in(node)
-        def_node_search :search_defined_trait_names_in, <<~PATTERN
-          (send nil? :trait (sym $_) )
+        # @!method search_defined_trait_nodes_in(node)
+        def_node_search :search_defined_trait_nodes_in, <<~PATTERN
+          $(send nil? :trait sym)
+        PATTERN
+
+        # @!method search_defined_sequence_names_in(node)
+        def_node_search :search_defined_sequence_names_in, <<~PATTERN
+          (send nil? :sequence (sym $_) ...)
         PATTERN
 
         # @!method factory_definition_node?(node)
@@ -201,7 +206,8 @@ module RuboCop
         def non_implicit_association_method_names_for(node)
           RuboCop::FactoryBot.reserved_methods +
             configured_non_implicit_association_method_names +
-            search_defined_trait_names_in_same_factory(node)
+            search_defined_trait_names_in_same_factory(node) +
+            search_defined_sequence_names_in(processed_source.ast).to_a
         end
 
         def configured_non_implicit_association_method_names
@@ -209,14 +215,22 @@ module RuboCop
         end
 
         def search_defined_trait_names_in_same_factory(node)
-          factory_definition_node = find_factory_definition_node_from(node)
-          return [] unless factory_definition_node
+          factory_definition_nodes = node.ancestors.select do |ancestor|
+            factory_definition_node?(ancestor)
+          end
+          return [] if factory_definition_nodes.empty?
 
-          search_defined_trait_names_in(factory_definition_node).to_a
+          traits = search_defined_trait_nodes_in(factory_definition_nodes.last)
+          traits.filter_map do |trait|
+            owner = find_factory_definition_node_from(trait)
+            next unless factory_definition_nodes.include?(owner)
+
+            trait.first_argument.value
+          end
         end
 
         def find_factory_definition_node_from(node)
-          node.ancestors.reverse.find do |ancestor|
+          node.ancestors.find do |ancestor|
             factory_definition_node?(ancestor)
           end
         end
@@ -245,10 +259,6 @@ module RuboCop
             result.prepend(node.first_argument.value)
           end
           result
-        end
-
-        def non_implicit_association_method_name?(method_name)
-          non_implicit_association_method_names.include?(method_name.to_s)
         end
 
         def autocorrect(corrector, node)
