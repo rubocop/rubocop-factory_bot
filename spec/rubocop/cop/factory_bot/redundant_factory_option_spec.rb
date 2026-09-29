@@ -71,4 +71,85 @@ RSpec.describe RuboCop::Cop::FactoryBot::RedundantFactoryOption do
       RUBY
     end
   end
+
+  it 'removes an empty braced options hash' do
+    expect_offense(<<~RUBY)
+      association :user, { factory: :user }
+                           ^^^^^^^^^^^^^^ Remove redundant `factory` option.
+    RUBY
+
+    expect_correction(<<~RUBY)
+      association :user
+    RUBY
+  end
+
+  it 'keeps other options in a braced hash' do
+    expect_offense(<<~RUBY)
+      association :user, { factory: :user, strategy: :build }
+                           ^^^^^^^^^^^^^^ Remove redundant `factory` option.
+    RUBY
+
+    expect_correction(<<~RUBY)
+      association :user, { strategy: :build }
+    RUBY
+  end
+
+  it 'removes a redundant string factory name' do
+    expect_offense(<<~RUBY)
+      association :user, factory: 'user'
+                         ^^^^^^^^^^^^^^^ Remove redundant `factory` option.
+    RUBY
+
+    expect_correction(<<~RUBY)
+      association :user
+    RUBY
+  end
+
+  it 'removes a redundant factory option from an implicit association' do
+    expect_offense(<<~RUBY)
+      factory :post do
+        title { 'A title' }
+        user factory: :user
+             ^^^^^^^^^^^^^^ Remove redundant `factory` option.
+      end
+    RUBY
+
+    expect_correction(<<~RUBY)
+      factory :post do
+        title { 'A title' }
+        user
+      end
+    RUBY
+  end
+
+  it 'removes the option when it is the only factory body entry' do
+    expect_offense(<<~RUBY)
+      factory :post do
+        user factory: :user
+             ^^^^^^^^^^^^^^ Remove redundant `factory` option.
+      end
+    RUBY
+
+    expect_correction(<<~RUBY)
+      factory :post do
+        user
+      end
+    RUBY
+  end
+
+  it 'does not assume a dynamic association name is redundant' do
+    expect_no_offenses(<<~RUBY)
+      association name, factory: :user
+    RUBY
+  end
+
+  it 'does not inspect a call nested inside a callback' do
+    expect_no_offenses(<<~RUBY)
+      factory :post do
+        after(:build) do
+          user factory: :user
+        end
+      end
+    RUBY
+  end
 end
