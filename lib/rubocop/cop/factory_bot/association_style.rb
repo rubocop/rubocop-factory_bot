@@ -261,10 +261,6 @@ module RuboCop
           result
         end
 
-        def non_implicit_association_method_name?(method_name)
-          non_implicit_association_method_names.include?(method_name.to_s)
-        end
-
         def autocorrect(corrector, node)
           case style
           when :explicit
