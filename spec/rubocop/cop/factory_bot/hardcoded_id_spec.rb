@@ -17,6 +17,14 @@ RSpec.describe RuboCop::Cop::FactoryBot::HardcodedId do
     RUBY
   end
 
+  it 'does not register an offense for list and pair creation' do
+    expect_no_offenses(<<~RUBY)
+      create_list(:company, 1, id: 123)
+      create_list(:company, 2, id: 123)
+      create_pair(:company, id: 123)
+    RUBY
+  end
+
   it 'registers an offense for a string-rocket key' do
     expect_offense(<<~RUBY)
       create(:company, 'id' => 123)
