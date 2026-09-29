@@ -2,6 +2,7 @@
 
 ## Master (Unreleased)
 
+- Detect `FactoryBot/SyntaxMethods` offenses in Minitest tests and avoid corrections inside nested class or module scopes. ([@ydah])
 - Fix a crash in `FactoryBot/CreateList` when a `create` call has an empty block. ([@ydah])
 - Fix `FactoryBot/IdSequence` autocorrection for sequences with multiline blocks. ([@ydah])
 - Fix `FactoryBot/AssociationStyle` autocorrection of inline associations with the same name in implicit style. ([@ydah])
