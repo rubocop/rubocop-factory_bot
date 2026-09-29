@@ -24,6 +24,12 @@ module RuboCop
       #   # good
       #   count { 1 }
       #
+      #   # bad
+      #   name 'x' if cond
+      #
+      #   # good
+      #   name { 'x' } if cond
+      #
       class AttributeDefinedStatically < RuboCop::Cop::Base
         extend AutoCorrector
 
@@ -36,14 +42,14 @@ module RuboCop
 
         # @!method factory_attributes(node)
         def_node_matcher :factory_attributes, <<~PATTERN
-          (any_block (send _ #attribute_defining_method? ...) _ { (begin $...) $(send ...) } )
+          (any_block (send _ #attribute_defining_method? ...) _ { (begin $...) $(send ...) $(if _ _ _) } )
         PATTERN
 
         def on_block(node) # rubocop:disable InternalAffairs/NumblockHandler
           attributes = factory_attributes(node) || []
           attributes = [attributes] unless attributes.is_a?(Array) # rubocop:disable Style/ArrayCoercion, Lint/RedundantCopDisableDirective
 
-          attributes.each do |attribute|
+          attribute_calls(attributes).each do |attribute|
             next unless offensive_receiver?(attribute.receiver, node)
             next if proc?(attribute) || association?(attribute.first_argument)
 
@@ -55,6 +61,12 @@ module RuboCop
         alias on_itblock on_block
 
         private
+
+        def attribute_calls(attributes)
+          attributes.flat_map do |attribute|
+            attribute.if_type? ? attribute.branches : attribute
+          end.select(&:send_type?)
+        end
 
         def autocorrect(corrector, node)
           if node.parenthesized?
