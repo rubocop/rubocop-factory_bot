@@ -80,4 +80,76 @@ RSpec.describe RuboCop::Cop::FactoryBot::SyntaxMethods do
       RUBY
     end
   end
+
+  it 'registers an offense in an ActiveSupport test class' do
+    expect_offense(<<~RUBY)
+      class UserTest < ActiveSupport::TestCase
+        def test_user
+          FactoryBot.create(:user)
+          ^^^^^^^^^^^^^^^^^ Use `create` from `FactoryBot::Syntax::Methods`.
+        end
+      end
+    RUBY
+
+    expect_correction(<<~RUBY)
+      class UserTest < ActiveSupport::TestCase
+        def test_user
+          create(:user)
+        end
+      end
+    RUBY
+  end
+
+  it 'registers an offense in a Minitest test class' do
+    expect_offense(<<~RUBY)
+      class UserTest < Minitest::Test
+        def test_user
+          FactoryBot.create(:user)
+          ^^^^^^^^^^^^^^^^^ Use `create` from `FactoryBot::Syntax::Methods`.
+        end
+      end
+    RUBY
+
+    expect_correction(<<~RUBY)
+      class UserTest < Minitest::Test
+        def test_user
+          create(:user)
+        end
+      end
+    RUBY
+  end
+
+  context 'when Ruby 3.1', :ruby31 do
+    it 'does not correct a call in Class.new inside an example group' do
+      expect_no_offenses(<<~RUBY)
+        describe User do
+          Class.new do
+            def make = FactoryBot.create(:user)
+          end
+        end
+      RUBY
+    end
+  end
+
+  it 'does not correct a call in a nested class' do
+    expect_no_offenses(<<~RUBY)
+      describe User do
+        class Helper
+          def make
+            FactoryBot.create(:user)
+          end
+        end
+      end
+    RUBY
+  end
+
+  it 'does not correct a call in a module nested in a test class' do
+    expect_no_offenses(<<~RUBY)
+      class UserTest < ActiveSupport::TestCase
+        module Helper
+          FactoryBot.create(:user)
+        end
+      end
+    RUBY
+  end
 end
