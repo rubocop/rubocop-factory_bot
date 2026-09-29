@@ -30,6 +30,7 @@ module RuboCop
       #   end
       class FactoryAssociationWithStrategy < RuboCop::Cop::Base
         extend AutoCorrector
+        include RuboCop::FactoryBot::Language
 
         MSG = 'Avoid hard-coding the strategy when defining an association.'
 
@@ -49,9 +50,9 @@ module RuboCop
         # @!method hardcoded_association(node)
         def_node_matcher :hardcoded_association, <<~PATTERN
           (block
-            (send nil? _association_name)
+            (send nil? !#reserved_method?)
             (args)
-            < $(send nil? BUILD_METHOD_NAMES ...) ... >
+            < $(send {nil? #factory_bot?} BUILD_METHOD_NAMES ...) ... >
           )
         PATTERN
 
@@ -76,9 +77,13 @@ module RuboCop
           end
         end
 
+        def reserved_method?(method_name)
+          RuboCop::FactoryBot.reserved_methods.include?(method_name)
+        end
+
         def autocorrect(corrector, node)
           corrector.replace(
-            node.location.selector,
+            node.source_range.with(end_pos: node.location.selector.end_pos),
             'association'
           )
         end
