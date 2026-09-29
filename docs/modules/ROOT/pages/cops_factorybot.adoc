@@ -829,9 +829,16 @@ Remove redundant `factory` option.
 ----
 # bad
 association :user, factory: :user
+association :user, { factory: 'user' }
+factory :post do
+  user factory: :user
+end
 
 # good
 association :user
+factory :post do
+  user
+end
 ----
 
 [#configurable-attributes-factorybotredundantfactoryoption]
