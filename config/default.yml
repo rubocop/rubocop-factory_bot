@@ -42,8 +42,9 @@ FactoryBot/ConsistentParenthesesStyle:
     - require_parentheses
     - omit_parentheses
   ExplicitOnly: false
+  AllowBackslashContinuation: false
   VersionAdded: '2.14'
-  VersionChanged: '2.23'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ConsistentParenthesesStyle
 
 FactoryBot/CreateList:
