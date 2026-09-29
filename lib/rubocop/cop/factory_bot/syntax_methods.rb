@@ -3,12 +3,14 @@
 module RuboCop
   module Cop
     module FactoryBot
-      # Use shorthands from `FactoryBot::Syntax::Methods` in your specs.
+      # Use shorthands from `FactoryBot::Syntax::Methods` in your tests.
       #
       # @safety
       #   The autocorrection is marked as unsafe because the cop
       #   cannot verify whether you already include
       #   `FactoryBot::Syntax::Methods` in your test suite.
+      #   It also stops at intervening class, module, and `Class.new` scopes,
+      #   where the shorthand methods may not be available.
       #
       #   If you're using Rails, add the following configuration to
       #   `spec/support/factory_bot.rb` and be sure to require that file in
@@ -32,6 +34,13 @@ module RuboCop
       #       FactoryBot.find_definitions
       #     end
       #   end
+      #   ----
+      #
+      #   For Minitest, include the module in your test base class:
+      #
+      #   [source,ruby]
+      #   ----
+      #   ActiveSupport::TestCase.include FactoryBot::Syntax::Methods
       #   ----
       #
       # @example
@@ -70,10 +79,23 @@ module RuboCop
           ...)
         PATTERN
 
+        # @!method minitest_test_class?(node)
+        def_node_matcher :minitest_test_class?, <<~PATTERN
+          (class _ {
+            (const (const {nil? cbase} :ActiveSupport) :TestCase)
+            (const (const {nil? cbase} :Minitest) :Test)
+          } ...)
+        PATTERN
+
+        # @!method class_new_block?(node)
+        def_node_matcher :class_new_block?, <<~PATTERN
+          (any_block (send (const {nil? cbase} :Class) :new ...) ...)
+        PATTERN
+
         def on_send(node)
           return unless factory_bot?(node.receiver)
 
-          return unless inside_example_group?(node)
+          return unless inside_test_context?(node)
 
           message = format(MSG, method: node.method_name)
 
@@ -98,10 +120,15 @@ module RuboCop
           )
         end
 
-        def inside_example_group?(node)
-          spec_group?(node) || node.each_ancestor.any? do |parent|
-            spec_group?(parent)
+        def inside_test_context?(node)
+          node.each_ancestor do |parent|
+            return true if spec_group?(parent) || minitest_test_class?(parent)
+            if parent.type?(:class, :module) || class_new_block?(parent)
+              return false
+            end
           end
+
+          false
         end
       end
     end
