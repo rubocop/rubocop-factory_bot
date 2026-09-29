@@ -79,6 +79,50 @@ RSpec.describe RuboCop::Cop::FactoryBot::AttributeDefinedStatically do
     RUBY
   end
 
+  it 'registers an offense for a conditional attribute' do
+    expect_offense(<<~RUBY)
+      FactoryBot.define do
+        factory :post do
+          name 'x' if cond
+          ^^^^^^^^ Use a block to declare attribute values.
+        end
+      end
+    RUBY
+
+    expect_correction(<<~RUBY)
+      FactoryBot.define do
+        factory :post do
+          name { 'x' } if cond
+        end
+      end
+    RUBY
+  end
+
+  it 'registers offenses when conditional and direct attributes are mixed' do
+    expect_offense(<<~RUBY)
+      FactoryBot.define do
+        factory :post do
+          name 'x' if cond
+          ^^^^^^^^ Use a block to declare attribute values.
+          subtitle 'y' unless cond
+          ^^^^^^^^^^^^ Use a block to declare attribute values.
+          title 'Post'
+          ^^^^^^^^^^^^ Use a block to declare attribute values.
+        end
+      end
+    RUBY
+
+    expect_correction(<<~RUBY)
+      FactoryBot.define do
+        factory :post do
+          name { 'x' } if cond
+          subtitle { 'y' } unless cond
+          title { 'Post' }
+        end
+      end
+    RUBY
+  end
+
   context 'when Ruby 3.4', :ruby34 do
     it 'registers an offense in an it block factory definition' do
       expect_offense(<<~RUBY)
