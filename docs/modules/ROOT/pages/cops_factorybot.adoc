@@ -548,7 +548,7 @@ end
 | Yes
 | Always
 | 1.37
-| 2.24
+| <<next>>
 |===
 
 Use string value when setting the class attribute explicitly.
@@ -571,6 +571,26 @@ end
 factory :foo, class: 'Foo' do
 end
 ----
+
+[#allowedclasses_-__hash__-_openstruct__-_money__amount__-factorybotfactoryclassname]
+==== AllowedClasses: ['Hash', 'OpenStruct', 'Money::Amount']
+
+[source,ruby]
+----
+# good
+factory :amount, class: Money::Amount
+----
+
+[#configurable-attributes-factorybotfactoryclassname]
+=== Configurable attributes
+
+|===
+| Name | Default value | Configurable values
+
+| AllowedClasses
+| `Hash`, `OpenStruct`
+| Array
+|===
 
 [#references-factorybotfactoryclassname]
 === References
