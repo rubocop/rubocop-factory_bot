@@ -83,14 +83,16 @@ RSpec.describe RuboCop::Cop::FactoryBot::SyntaxMethods do
 
   context 'with example groups configured in the RSpec DSL' do
     let(:other_cops) do
-      {
-        'RSpec' => {
-          'Language' => {
-            'ExampleGroups' => { 'Regular' => %w[detail] },
-            'SharedGroups' => { 'Examples' => %w[shared_behavior] }
-          }
-        }
-      }
+      YAML.safe_load(<<~YAML)
+        RSpec:
+          Language:
+            ExampleGroups:
+              Regular:
+                - detail
+            SharedGroups:
+              Examples:
+                - shared_behavior
+      YAML
     end
 
     it 'registers an offense inside a configured example group' do
