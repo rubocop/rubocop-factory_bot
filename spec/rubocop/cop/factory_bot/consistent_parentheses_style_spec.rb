@@ -61,6 +61,45 @@ RSpec.describe RuboCop::Cop::FactoryBot::ConsistentParenthesesStyle do
       end
     end
 
+    context 'when backslash continuations are allowed' do
+      let(:cop_config) { super().merge('AllowBackslashContinuation' => true) }
+
+      it 'accepts a continued call without parentheses' do
+        expect_no_offenses(<<~RUBY)
+          create \\
+            :user,
+            name: 'foo'
+          FactoryBot.build \\
+            :user,
+            name: 'foo'
+          create :user, \\
+            name: 'foo'
+        RUBY
+      end
+
+      it 'still requires parentheses for calls without a continuation' do
+        expect_offense(<<~RUBY)
+          create :user
+          ^^^^^^ Prefer method call with parentheses
+        RUBY
+      end
+    end
+
+    it 'corrects a continued call when backslash continuations are disabled' do
+      expect_offense(<<~RUBY)
+        create \\
+        ^^^^^^ Prefer method call with parentheses
+          :user,
+          name: 'foo'
+      RUBY
+
+      expect_correction(<<~RUBY)
+        create(\\
+          :user,
+          name: 'foo')
+      RUBY
+    end
+
     context 'with build' do
       it 'flags the call to use parentheses' do
         expect_offense(<<~RUBY)
