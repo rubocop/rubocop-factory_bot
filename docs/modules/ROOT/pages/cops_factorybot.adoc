@@ -6,6 +6,69 @@
 
 = FactoryBot
 
+[#factorybotambiguoustraitusage]
+== FactoryBot/AmbiguousTraitUsage
+
+|===
+| Enabled by default | Safe | Supports autocorrection | Version Added | Version Changed
+
+| Pending
+| Yes
+| No
+| <<next>>
+| -
+|===
+
+Avoid ambiguous implicit trait usage in nested factories.
+
+A bare name can be read as either an implicit trait or an association.
+This cop checks only traits declared directly in the parent factory and
+bare calls directly in a nested factory. A bare call may still refer
+to an association or another method, so it does not autocorrect.
+
+[#examples-factorybotambiguoustraitusage]
+=== Examples
+
+[source,ruby]
+----
+# bad
+FactoryBot.define do
+  factory :word do
+    trait :article do
+      type { :article }
+    end
+
+    factory :the do
+      article
+    end
+  end
+end
+
+# good
+FactoryBot.define do
+  factory :word do
+    trait :article do
+      type { :article }
+    end
+
+    # Apply the trait explicitly.
+    factory :the, traits: [:article] do
+      letters { 'the' }
+    end
+
+    # Define an association explicitly.
+    factory :the_with_article do
+      association :article
+    end
+  end
+end
+----
+
+[#references-factorybotambiguoustraitusage]
+=== References
+
+* https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AmbiguousTraitUsage
+
 [#factorybotassociationstyle]
 == FactoryBot/AssociationStyle
 

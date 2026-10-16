@@ -11,6 +11,7 @@
 - Fix unsafe `FactoryBot/ConsistentParenthesesStyle` autocorrection around blocks, optional parameters, safe navigation, `yield`, and `super`. ([@ydah])
 - Detect nested and conditional calls in `FactoryBot/ConsistentParenthesesStyle` with `EnforcedStyle: require_parentheses`. ([@ydah])
 - Detect literal integer range iterations in `FactoryBot/CreateList`. ([@ydah])
+- Add new `FactoryBot/AmbiguousTraitUsage` cop for ambiguous bare calls to a parent factory's trait in nested factories. ([@ydah])
 - Add new `FactoryBot/HardcodedId` cop. ([@corsonknowles])
 - Add autocorrect for `FactoryBot/FactoryAssociationWithStrategy` cop. ([@r7kamura])
 - Inspect inline style for `FactoryBot/AssociationStyle`. ([@r7kamura])
