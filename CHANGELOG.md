@@ -2,6 +2,7 @@
 
 ## Master (Unreleased)
 
+- Detect offenses in `FactoryBot/SyntaxMethods` inside example groups and shared groups configured under `RSpec: Language:`. ([@ozenyunus35])
 - Fix `FactoryBot/FactoryAssociationWithStrategy` false positives on reserved methods and detect qualified factory calls. ([@ydah])
 - Preserve global `:id` sequences and detect string `"id"` names in `FactoryBot/IdSequence`. ([@ydah])
 - Fix `FactoryBot/AssociationStyle` explicit-style detection for sibling factory traits and sequences defined in the same file. ([@ydah])
@@ -144,6 +145,7 @@
 [@morissetcl]: https://github.com/morissetcl
 [@ngouy]: https://github.com/ngouy
 [@owst]: https://github.com/owst
+[@ozenyunus35]: https://github.com/ozenyunus35
 [@pirj]: https://github.com/pirj
 [@r7kamura]: https://github.com/r7kamura
 [@seanpdoyle]: https://github.com/seanpdoyle

@@ -5,6 +5,10 @@ module RuboCop
     module FactoryBot
       # Use shorthands from `FactoryBot::Syntax::Methods` in your specs.
       #
+      # Besides RSpec's own example groups, the cop checks the example groups
+      # and shared groups configured under `RSpec: Language:`, as used by
+      # rubocop-rspec for custom DSL aliases.
+      #
       # @safety
       #   The autocorrection is marked as unsafe because the cop
       #   cannot verify whether you already include
@@ -54,18 +58,20 @@ module RuboCop
 
         RESTRICT_ON_SEND = RuboCop::FactoryBot::Language::METHODS
 
+        EXAMPLE_GROUPS = %i[
+          describe context feature example_group
+          xdescribe xcontext xfeature
+          fdescribe fcontext ffeature
+          shared_examples shared_examples_for
+          shared_context
+        ].freeze
+
         # @!method spec_group?(node)
         def_node_matcher :spec_group?, <<~PATTERN
           (block
             (send
               {(const {nil? cbase} :RSpec) nil?}
-              {
-                :describe :context :feature :example_group
-                :xdescribe :xcontext :xfeature
-                :fdescribe :fcontext :ffeature
-                :shared_examples :shared_examples_for
-                :shared_context
-              }
+              #example_group_method?
             ...)
           ...)
         PATTERN
@@ -96,6 +102,27 @@ module RuboCop
             node.source_range.begin_pos,
             node.loc.selector.begin_pos
           )
+        end
+
+        def example_group_method?(method_name)
+          example_group_methods.include?(method_name)
+        end
+
+        # Example groups and shared groups from the `RSpec: Language:`
+        # configuration used by rubocop-rspec, such as aliases defined with
+        # `RSpec.configure { |c| c.alias_example_group_to :detail }`.
+        def example_group_methods
+          @example_group_methods ||= Set.new(EXAMPLE_GROUPS).merge(
+            configured_language_methods('ExampleGroups') +
+            configured_language_methods('SharedGroups')
+          )
+        end
+
+        def configured_language_methods(key)
+          groups = config['RSpec']&.dig('Language', key)
+          return [] unless groups.is_a?(Hash)
+
+          groups.values.flatten.compact.map(&:to_sym)
         end
 
         def inside_example_group?(node)

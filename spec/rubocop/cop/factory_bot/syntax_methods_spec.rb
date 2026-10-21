@@ -80,4 +80,60 @@ RSpec.describe RuboCop::Cop::FactoryBot::SyntaxMethods do
       RUBY
     end
   end
+
+  context 'with example groups configured in the RSpec DSL' do
+    let(:other_cops) do
+      YAML.safe_load(<<~YAML)
+        RSpec:
+          Language:
+            ExampleGroups:
+              Regular:
+                - detail
+            SharedGroups:
+              Examples:
+                - shared_behavior
+      YAML
+    end
+
+    it 'registers an offense inside a configured example group' do
+      expect_offense(<<~RUBY)
+        RSpec.detail Foo do
+          let(:bar) { FactoryBot.create(:bar) }
+                      ^^^^^^^^^^^^^^^^^ Use `create` from `FactoryBot::Syntax::Methods`.
+        end
+      RUBY
+
+      expect_correction(<<~RUBY)
+        RSpec.detail Foo do
+          let(:bar) { create(:bar) }
+        end
+      RUBY
+    end
+
+    it 'registers an offense inside a configured shared group' do
+      expect_offense(<<~RUBY)
+        shared_behavior 'foo' do
+          let(:bar) { FactoryBot.build(:bar) }
+                      ^^^^^^^^^^^^^^^^ Use `build` from `FactoryBot::Syntax::Methods`.
+        end
+      RUBY
+    end
+
+    it 'still registers an offense inside a default example group' do
+      expect_offense(<<~RUBY)
+        describe Foo do
+          let(:bar) { FactoryBot.create(:bar) }
+                      ^^^^^^^^^^^^^^^^^ Use `create` from `FactoryBot::Syntax::Methods`.
+        end
+      RUBY
+    end
+
+    it 'does not register an offense inside an unknown block' do
+      expect_no_offenses(<<~RUBY)
+        RSpec.unknown Foo do
+          let(:bar) { FactoryBot.create(:bar) }
+        end
+      RUBY
+    end
+  end
 end

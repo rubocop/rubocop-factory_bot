@@ -872,6 +872,10 @@ association :user
 
 Use shorthands from `FactoryBot::Syntax::Methods` in your specs.
 
+Besides RSpec's own example groups, the cop checks the example groups
+and shared groups configured under `RSpec: Language:`, as used by
+rubocop-rspec for custom DSL aliases.
+
 [#safety-factorybotsyntaxmethods]
 === Safety
 
