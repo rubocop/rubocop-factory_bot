@@ -11,7 +11,6 @@ jobs:
     permissions:
       contents: write
       id-token: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Ruby
@@ -28,17 +27,3 @@ jobs:
           gh release create $(git tag --points-at @) \
             --title "RuboCop FactoryBot $(git tag --points-at @)" \
             --notes-file relnotes.md
-      - name: Replace version in Antora config
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          sed -i 's/version:.*$/version: ~/' docs/antora.yml
-          if ! git diff --exit-code docs/antora.yml; then
-            git config user.name "${GITHUB_ACTOR}"
-            git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-            git checkout -b switch-docs-version
-            git add docs/antora.yml
-            git commit -m "Switch docs version back"
-            git push -u origin switch-docs-version
-            gh pr create --fill --head switch-docs-version
-          fi

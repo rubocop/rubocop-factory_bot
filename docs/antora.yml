@@ -1,5 +1,6 @@
 name: rubocop-factory_bot
 title: RuboCop factory_bot
-version: ~
+# No version here: docs.rubocop.org derives it from the release tag
+# (v2.29.0 becomes 2.29), so patch versions don't appear in the docs.
 nav:
   - modules/ROOT/nav.adoc
