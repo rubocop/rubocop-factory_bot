@@ -6,6 +6,7 @@ gemspec
 
 gem 'bump'
 gem 'danger'
+gem 'git', '< 6' # https://github.com/danger/danger/issues/1560
 gem 'irb' # undeclared dependency of yard
 gem 'rack'
 gem 'rake'
