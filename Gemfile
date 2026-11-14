@@ -6,8 +6,6 @@ gemspec
 
 gem 'bump'
 gem 'danger'
-gem 'git', '< 6' # danger 9.6.1 is incompatible with git 6.0
-gem 'irb' # undeclared dependency of yard
 gem 'rack'
 gem 'rake'
 gem 'rspec', '~> 3.11'
