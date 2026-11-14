@@ -6,7 +6,7 @@ module RuboCop
   module FactoryBot
     # A plugin that integrates RuboCop FactoryBot with RuboCop's plugin system.
     class Plugin < LintRoller::Plugin
-      # :nocov:
+      # simplecov:disable
       def about
         LintRoller::About.new(
           name: 'rubocop-factory_bot',
@@ -15,7 +15,7 @@ module RuboCop
           description: 'Code style checking for FactoryBot test files.'
         )
       end
-      # :nocov:
+      # simplecov:enable
 
       def supported?(context)
         context.engine == :rubocop
