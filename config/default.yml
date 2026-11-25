@@ -93,8 +93,11 @@ FactoryBot/FactoryAssociationWithStrategy:
 FactoryBot/FactoryClassName:
   Description: Use string value when setting the class attribute explicitly.
   Enabled: true
+  AllowedClasses:
+    - Hash
+    - OpenStruct
   VersionAdded: '1.37'
-  VersionChanged: '2.24'
+  VersionChanged: "<<next>>"
   Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryClassName
 
 FactoryBot/FactoryNameStyle:
