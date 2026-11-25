@@ -57,6 +57,14 @@ module RuboCop
       #   create :user
       #   build :user
       #
+      # @example `AllowBackslashContinuation: true`
+      #
+      #   # good - with `EnforcedStyle: require_parentheses`
+      #   create(:user, name: 'foo')
+      #   create \
+      #     :user,
+      #     name: 'foo'
+      #
       class ConsistentParenthesesStyle < RuboCop::Cop::Base
         extend AutoCorrector
         include ConfigurableEnforcedStyle
@@ -117,10 +125,20 @@ module RuboCop
 
         def register_offense_without_parentheses(node)
           return if style == :omit_parentheses || node.parenthesized?
+          return if cop_config['AllowBackslashContinuation'] &&
+            backslash_continuation?(node)
 
           add_offense(node.loc.selector,
                       message: MSG_REQUIRE_PARENS) do |corrector|
             add_parentheses(node, corrector)
+          end
+        end
+
+        def backslash_continuation?(node)
+          source = processed_source.buffer.source
+          ranges = [node.loc.selector, *node.arguments.map(&:source_range)]
+          ranges.each_cons(2).any? do |before, after|
+            source[before.end_pos...after.begin_pos].match?(/\\\r?\n/)
           end
         end
 

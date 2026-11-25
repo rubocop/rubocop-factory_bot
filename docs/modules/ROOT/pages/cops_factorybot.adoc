@@ -191,7 +191,7 @@ count { 1 }
 | Yes
 | Always
 | 2.14
-| 2.23
+| <<next>>
 |===
 
 Use a consistent style for parentheses in factory_bot calls.
@@ -267,6 +267,18 @@ create :user
 build :user
 ----
 
+[#_allowbackslashcontinuation_-true_-factorybotconsistentparenthesesstyle]
+==== `AllowBackslashContinuation: true`
+
+[source,ruby]
+----
+# good - with `EnforcedStyle: require_parentheses`
+create(:user, name: 'foo')
+create \
+  :user,
+  name: 'foo'
+----
+
 [#configurable-attributes-factorybotconsistentparenthesesstyle]
 === Configurable attributes
 
@@ -282,6 +294,10 @@ build :user
 | `require_parentheses`, `omit_parentheses`
 
 | ExplicitOnly
+| `false`
+| Boolean
+
+| AllowBackslashContinuation
 | `false`
 | Boolean
 |===
