@@ -7,6 +7,7 @@ module RuboCop
     module FactoryBot
       extend LazyLoader
 
+      register_cop :AmbiguousTraitUsage, "#{__dir__}/factory_bot/ambiguous_trait_usage"
       register_cop :AssociationStyle, "#{__dir__}/factory_bot/association_style"
       register_cop :AttributeDefinedStatically, "#{__dir__}/factory_bot/attribute_defined_statically"
       register_cop :ConsistentParenthesesStyle, "#{__dir__}/factory_bot/consistent_parentheses_style"
